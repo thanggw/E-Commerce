@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fashion Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="top-bar">
+            <p>Dola Fashion Accessories xin chào!</p>
+        </div>
+        <div class="header-container">
+            <!-- Logo Section -->
+            <div class="logo">
+                <img src="./image/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" placeholder="Bạn muốn tìm gì?">
+                <button><i class="fa fa-search"></i></button>
+                <div class="suggestions">
+                    <span>Giày cao gót</span>
+                    <span>Giày búp bê</span>
+                    <span>Túi xách</span>
+                    <span>Mắt kính</span>
+                </div>
+            </div>
+
+            <!-- User Info and Cart Section -->
+            <div class="user-info">
+                <div class="user-details">
+                    <i class="fa fa-user" style="color: #ff6f61"></i>
+                    <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
+                    <span>Tài khoản</span>
+            
+                    <!-- Vùng dropdown-container -->
+                    <div class="dropdown-container">
+                        <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 0px;"></i>
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu">
+                            <a href="#">Đăng nhập</a>
+                            <a href="#">Đăng ký</a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="wishlist">
+                    <i class="fa fa-heart" style="color: #ff6f61"></i>
+                    <span style="color: #ff6f61">Yêu thích</span>
+                    <span>0 Sản phẩm</span>
+                </div>
+            
+                <div class="cart">
+                    <i class="fa fa-shopping-bag" style="color: #ff6f61"></i>
+                    <span style="color: #ff6f61">Giỏ hàng</span>
+                    <span>0 Sản phẩm</span>
+                </div>
+            </div>
+            
+              
+              
+            
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="navigation">
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Tin tức</a></li>
+                <li><a href="#">Tin khuyến mãi</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li><a href="#">Câu hỏi thường gặp</a></li>
+                <li><a href="#">Hệ thống cửa hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="main-content">
+        <!-- Phần banner ở bên trái -->
+        <section class="banner">
+            <img src="./image/image/sale-banner-template-design-web-social-media_8829-2694.jpg" alt="Sales Banner">
+        </section>
+    
+        <!-- Phần chương trình khuyến mãi hot bên phải -->
+        <section class="promotion">
+            <h2>Chương trình khuyến mãi hot</h2>
+            <ul>
+                <li>
+                    <img src="./image/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
+                    Voucher giảm 50% cho đơn hàng đầu tiên
+                </li>
+                <li>
+                    <img src="./image/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
+                    Miễn phí vận chuyển cho đơn hàng trên 500k
+                </li>
+                <li>
+                    <img src="./image/image/image-voucher3.webp" alt="Voucher Icon" class="voucher-icon">
+                    Nhận ngay 100k khi mua đơn hàng từ 1 triệu
+                </li>
+                <li>
+                    <img src="./image/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
+                    Voucher giảm 50% cho đơn hàng đầu tiên
+                </li>
+                <li>
+                    <img src="./image/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
+                    Miễn phí vận chuyển cho đơn hàng trên 500k
+                </li>
+                
+            </ul>
+            <!-- Nút Xem tất cả -->
+            <button class="view-all">Xem tất cả</button>
+        </section>
+    </section>
+    
+    
+    <!-- Product List Section -->
+    <section class="product-list">
+        <h2>Featured Products</h2>
+        <div class="products">
+            <!-- Product 1 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 1">
+                <h3>Product 1</h3>
+                <p>$100.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 2 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$150.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 3 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 3">
+                <h3>Product 3</h3>
+                <p>$200.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 4 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 4">
+                <h3>Product 4</h3>
+                <p>$250.00</p>
+                <button>Add to Cart</button>
+            </div>
+    
+            <!-- Product 5 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 5">
+                <h3>Product 5</h3>
+                <p>$300.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 6 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 6">
+                <h3>Product 6</h3>
+                <p>$350.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 7 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 7">
+                <h3>Product 7</h3>
+                <p>$400.00</p>
+                <button>Add to Cart</button>
+            </div>
+            <!-- Product 8 -->
+            <div class="product">
+                <img src="./image/image/product1.webp" alt="Product 8">
+                <h3>Product 8</h3>
+                <p>$450.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="flash-sale">
+        <h2>Sale hot trong ngày</h2>
+        <div class="flash-sale-timers">
+            <div class="timer">00:00 - 06:00 <span>Đã diễn ra</span></div>
+            <div class="timer">06:00 - 12:00 <span>Đã diễn ra</span></div>
+            <div class="timer active">12:00 - 20:00 <span>Đang diễn ra</span></div>
+            <div class="timer">20:00 - 24:00 <span>Sắp diễn ra</span></div>
+        </div>
+    
+        <div class="flash-sale-timer-countdown">
+            <span>Thời gian khuyến mãi</span>
+            <div class="countdown">
+                <span class="time">7</span> :
+                <span class="time">9</span> :
+                <span class="time">45</span>
+            </div>
+        </div>
+    
+        <div class="products-sale">
+            <div class="product-sale">
+                <div class="sale-tag">Sale</div>
+                <img src="./image/image/ảnh kính.webp" alt="Kính thời trang">
+                <h3>Mắt Kính Butterfly Trendy Kim Loại Phối Nhựa</h3>
+                <p class="price">495.000đ <span class="original-price">550.000đ</span></p>
+                <p>Đã bán 30</p>
+                <div class="progress-bar"></div>
+                <button class="option-button">Tùy chọn</button>
+            </div>
+        
+            <div class="product-sale">
+                <div class="sale-tag">Sale</div>
+                <img src="./image/image/ảnh ví.webp" alt="Ví thời trang">
+                <h3>Ví Phối Khoá Cats Trang Trí</h3>
+                <p class="price">555.000đ <span class="original-price">700.000đ</span></p>
+                <p>Đã bán 45</p>
+                <div class="progress-bar"></div>
+                <button class="option-button">Tùy chọn</button>
+            </div>
+        
+            <div class="product-sale">
+                <div class="sale-tag">Sale</div>
+                <img src="./image/image/ảnh túi 1.jpg" alt="Túi thời trang">
+                <h3>Túi Xách Trung Nhiều Ngăn</h3>
+                <p class="price">795.000đ <span class="original-price">850.000đ</span></p>
+                <p>Đã bán 34</p>
+                <div class="progress-bar"></div>
+                <button class="option-button">Tùy chọn</button>
+            </div>
+        
+            <div class="product-sale">
+                <div class="sale-tag">Sale</div>
+                <img src="./image/image/ảnh giày.webp" alt="Giày thời trang">
+                <h3>Giày Icebreaker</h3>
+                <p class="price">699.000đ</p>
+                <p>Hết hàng</p>
+                <div class="progress-bar"></div>
+                <button class="option-button">Tùy chọn</button>
+            </div>
+        
+        
+        </div>
+        
+        
+    
+        <div >
+            <button class="view-all">Xem tất cả</button>
+        </div>
+    
+        <div class="vouchers">
+            <div class="voucher">
+                <div class="voucher-header">
+                    <p>Giảm 10.000đ</p>
+                    <p>Áp dụng cho đơn hàng từ 1 triệu trở lên</p>
+                </div>
+                <div class="voucher-footer">
+                    <span>DOLA50</span>
+                    <button class="copy-code">Sao chép</button>
+                </div>
+            </div>
+            <div class="voucher">
+                <div class="voucher-header">
+                    <p>Miễn ship</p>
+                    <p>Áp dụng cho đơn hàng từ 1 triệu trở lên</p>
+                </div>
+                <div class="voucher-footer">
+                    <span>FREESHIP</span>
+                    <button class="copy-code">Sao chép</button>
+                </div>
+            </div>
+            <div class="voucher">
+                <div class="voucher-header">
+                    <p>Giảm 20k</p>
+                    <p>Áp dụng cho đơn hàng từ 2 triệu trở lên</p>
+                </div>
+                <div class="voucher-footer">
+                    <span>DOLA20</span>
+                    <button class="copy-code">Sao chép</button>
+                </div>
+            </div>
+            <div class="voucher">
+                <div class="voucher-header">
+                    <p>Giảm 50k</p>
+                    <p>Áp dụng cho đơn hàng từ 3 triệu trở lên</p>
+                </div>
+                <div class="voucher-footer">
+                    <span>DOLA50K</span>
+                    <button class="copy-code">Sao chép</button>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <div class="featured-products">
+        <div class="row-1">
+          <div class="highlight-banner">
+            <img src="./image/image/banner-sale-70_083649523.jpg" alt="Banner sale" />
+          </div>
+      
+          <div class="products-sales">
+            <!-- Product 1 -->
+            <div class="product-sales">
+              <img src="./image/image/ảnh cặp 1.webp" alt="Balo Laptop Phối Hoạ Tiết Dập Nổi" />
+              <h3>Balo Laptop Phối Hoạ Tiết Dập Nổi</h3>
+              <p class="price">959.000đ</p>
+            </div>
+      
+            <!-- Product 2 -->
+            <div class="product-sales">
+              <img src="./image/image/ảnh túi 1.jpg" alt="Balo May Chỉ Trang Trí" />
+              <h3>Balo May Chỉ Trang Trí</h3>
+              <p class="price">755.000đ</p>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row-2">
+          <!-- Product 3 -->
+          <div class="product-sales small-product sale-item">
+            <div class="sale-badge">Sale</div>
+            <img src="./image/image/ảnh giày 1.webp" alt="Giày Búp Bê Mary Jane Đính Khóa" />
+            <h3>Giày Búp Bê Mary Jane Đính Khóa</h3>
+            <p class="price">
+                <span class="sale-price">459.000đ</span>
+                <span class="original-price">550.000đ</span>
+              </p>
+          </div>
+      
+          <!-- Product 4 -->
+          <div class="product-sales small-product sale-item">
+            <div class="sale-badge">Sale</div>
+            <img src="./image/image/ảnh cặp 1.webp" alt="Giày Cao Gót Phối Khóa Trang Trí" />
+            <h3>Giày Cao Gót Phối Khóa Trang Trí</h3>
+            <p class="price">
+                <span class="sale-price">459.000đ</span>
+                <span class="original-price">550.000đ</span>
+              </p>
+          </div>
+      
+          <!-- Product 5 with Sale tag -->
+          <div class="product-sales small-product sale-item">
+            <div class="sale-badge">Sale</div>
+            <img src="./image/image/ảnh cặp 1.webp" alt="Giày Mules Hở Mũi Phối Khóa Trang Trí" />
+            <h3>Giày Mules Hở Mũi Phối Khóa Trang Trí</h3>
+            <p class="price">
+              <span class="sale-price">459.000đ</span>
+              <span class="original-price">550.000đ</span>
+            </p>
+          </div>
+      
+          <!-- Product 6 -->
+          <div class="product-sales small-product sale-item">
+            <div class="sale-badge">Sale</div>
+            <img src="./image/image/ảnh cặp 1.webp" alt="Mắt Kính Aviator Kim Loại" />
+            <h3>Mắt Kính Aviator Kim Loại</h3>
+            <p class="price">
+                <span class="sale-price">459.000đ</span>
+                <span class="original-price">550.000đ</span>
+              </p>
+          </div>
+        </div>
+      </div>
+
+
+      
+      <div class="news-section">
+        <h2 id="news_h2">Tin tức mới nhất</h2>
+        <div class="news-items">
+          <!-- News Item 1 -->
+          <div class="news-item">
+            <img src="./image/image/image-voucher1.webp" alt="Tin tức 1" />
+            <div class="news-content">
+              <span class="news-date">30/06/2023</span>
+              <h3 id="news_h3">Kinh nghiệm săn lùng các ví nữ hàng hiệu giá rẻ</h3>
+              <p>Kinh nghiệm săn lùng các ví nữ hàng hiệu giá rẻ... </p>
+              <a href="#" class="read-more">Đọc tiếp</a>
+            </div>
+          </div>
+      
+          <!-- News Item 2 -->
+          <div class="news-item">
+            <img src="./image/image/image-voucher2.webp" alt="Tin tức 2" />
+            <div class="news-content">
+              <span class="news-date">30/06/2023</span>
+              <h3 id="news_h3">Điểm danh những mẫu ví dài nữ mà các nàng nên sở hữu</h3>
+              <p>Điểm danh những mẫu ví dài nữ mà các nàng nên sở hữu...</p>
+              <a href="#" class="read-more">Đọc tiếp</a>
+            </div>
+          </div>
+      
+          <!-- News Item 3 -->
+          <div class="news-item">
+            <img src="./image/image/image-voucher3.webp" alt="Tin tức 3" />
+            <div class="news-content">
+              <span class="news-date">30/06/2023</span>
+              <h3 id="news_h3">Các bản phối ngẫu hứng từ những đôi giày sneaker nữ 2023</h3>
+              <p>Các bản phối ngẫu hứng từ những đôi giày sneaker nữ...</p>
+              <a href="#" class="read-more">Đọc tiếp</a>
+            </div>
+          </div>
+      
+          <!-- News Item 4 -->
+          <div class="news-item">
+            <img src="./image/image/image-voucher1.webp" alt="Tin tức 4" />
+            <div class="news-content">
+              <span class="news-date">30/06/2023</span>
+              <h3 id="news_h3">Kinh nghiệm chọn balo du lịch nữ mà nàng nên biết</h3>
+              <p>Kinh nghiệm chọn balo du lịch nữ mà nàng nên biết...</p>
+              <a href="#" class="read-more">Đọc tiếp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="instagram-section">
+        <h3 id="h3-new">Follow Instagram</h3>
+        <p>@dola_fashion_accessories</p>
+        <div class="instagram-items">
+          <div class="instagram-item">
+            <img src="./image/image/insta1.jpg" alt="Instagram 1" />
+            <div class="instagram-overlay">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+          </div>
+          <div class="instagram-item">
+            <img src="./image/image/insta2.jpg" alt="Instagram 2" />
+            <div class="instagram-overlay">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+          </div>
+          <div class="instagram-item">
+            <img src="./image/image/insta3.jpg" alt="Instagram 3" />
+            <div class="instagram-overlay">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+          </div>
+          <div class="instagram-item">
+            <img src="./image/image/insta4.jpg" alt="Instagram 4" />
+            <div class="instagram-overlay">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      <div class="service-section">
+        <a href="index.html">
+            <div class="service-item">
+                <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_1.png?1705899054230" alt="Miễn phí vận chuyển">
+                <p>Miễn phí vận chuyển</p>
+                <span>Áp dụng free ship cho tất cả đơn hàng từ 1 triệu trở lên </span>
+            </div>
+        </a>
+        
+        <a href="index.html">
+            <div class="service-item">
+                <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_2.png?1705899054230" alt="Đổi trả dễ dàng">
+                <p>Đổi trả dễ dàng</p>
+                <span>Chính sách 7 ngày đổi trả ví bất kì lí do gì và free ship </span>
+            </div>
+        </a>
+        
+        <a href="index.html">
+            <div class="service-item">
+                <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_3.png?1705899054230" alt="Hỗ trợ nhanh chóng">
+                <p>Hỗ trợ nhanh chóng</p>
+                <span>Gọi Hotline: 19006750 để được hỗ trợ ngay và phục vụ 24/7</span>
+            </div>
+        </a>
+        
+        <a href="index.html">
+            <div class="service-item">
+                <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_4.png?1705899054230" alt="Thanh toán đa dạng">
+                <p>Thanh toán đa dạng</p>
+                <span>Thanh toán khi nhận hàng, Napas, Visa, Chuyển Khoản</span>
+            </div>
+        </a>
+    </div>
+    
+      
+    
+      <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Subscribe</h4>
+                    <form>
+                        <input type="email" placeholder="Enter your email" />
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MyShop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
