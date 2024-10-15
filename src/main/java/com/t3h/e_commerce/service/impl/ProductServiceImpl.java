@@ -1,6 +1,8 @@
 package com.t3h.e_commerce.service.impl;
 
+import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.ProductCreationRequest;
+import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
 import com.t3h.e_commerce.entity.BrandEntity;
 import com.t3h.e_commerce.entity.CategoryEntity;
@@ -16,11 +18,16 @@ import com.t3h.e_commerce.service.IProductService;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +38,27 @@ public class ProductServiceImpl implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ProductStatusRepository productStatusRepository;
+
+    @Override
+    public ResponsePage<ProductResponse> getAllProducts(ProductRequestFilter filter, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<ProductEntity> productEntityPage = productRepository.searchProductEntitiesByConditions(filter, pageable);
+
+        List<ProductResponse> productResponses = productEntityPage.getContent().stream()
+                .map(product -> modelMapper.map(product, ProductResponse.class))
+                .toList();
+
+        ResponsePage<ProductResponse> responsePage = new ResponsePage<>();
+        responsePage.setContent(productResponses);
+        responsePage.setPageSize(productEntityPage.getSize());
+        responsePage.setTotalElements(productEntityPage.getTotalElements());
+        responsePage.setTotalPages(productEntityPage.getTotalPages());
+        responsePage.setCurrentPage(pageable.getPageNumber());
+
+        return responsePage;
+    }
 
     @Override
     public ProductResponse createProduct(ProductCreationRequest request) {

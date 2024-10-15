@@ -1,0 +1,37 @@
+:root{
+    --padding-default: 10px;
+}
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    box-sizing: border-box;
+}
+.header{
+    background-color: lightblue;
+    text-align: center;
+    padding: var(--padding-default);
+}
+.main{
+    display: flex;
+}
+.main__nav{
+    /*chia 1 bên 3 1 bên 7*/
+    flex-basis: 30%;
+    background-color: lightcoral;
+    text-align: center;
+    padding: var(--padding-default);
+}
+.main__content{
+    background-color: lightgreen;
+    /*còn lại thì nó sẽ chiếm hết phần còn lại*/
+    flex-grow: 1;
+    padding: var(--padding-default);
+    min-height: 491px;
+}
+.footer{
+    background-color: cornflowerblue;
+    text-align: center;
+    padding: var(--padding-default);
+
+}

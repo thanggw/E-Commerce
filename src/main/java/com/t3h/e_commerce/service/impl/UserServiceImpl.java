@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.service.impl;
 
 import com.t3h.e_commerce.constant.DefaultRoles;
+import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.CartEntity;
@@ -14,6 +15,8 @@ import com.t3h.e_commerce.repository.UserRepository;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,32 @@ public class UserServiceImpl implements IUserService {
         user = userRepository.save(user);
 
         return UserMapper.toUserResponse(user);
+    }
+
+    @Override
+    public UserResponse getUserById(Integer userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> CustomExceptionHandler.notFoundException("User not found"));
+        return UserMapper.toUserResponse(user);
+    }
+
+    @Override
+    public ResponsePage<UserResponse> getAllUsers(int page, int size) {
+        return null;
+    }
+
+    @Override
+    public UserEntity getUserLoggedIn() {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(principal instanceof UserDetails){
+            String userEmail = ((UserDetails) principal).getUsername();
+            return userRepository.findByEmail(userEmail).orElseThrow(() ->
+                    CustomExceptionHandler.notFoundException("User not found"));
+
+        }
+        return null;
     }
 
     private UserEntity validateRegisterRequest(UseCreationRequest request){

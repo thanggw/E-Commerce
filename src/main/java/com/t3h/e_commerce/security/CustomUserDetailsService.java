@@ -1,4 +1,4 @@
-package com.t3h.e_commerce.service.impl;
+package com.t3h.e_commerce.security;
 
 import com.t3h.e_commerce.entity.UserEntity;
 import com.t3h.e_commerce.repository.UserRepository;
