@@ -3,6 +3,7 @@ package com.t3h.e_commerce.service.impl;
 import com.t3h.e_commerce.constant.DefaultRoles;
 import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
+import com.t3h.e_commerce.dto.requests.UserRequestFilter;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.CartEntity;
 import com.t3h.e_commerce.entity.RoleEntity;
@@ -15,6 +16,10 @@ import com.t3h.e_commerce.repository.UserRepository;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,8 +62,25 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ResponsePage<UserResponse> getAllUsers(int page, int size) {
-        return null;
+    public ResponsePage<UserResponse> getAllUsers(UserRequestFilter filter, int page, int size) {
+
+        Sort nameSorted = Sort.by("username").ascending();
+        Pageable pageable = PageRequest.of(page, size, nameSorted);
+
+        Page<UserEntity> userEntityPage = userRepository.findAllUserByConditions(filter, pageable);
+
+        List<UserResponse> userResponses = userEntityPage.getContent().stream()
+                .map(UserMapper::toUserResponse)
+                .toList();
+
+        ResponsePage<UserResponse> responsePage = new ResponsePage<>();
+        responsePage.setContent(userResponses);
+        responsePage.setPageSize(userEntityPage.getSize());
+        responsePage.setTotalElements(userEntityPage.getTotalElements());
+        responsePage.setTotalPages(userEntityPage.getTotalPages());
+        responsePage.setCurrentPage(pageable.getPageNumber());
+
+        return responsePage;
     }
 
     @Override

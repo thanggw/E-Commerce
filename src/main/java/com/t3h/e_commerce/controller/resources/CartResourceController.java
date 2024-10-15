@@ -23,8 +23,12 @@ public class CartResourceController {
     }
 
     @PutMapping("/update/{itemId}")
-    public ApiResponse<CartResponse> updateCart(@PathVariable Integer itemId, @RequestBody CartItemUpdate request){
-        return iCartService.updateCart(itemId, request);
+    public ApiResponse<CartResponse> updateCart(@PathVariable Integer itemId, @RequestBody CartItemUpdate request,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size){
+        return ApiResponse.<CartResponse>builder()
+                .result(iCartService.updateCart(itemId, request, page, size))
+                .build();
     }
 
     @DeleteMapping("/delete/{itemId}")

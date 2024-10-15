@@ -113,7 +113,8 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public ApiResponse<CartResponse> updateCart(Integer itemId, CartItemUpdate request) {
+    public CartResponse updateCart(Integer itemId, CartItemUpdate request, int page, int size) {
+
         UserEntity userLoggedIn = iUserService.getUserLoggedIn();
 
         if (userLoggedIn == null){
@@ -122,19 +123,42 @@ public class CartServiceImpl implements ICartService {
 
         CartEntity cartEntity = userLoggedIn.getCart();
 
+        //get all items in the cart of the user logged
         List<CartItemEntity> cartItemEntities = cartEntity.getCartItems();
 
-        if (!cartItemEntities.isEmpty()){
-
-            CartItemEntity cartItemUpdate = cartItemRepository.findById(itemId)
-                    .orElseThrow(() -> CustomExceptionHandler.notFoundException("No such item"));
-
+        //check if the item exists in the cart of the user logged in
+        if (cartItemEntities.isEmpty()){
+            throw CustomExceptionHandler.badRequestException("There are no items in the cart of the user logged");
         }
 
+        CartItemEntity cartItemUpdate = cartItemRepository.findById(itemId)
+                .orElseThrow(() -> CustomExceptionHandler.notFoundException("No such item"));
+        
+        //get quantity of the product
+        int newQuantity = request.getNewQuantity();
+        int previousQuantityPurchased = cartItemUpdate.getQuantity();
 
-        return ApiResponse.<CartResponse>builder()
+        ProductEntity product = cartItemUpdate.getProduct();
+        int currentQuantity = product.getQuantity();
 
-                .build();
+        if (newQuantity > currentQuantity){
+            throw CustomExceptionHandler.badRequestException("Not enough stock of the product");
+        }
+
+        int updatedQuantity = currentQuantity + previousQuantityPurchased - newQuantity;
+
+        product.setQuantity(updatedQuantity);
+        cartItemUpdate.setQuantity(newQuantity);
+        cartItemUpdate.setPrice(multiplyQuantityPurchasedAndPrice(product.getPrice(), newQuantity));
+
+        product.setAvailable(currentQuantity == 0);
+        productRepository.save(product);
+        cartItemRepository.save(cartItemUpdate);
+
+        CartResponse cartResponse = CartMapper.toCartResponse(cartEntity, page, size);
+        cartEntity.setTotalQuantity(cartItemEntities.stream().mapToInt(CartItemEntity::getQuantity).sum());
+
+        return cartResponse;
     }
 
     @Override
@@ -145,5 +169,6 @@ public class CartServiceImpl implements ICartService {
     private BigDecimal multiplyQuantityPurchasedAndPrice(BigDecimal price, int quantityPurchased){
         return price.multiply(BigDecimal.valueOf(quantityPurchased));
     }
+
 
 }
