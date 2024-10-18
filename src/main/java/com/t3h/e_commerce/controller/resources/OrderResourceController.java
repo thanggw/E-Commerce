@@ -14,8 +14,8 @@ public class OrderResourceController {
 
     @PostMapping("/add")
     public OrderResponse orderProduct(@RequestBody OrderCreationRequest request,
-        @RequestParam(name = "page", defaultValue = "0") int page,
-        @RequestParam(name = "size", defaultValue = "10") int size){
+                                      @RequestParam(name = "page", defaultValue = "0") int page,
+                                      @RequestParam(name = "size", defaultValue = "10") int size) {
         return iOrderService.orderProduct(page, size, request);
     }
 }

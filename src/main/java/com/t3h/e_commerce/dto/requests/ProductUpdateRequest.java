@@ -16,5 +16,4 @@ public class ProductUpdateRequest {
     String description;
     BigDecimal price;
     Integer quantity;
-
 }
