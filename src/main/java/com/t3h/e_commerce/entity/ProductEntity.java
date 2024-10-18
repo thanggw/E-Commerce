@@ -44,4 +44,11 @@ public class ProductEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     ProductStatusEntity status;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
