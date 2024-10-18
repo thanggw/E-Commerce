@@ -3,6 +3,7 @@ package com.t3h.e_commerce.service.impl;
 import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.ProductCreationRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
+import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
 import com.t3h.e_commerce.entity.BrandEntity;
 import com.t3h.e_commerce.entity.CategoryEntity;
@@ -10,14 +11,17 @@ import com.t3h.e_commerce.entity.ProductEntity;
 import com.t3h.e_commerce.entity.ProductStatusEntity;
 import com.t3h.e_commerce.exception.CustomExceptionHandler;
 import com.t3h.e_commerce.mapper.ProductMapper;
+import com.t3h.e_commerce.mapper.ProductMapper2;
 import com.t3h.e_commerce.repository.BrandRepository;
 import com.t3h.e_commerce.repository.CategoryRepository;
 import com.t3h.e_commerce.repository.ProductRepository;
 import com.t3h.e_commerce.repository.ProductStatusRepository;
 import com.t3h.e_commerce.service.IProductService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +43,9 @@ public class ProductServiceImpl implements IProductService {
     private final ModelMapper modelMapper;
     private final ProductStatusRepository productStatusRepository;
 
+    @Autowired
+    ProductMapper2 productmapper;
+
     @Override
     public ResponsePage<ProductResponse> getAllProducts(ProductRequestFilter filter, int page, int size) {
 
@@ -59,6 +66,22 @@ public class ProductServiceImpl implements IProductService {
 
         return responsePage;
     }
+
+    @Override
+    public ProductResponse uplateProduct(Integer id, ProductResponse request) {
+       ProductEntity product = productRepository.findById(id)
+               .orElseThrow(() -> new EntityNotFoundException("Product not found with id" +id));
+
+       product.setName(request.getName());
+       product.setImage(request.getImageUrl());
+       product.setDescription(request.getDescription());
+       product.setPrice(request.getPrice());
+       product.setQuantity(request.getQuantity());
+
+       productRepository.save(product);
+       ProductResponse productResponse = productmapper.toProductResponse(product);
+       return productResponse;
+ }
 
     @Override
     public ProductResponse createProduct(ProductCreationRequest request) {
