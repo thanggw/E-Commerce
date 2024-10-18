@@ -9,11 +9,7 @@ import org.mapstruct.Mapping;
 public interface ProductMapper2 {
 
     // Map ProductEntity to ProductResponse
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "image", target = "imageUrl")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "price", target = "price")
-    @Mapping(source = "quantity", target = "quantity")
+
     ProductResponse toProductResponse(ProductEntity product);
 
 
