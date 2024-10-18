@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="seller.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+   
+    <nav class="navbar">
+        <div class="logo">MyShop</div>
+        <ul class="nav-links">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#">Sản phẩm</a></li>
+            <li><a href="#">Đơn hàng</a></li>
+            <li><a href="#">Doanh thu</a></li>
+            <li><a href="#">Khuyến mãi</a></li>
+            <li><a href="#">Thông báo</a></li>
+            <li><a href="#">Cài đặt tài khoản</a></li>
+            <li><a href="#">Đăng xuất</a></li>
+        </ul>
+    </nav>
+
+    
+    <section class="dashboard">
+        <h1>Bảng điều khiển người bán</h1>
+        <div class="overview">
+            <div class="overview-item">
+                <h3>Tổng số sản phẩm</h3>
+                <p>120</p>
+            </div>
+            <div class="overview-item">
+                <h3>Đơn hàng hôm nay</h3>
+                <p>25</p>
+            </div>
+            <div class="overview-item">
+                <h3>Doanh thu hôm nay</h3>
+                <p>3,500,000 VND</p>
+            </div>
+            <div class="overview-item">
+                <h3>Sản phẩm bán chạy</h3>
+                <p>Áo thun nam</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="chart-container">
+        <h2>Biểu đồ doanh thu tháng</h2>
+        <div class="charts-row">
+            <div class="chart-box">
+                <canvas id="revenueChart" width="420" height="390"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="pieChart1" width="390" height="190"></canvas> 
+            </div>
+            <div class="chart-box">
+                <canvas id="pieChart2" width="390" height="190"></canvas>
+            </div>
+        </div>
+    </section>
+    
+    
+
+   
+    <section class="notifications">
+        <h2>Thông báo</h2>
+        <div class="notification-item">
+            <p>Khách hàng A vừa đặt hàng sản phẩm của bạn</p>
+            <span>2 phút trước</span>
+        </div>
+        <div class="notification-item">
+            <p>Sản phẩm "Giày thể thao" đang hết hàng, cần nhập thêm</p>
+            <span>10 phút trước</span>
+        </div>
+    </section>
+
+    
+    <section class="add-product">
+        <h2>Thêm sản phẩm mới</h2>
+        <form id="addProductForm">
+            <label for="productName">Tên sản phẩm:</label>
+            <input type="text" id="productName" name="productName" required>
+    
+            <label for="productPrice">Giá sản phẩm:</label>
+            <input type="number" id="productPrice" name="productPrice" required>
+    
+            <label for="productQuantity">Số lượng:</label>
+            <input type="number" id="productQuantity" name="productQuantity" required>
+
+            <label for="productStatus">Trạng thái(Còn hàng hay hết hàng):</label>
+            <input type="text" id="productStatus" name="productStatus" required>
+    
+            <label for="productImage">Hình ảnh sản phẩm:</label>
+            <input type="file" id="productImage" name="productImage" required>
+    
+            <button type="submit" class="btn">Thêm sản phẩm</button>
+        </form>
+    </section>
+    
+
+    <section class="product-management">
+        <h2>Danh sách sản phẩm</h2>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="shirt.jpg" alt="Áo thun" class="product-img"></td>
+                    <td>Áo thun nam</td>
+                    <td>200,000 VND</td>
+                    <td>50</td>
+                    <td>Còn hàng</td>
+                    <td>
+                        <button class="btn">Chỉnh sửa</button>
+                        <button class="btn danger">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
+                    <td>Giày thể thao</td>
+                    <td>800,000 VND</td>
+                    <td>20</td>
+                    <td>Còn hàng</td>
+                    <td>
+                        <button class="btn">Chỉnh sửa</button>
+                        <button class="btn danger">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
+                    <td>Giày thể thao</td>
+                    <td>800,000 VND</td>
+                    <td>20</td>
+                    <td>Còn hàng</td>
+                    <td>
+                        <button class="btn">Chỉnh sửa</button>
+                        <button class="btn danger">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
+                    <td>Giày thể thao</td>
+                    <td>800,000 VND</td>
+                    <td>20</td>
+                    <td>Còn hàng</td>
+                    <td>
+                        <button class="btn">Chỉnh sửa</button>
+                        <button class="btn danger">Xóa</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
+                    <td>Giày thể thao</td>
+                    <td>800,000 VND</td>
+                    <td>20</td>
+                    <td>Còn hàng</td>
+                    <td>
+                        <button class="btn">Chỉnh sửa</button>
+                        <button class="btn danger">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <!-- Modal chỉnh sửa sản phẩm -->
+<div id="editProductModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Chỉnh sửa sản phẩm</h2>
+        <form id="editProductForm">
+            <label for="editName">Tên sản phẩm:</label>
+            <input type="text" id="editName" name="name">
+
+            <label for="editPrice">Giá sản phẩm:</label>
+            <input type="number" id="editPrice" name="price">
+
+            <label for="editQuantity">Số lượng:</label>
+            <input type="number" id="editQuantity" name="quantity">
+
+            <label for="editStatus">Trạng thái:</label>
+            <select id="editStatus" name="status">
+                <option value="Còn hàng">Còn hàng</option>
+                <option value="Hết hàng">Hết hàng</option>
+            </select>
+
+            <button type="button" id="updateProductBtn">Cập nhật</button>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Subscribe</h4>
+                <form>
+                    <input type="email" placeholder="Enter your email" />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MyShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Biểu đồ doanh thu (biểu đồ cột)
+const ctx = document.getElementById('revenueChart').getContext('2d');
+const revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+        datasets: [{
+            label: 'Doanh thu (VND)',
+            data: [5000000, 4005000, 3034000, 6000000],
+            backgroundColor: 'rgba(255, 87, 34, 0.2)',
+            borderColor: 'rgba(255, 87, 34, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Biểu đồ tròn 1 - Ví dụ: Phân loại sản phẩm
+const pieData1 = {
+    labels: ['Áo thun', 'Giày thể thao', 'Quần jeans'],
+    datasets: [{
+        label: 'Sản phẩm',
+        data: [50, 20, 30],
+        backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+        hoverOffset: 4
+    }]
+};
+const pieChart1 = new Chart(
+    document.getElementById('pieChart1'),
+    { type: 'pie', data: pieData1 }
+);
+
+// Biểu đồ tròn 2 - Ví dụ: Tình trạng kho
+const pieData2 = {
+    labels: ['Còn hàng', 'Hết hàng'],
+    datasets: [{
+        label: 'Tình trạng kho',
+        data: [70, 30],
+        backgroundColor: ['#4bc0c0', '#ffcd56'],
+        hoverOffset: 4
+    }]
+};
+const pieChart2 = new Chart(
+    document.getElementById('pieChart2'),
+    { type: 'pie', data: pieData2 }
+);
+</script>
+    <script src="script.js"></script>
+</body>
+</html>
