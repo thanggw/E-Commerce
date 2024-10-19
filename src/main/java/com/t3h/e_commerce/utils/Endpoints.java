@@ -5,7 +5,9 @@ public class Endpoints {
             "/api/auth/authenticate",
             "/users/registration",
             "/guests/login",
-            "/products/all-products"
+            "/products/all-products",
+            "/home-guest",   // Thêm đường dẫn này
+            "/"
     };
 
     public static final String[] Admin_Endpoints = {
