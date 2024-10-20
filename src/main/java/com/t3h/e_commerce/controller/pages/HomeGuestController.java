@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeGuestController {
     @GetMapping(value = {"/home-guest","/"})
-    public String homeguest() {
-        return "guest/HomePage";
+    public String homeGuest() {
+        return "guest/home-page";
     }
 }

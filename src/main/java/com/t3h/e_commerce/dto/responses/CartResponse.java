@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartResponse {
     Integer id;
-    ResponsePage<CartItemResponse> items;
+    List<CartItemResponse> items;
     Integer totalQuantity;
     LocalDateTime createdDate;
     String createdBy;

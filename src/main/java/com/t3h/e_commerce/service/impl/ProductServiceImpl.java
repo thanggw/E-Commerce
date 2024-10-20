@@ -11,7 +11,6 @@ import com.t3h.e_commerce.entity.ProductEntity;
 import com.t3h.e_commerce.entity.ProductStatusEntity;
 import com.t3h.e_commerce.exception.CustomExceptionHandler;
 import com.t3h.e_commerce.mapper.ProductMapper;
-import com.t3h.e_commerce.mapper.ProductMapper2;
 import com.t3h.e_commerce.repository.BrandRepository;
 import com.t3h.e_commerce.repository.CategoryRepository;
 import com.t3h.e_commerce.repository.ProductRepository;
@@ -40,7 +39,7 @@ public class ProductServiceImpl implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ProductStatusRepository productStatusRepository;
-    private  final ProductMapper2 productMapper;
+//    private  final ProductMapper2 productMapper;
 
     @Override
     public ResponsePage<ProductResponse> getAllProducts(ProductRequestFilter filter, int page, int size) {
@@ -77,7 +76,7 @@ public class ProductServiceImpl implements IProductService {
        product.setLastModifiedDate(LocalDateTime.now());
 
        productRepository.save(product);
-        return productMapper.toProductResponse(product);
+        return ProductMapper.toProductResponse(product);
  }
 
     @Override
