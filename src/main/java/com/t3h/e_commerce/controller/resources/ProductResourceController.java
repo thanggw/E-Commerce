@@ -2,6 +2,7 @@ package com.t3h.e_commerce.controller.resources;
 
 import com.t3h.e_commerce.dto.ApiResponse;
 import com.t3h.e_commerce.dto.ResponsePage;
+import com.t3h.e_commerce.dto.requests.OrderRequest;
 import com.t3h.e_commerce.dto.requests.ProductCreationRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
@@ -53,6 +54,7 @@ public class ProductResourceController {
                 .result(iProductService.updateProduct(id, request))
                 .build();
     }
+
 
 
 

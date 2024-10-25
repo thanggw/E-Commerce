@@ -1,108 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Fashion Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="styles.css">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="cms/common/head::head">
+
 <body>
     <!-- Header Section -->
-    <header class="main-header">
-        <div class="top-bar">
-            <div class="left-section">
-                <span><a href="./Seller-HomePage/index.html">Kênh Người Bán</a></span>
-                <span><a href="#">Trở thành Người bán Shopee</a></span>
-                <span><a href="#">Tải ứng dụng</a></span>
-                <span><a href="https://www.instagram.com/_thawngg/">Kết nối</a></span>
-            </div>
-            <div class="right-section">
-                <span><a href="#">Thông Báo</a></span>
-                <span><a href="#">Hỗ Trợ</a></span>
-                <span class="language-selector" style="width: 77px;">
-                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
-                    <div class="language-dropdown">
-                        <span class="language-option" data-lang="vi">Tiếng Việt</span>
-                        <span class="language-option" data-lang="en">English</span> 
-                    </div>
-                </span>
-            </div>
-            
-        </div>
-        
-        <div class="header-container">
-            <!-- Logo Section -->
-            <div class="logo">
-                <img src="./image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
-            </div>
+    <header th:replace="cms/common/header::header"></header>
 
-            <!-- Search Bar -->
-            <div class="search-bar">
-                <input type="text" placeholder="Bạn muốn tìm gì?">
-                <button><i class="fa fa-search"></i></button>
-                <div class="suggestions">
-                    <span class="scroll-to-products">Giày cao gót</span>
-                    <span class="scroll-to-products">Giày búp bê</span>
-                    <span class="scroll-to-products">Túi xách</span>
-                    <span class="scroll-to-products">Mắt kính</span>
-                </div>
-            </div>
-
-            <!-- User Info and Cart Section -->
-            <div class="user-info">
-                <div class="user-details">
-                    <i class="fa fa-user" style="color: #ff6f61"></i>
-                    <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
-                    <span>Tài khoản</span>
-            
-                    <!-- Vùng dropdown-container -->
-                    <div class="dropdown-container">
-                        <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 0px;"></i>
-                        <!-- Dropdown menu -->
-                        <div class="dropdown-menu">
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="wishlist">
-                    <i class="fa fa-heart" style="color: #ff6f61"></i>
-                    <span style="color: #ff6f61">Yêu thích</span>
-                    <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
-                </div>
-            
-                <div class="cart">
-                    <i class="fa fa-shopping-bag" style="color: #ff6f61"></i>
-                    <span style="color: #ff6f61">Giỏ hàng</span>
-                    <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
-                </div>
-            </div>
-            
-              
-              
-            
-        </div>
-
-        <!-- Navigation Menu -->
-        <nav class="navigation">
-            <!-- Icon hamburger cho menu -->
-            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-            
-            <ul id="menu-list">
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Sản phẩm</a></li>
-                <li><a href="#">Giới thiệu</a></li>
-                <li><a href="#">Tin tức</a></li>
-                <li><a href="#">Tin khuyến mãi</a></li>
-                <li><a href="#">Liên hệ</a></li>
-                <li><a href="#">Câu hỏi thường gặp</a></li>
-                <li><a href="#">Hệ thống cửa hàng</a></li>
-            </ul>
-        </nav>
-        
-    </header>
 
     <section class="main-content">
         <!-- Phần banner ở bên trái -->
@@ -757,47 +660,11 @@
             </div>
         </a>
     </div>
-    
-      
-    
-      <footer>
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-section">
-                    <h4>About Us</h4>
-                    <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Shop</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Follow Us</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Subscribe</h4>
-                    <form>
-                        <input type="email" placeholder="Enter your email" />
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 MyShop. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    
-    <script src="script.js"></script>
+
+
+
+    <footer th:replace="cms/common/footer::footer"></footer>
+
+    <script th:src="@{/homepage/js/script.js}"></script>
 </body>
 </html>
