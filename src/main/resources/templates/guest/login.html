@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:thref="@{./fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css}">
-    <link rel="stylesheet" th:href="@{../../static/login/style.css}">
+
+    <link rel="stylesheet" th:href="@{/fontawesome-free-6.6.0-web/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/login/style.css}">
+
     <title>Document</title>
+
 </head>
 <body>
     <div class="container">
@@ -15,15 +18,12 @@
                     <h2 class="title">Đăng nhập</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <label>
-                            <input type="text" placeholder="Tên đăng nhập" >
-                        </label>
+                        <input type="text" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <label>
-                            <input type="password" placeholder="Mật Khẩu" >
-                        </label>
+                        <input type="password" placeholder="Mật Khẩu" >
+
                     </div>
                     <input type="submit" value="Đăng nhập" class="btn solid">
 
@@ -43,21 +43,15 @@
                     <h2 class="title">Đăng kí</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <label>
-                            <input type="text" placeholder="Tên đăng nhập" >
-                        </label>
+                        <input type="text" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-envelope"></i>
-                        <label>
-                            <input type="text" placeholder="Email" >
-                        </label>
+                        <input type="text" placeholder="Email" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <label>
-                            <input type="password" placeholder="Mật khẩu" >
-                        </label>
+                        <input type="password" placeholder="Mật khẩu" >
                     </div>
                     <input type="submit" value="Đăng kí" class="btn solid">
 

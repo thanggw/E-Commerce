@@ -21,7 +21,7 @@ public class OrderResponse {
     String orderPlacedBy;
     String orderStatus;
     BigDecimal shippingCost;
-//    PaymentResponse payment;
+    //    PaymentResponse payment;
     boolean paymentSuccess;
     String paymentAnnounce;
     String address;
@@ -30,4 +30,5 @@ public class OrderResponse {
     LocalDateTime lastModifiedDate;
     String lastModifiedBy;
     Boolean deleted;
+
 }

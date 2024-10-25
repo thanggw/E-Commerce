@@ -25,4 +25,5 @@ public class ProductMapper {
         product.setQuantity(request.getQuantity());
         return product;
     }
+
 }

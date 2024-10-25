@@ -2,6 +2,7 @@ package com.t3h.e_commerce.controller.resources;
 
 import com.t3h.e_commerce.dto.ApiResponse;
 import com.t3h.e_commerce.dto.ResponsePage;
+import com.t3h.e_commerce.dto.requests.OrderRequest;
 import com.t3h.e_commerce.dto.requests.ProductCreationRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
@@ -47,12 +48,13 @@ public class ProductResourceController {
     }
 
 
-    @PutMapping("/uplate/{id}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Integer id,ProductResponse request){
+    @PutMapping("/update/{id}")
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Integer id, ProductUpdateRequest request){
         return ApiResponse.<ProductResponse>builder()
-                .result(iProductService.uplateProduct(id, request))
+                .result(iProductService.updateProduct(id, request))
                 .build();
     }
+
 
 
 

@@ -11,10 +11,9 @@ import java.math.BigDecimal;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductUpdateRequest {
-    String productName;
+    String name;
     String imageUrl;
-    String productDescription;
-    BigDecimal productPrice;
+    String description;
+    BigDecimal price;
     Integer quantity;
-
 }

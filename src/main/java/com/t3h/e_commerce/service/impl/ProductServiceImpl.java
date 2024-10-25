@@ -18,10 +18,8 @@ import com.t3h.e_commerce.repository.ProductRepository;
 import com.t3h.e_commerce.repository.ProductStatusRepository;
 import com.t3h.e_commerce.service.IProductService;
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,9 +40,7 @@ public class ProductServiceImpl implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ProductStatusRepository productStatusRepository;
-
-    @Autowired
-    ProductMapper2 productmapper;
+    private  final ProductMapper2 productMapper;
 
     @Override
     public ResponsePage<ProductResponse> getAllProducts(ProductRequestFilter filter, int page, int size) {
@@ -68,19 +64,20 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ProductResponse uplateProduct(Integer id, ProductResponse request) {
+    public ProductResponse updateProduct(Integer id, ProductUpdateRequest request) {
        ProductEntity product = productRepository.findById(id)
-               .orElseThrow(() -> new EntityNotFoundException("Product not found with id" +id));
+               .orElseThrow(() -> CustomExceptionHandler.notFoundException("Product not found with id" +id));
 
        product.setName(request.getName());
        product.setImage(request.getImageUrl());
        product.setDescription(request.getDescription());
        product.setPrice(request.getPrice());
        product.setQuantity(request.getQuantity());
+       product.setAvailable(request.getQuantity() == 0);
+       product.setLastModifiedDate(LocalDateTime.now());
 
        productRepository.save(product);
-       ProductResponse productResponse = productmapper.toProductResponse(product);
-       return productResponse;
+        return productMapper.toProductResponse(product);
  }
 
     @Override
