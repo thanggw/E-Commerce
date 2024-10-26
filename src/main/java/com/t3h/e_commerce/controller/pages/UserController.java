@@ -23,7 +23,7 @@ public class UserController {
     }
     @GetMapping("/viewdetail")
     public String viewdetailPage() {
-        return "guest/viewdetail";
+        return "guest/demo";
     }
     @GetMapping("cart")
     public String viewCart(){
