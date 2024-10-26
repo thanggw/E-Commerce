@@ -9,6 +9,7 @@ import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
 import com.t3h.e_commerce.service.IProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -55,6 +56,11 @@ public class ProductResourceController {
                 .build();
     }
 
+    @GetMapping("/get/{id}")
+    public ProductResponse getProductById(@PathVariable Integer id){
+        ProductResponse ps = iProductService.getById(id);
+        return ResponseEntity.ok(ps).getBody();
+    }
 
 
 
