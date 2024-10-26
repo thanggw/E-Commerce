@@ -30,6 +30,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(Endpoints.Public_Endpoints).permitAll()
                         .requestMatchers("/guests/**", "/products/**").permitAll()
+                        .requestMatchers( "/login/**", "/cms/**", "/assets/**", "/seller/**","/homepage/**",
+                                "/img/**", "/seller/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
