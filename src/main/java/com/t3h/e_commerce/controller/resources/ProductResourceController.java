@@ -49,7 +49,7 @@ public class ProductResourceController {
 
 
     @PutMapping("/update/{id}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Integer id, ProductUpdateRequest request){
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Integer id,@RequestBody ProductUpdateRequest request){
         return ApiResponse.<ProductResponse>builder()
                 .result(iProductService.updateProduct(id, request))
                 .build();

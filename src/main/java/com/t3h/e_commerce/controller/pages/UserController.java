@@ -17,4 +17,17 @@ public class UserController {
     public String homepage() {
         return "guest/homepage";
     }
+    @GetMapping("/payment")
+    public String paymentPage() {
+        return "guest/payment";
+    }
+    @GetMapping("/viewdetail")
+    public String viewdetailPage() {
+        return "guest/viewdetail";
+    }
+    @GetMapping("cart")
+    public String viewCart(){
+        return "guest/cart";
+    }
+
 }
