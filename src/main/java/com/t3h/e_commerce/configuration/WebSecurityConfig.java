@@ -29,9 +29,11 @@ public class WebSecurityConfig {
         httpSecurity.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(Endpoints.Public_Endpoints).permitAll()
-                        .requestMatchers("/guests/**", "/products/**").permitAll()
-                        .requestMatchers( "/login/**", "/cms/**", "/assets/**", "/seller/**","/homepage/**",
-                                "/img/**", "/seller/**").permitAll()
+                        .requestMatchers("/guests/**").permitAll()
+                        .requestMatchers("/home-guest", "/").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
+                        .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/image/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

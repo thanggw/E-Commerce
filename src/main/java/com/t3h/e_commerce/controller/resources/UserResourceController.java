@@ -1,12 +1,12 @@
 package com.t3h.e_commerce.controller.resources;
 
-import com.t3h.e_commerce.dto.ApiResponse;
 import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
 import com.t3h.e_commerce.dto.requests.UserRequestFilter;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,17 +17,14 @@ public class UserResourceController {
     private final IUserService iUserService;
 
     @PostMapping("/registration")
-    public ApiResponse<UserResponse> createUser(@RequestBody UseCreationRequest request){
-        return ApiResponse.<UserResponse>builder()
-                .result(iUserService.createUser(request))
-                .build();
+    public ResponseEntity<UserResponse> createUser(@RequestBody UseCreationRequest request){
+        UserResponse response = iUserService.createUser(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{userId}")
-    public ApiResponse<UserResponse> getUserById(@PathVariable Integer userId){
-        return ApiResponse.<UserResponse>builder()
-                .result(iUserService.getUserById(userId))
-                .build();
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Integer userId){
+        return ResponseEntity.ok(iUserService.getUserById(userId));
     }
 
     @GetMapping("/all-users")

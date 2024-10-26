@@ -1,8 +1,6 @@
 package com.t3h.e_commerce.controller.resources;
 
-import com.t3h.e_commerce.dto.ApiResponse;
 import com.t3h.e_commerce.dto.ResponsePage;
-import com.t3h.e_commerce.dto.requests.OrderRequest;
 import com.t3h.e_commerce.dto.requests.ProductCreationRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
@@ -21,10 +19,9 @@ public class ProductResourceController {
     private final IProductService iProductService;
 
     @PostMapping("/create")
-    public ApiResponse<ProductResponse> createProduct(@RequestBody ProductCreationRequest request){
-        return ApiResponse.<ProductResponse>builder()
-               .result(iProductService.createProduct(request))
-               .build();
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductCreationRequest request){
+        ProductResponse productResponse = iProductService.createProduct(request);
+        return ResponseEntity.ok(productResponse);
     }
 
     @GetMapping("/all-products")
@@ -50,10 +47,9 @@ public class ProductResourceController {
 
 
     @PutMapping("/update/{id}")
-    public ApiResponse<ProductResponse> updateProduct(@PathVariable Integer id,@RequestBody ProductUpdateRequest request){
-        return ApiResponse.<ProductResponse>builder()
-                .result(iProductService.updateProduct(id, request))
-                .build();
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id,@RequestBody ProductUpdateRequest request){
+        ProductResponse productResponse = iProductService.updateProduct(id, request);
+        return ResponseEntity.ok(productResponse);
     }
 
     @GetMapping("/get/{id}")

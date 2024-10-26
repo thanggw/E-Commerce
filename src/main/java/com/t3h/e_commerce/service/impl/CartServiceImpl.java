@@ -1,6 +1,5 @@
 package com.t3h.e_commerce.service.impl;
 
-import com.t3h.e_commerce.dto.ApiResponse;
 import com.t3h.e_commerce.dto.requests.AddToCartRequest;
 import com.t3h.e_commerce.dto.requests.CartItemUpdate;
 import com.t3h.e_commerce.dto.responses.CartResponse;
@@ -162,7 +161,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public ApiResponse<CartResponse> deleteCart(Integer itemId) {
+    public CartResponse deleteCart(Integer itemId) {
         return null;
     }
 
