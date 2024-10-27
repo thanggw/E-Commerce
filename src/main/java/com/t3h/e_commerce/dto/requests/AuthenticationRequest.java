@@ -1,11 +1,15 @@
 package com.t3h.e_commerce.dto.requests;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
-@Builder
+@Setter
+@Getter
 public class AuthenticationRequest {
     private String email;
     private String password;
+
+
 }

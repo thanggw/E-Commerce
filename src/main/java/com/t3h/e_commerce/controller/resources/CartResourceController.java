@@ -15,25 +15,17 @@ public class CartResourceController {
     private final ICartService iCartService;
 
     @PostMapping("/add")
-    public ResponseEntity<CartResponse> addToCart(@RequestBody AddToCartRequest request,
-                                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                                 @RequestParam(name = "size", defaultValue = "10") int size){
-        CartResponse cartResponse = iCartService.addToCart(request, page, size);
-
-        return ResponseEntity.ok(cartResponse);
+    public ResponseEntity<CartResponse> addToCart(@RequestBody AddToCartRequest request){
+        return ResponseEntity.ok(iCartService.addToCart(request));
     }
 
     @PutMapping("/update/{itemId}")
-    public ResponseEntity<CartResponse> updateCart(@PathVariable Integer itemId, @RequestBody CartItemUpdate request,
-                                                  @RequestParam(name = "page", defaultValue = "0") int page,
-                                                  @RequestParam(name = "size", defaultValue = "10") int size){
-        CartResponse cartResponse = iCartService.updateCart(itemId, request, page, size);
-        return ResponseEntity.ok(cartResponse);
+    public ResponseEntity<CartResponse> updateCart(@PathVariable Integer itemId, @RequestBody CartItemUpdate request){
+        return ResponseEntity.ok(iCartService.updateCart(itemId, request));
     }
 
     @DeleteMapping("/delete/{itemId}")
     public ResponseEntity<CartResponse> deleteCart(@PathVariable Integer itemId){
-        CartResponse cartResponse = iCartService.deleteCart(itemId);
-        return ResponseEntity.ok(cartResponse);
+        return ResponseEntity.ok(iCartService.deleteCart(itemId));
     }
 }

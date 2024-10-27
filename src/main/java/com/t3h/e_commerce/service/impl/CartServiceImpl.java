@@ -29,7 +29,7 @@ public class CartServiceImpl implements ICartService {
     private final IUserService iUserService;
 
     @Override
-    public CartResponse addToCart(AddToCartRequest request, int page, int size) {
+    public CartResponse addToCart(AddToCartRequest request) {
 
         UserEntity userLoggedIn = iUserService.getUserLoggedIn();
 
@@ -106,13 +106,13 @@ public class CartServiceImpl implements ICartService {
         productRepository.save(product);
         cartRepository.save(cartEntity);
 
-        CartResponse cartResponse = CartMapper.toCartResponse(cartEntity, page, size);
+        CartResponse cartResponse = CartMapper.toCartResponse(cartEntity);
         cartEntity.setTotalQuantity(cartItemEntities.stream().mapToInt(CartItemEntity::getQuantity).sum());
         return cartResponse;
     }
 
     @Override
-    public CartResponse updateCart(Integer itemId, CartItemUpdate request, int page, int size) {
+    public CartResponse updateCart(Integer itemId, CartItemUpdate request) {
 
         UserEntity userLoggedIn = iUserService.getUserLoggedIn();
 
@@ -154,7 +154,7 @@ public class CartServiceImpl implements ICartService {
         productRepository.save(product);
         cartItemRepository.save(cartItemUpdate);
 
-        CartResponse cartResponse = CartMapper.toCartResponse(cartEntity, page, size);
+        CartResponse cartResponse = CartMapper.toCartResponse(cartEntity);
         cartEntity.setTotalQuantity(cartItemEntities.stream().mapToInt(CartItemEntity::getQuantity).sum());
 
         return cartResponse;

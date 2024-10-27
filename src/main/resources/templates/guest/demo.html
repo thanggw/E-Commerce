@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="../assets/demo.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<header th:replace="cms/common/header::header"></header>
+    <div class="container" style="margin-top:150px">
+        <div class="image" id="productImage">
+            <img src="../assets/images/1.png" alt="Product 1">
+        </div>
+        <div class="content">
+            <div class="name" id="productName">
+            <h2>Product Name </h2>
+        </div>
+        <div class="price" id="productPrice">
+            <p>$99.99</p>
+        </div>
+            <div class="vote">
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+            </div>
+            <div class="description" id="productDescription">
+                <h3>Product Description</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor, nisi in gravida fermentum, justo velit convallis neque, ac consectetur purus neque nec nunc. Nullam auctor, diam id malesuada eleifend, libero nunc tristique nunc, vel efficitur mauris tellus nec nisi. Donec viverra, erat et ultricies pellentesque, mauris justo ultricies ligula, id pellentesque nisi velit sed tortor. Sed vel ligula in velit malesuada placerat. Nulla facilisi. Maecenas vel velit vel sapien semper malesuada.</p>
+            </div>
+            <div class="sizes">
+                <label for="size">Size:</label>
+                <div class="size-options">
+                    <button class="size-button" data-value="S">S</button>
+                    <button class="size-button" data-value="M">M</button>
+                    <button class="size-button" data-value="L">L</button>
+                </div>
+            </div>
+            <div class="colors">
+                <label for="color">Màu sắc:</label>
+                <div class="color-options">
+                    <button class="color-button" data-value="red" style="background-color: red; color: white;">Red</button>
+                    <button class="color-button" data-value="blue" style="background-color: blue; color: white;">Blue</button>
+                    <button class="color-button" data-value="green" style="background-color: green; color: white;">Green</button>
+                </div>
+            </div>
+            <div class="btn">
+            <button class="add-to-cart" data-id="1">Add to cart</button>
+            <button class="buy-now">Mua ngay</button> 
+        </div>   
+        </div>
+    </div>
+<footer th:replace="cms/common/footer::footer"></footer>
+<script src="..js/viewdetail.js"></script>
+</body>
+</html>

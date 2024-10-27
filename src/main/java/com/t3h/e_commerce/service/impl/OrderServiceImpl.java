@@ -19,7 +19,7 @@ public class OrderServiceImpl implements IOrderService {
     private final CartItemRepository cartItemRepository;
 
     @Override
-    public OrderResponse orderProduct(int page, int size, OrderCreationRequest request) {
+    public OrderResponse orderProduct(OrderCreationRequest request) {
         return null;
     }
 }

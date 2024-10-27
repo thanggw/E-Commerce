@@ -138,4 +138,12 @@ public class ProductServiceImpl implements IProductService {
 
         return modelMapper.map(product, ProductResponse.class);
     }
+
+    @Override
+    public ProductResponse getById(Integer id){
+       ProductEntity productEntity = productRepository.findById(id)
+               .orElseThrow(() -> CustomExceptionHandler.notFoundException("Product not found with id" + id));
+
+        return ProductMapper.toProductResponse(productEntity);
+    }
 }
