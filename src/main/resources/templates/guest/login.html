@@ -2,26 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-    <link rel="stylesheet" href="../login/style.css">
-
+    <link rel="stylesheet" href="../login/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Document</title>
-
 </head>
+
 <body>
     <div class="container">
         <div class="form-container">
             <div class="signin-signup">
-                <form action="" class="sign-in-form">
+                <form action="http://localhost:8082/guests/homepage" class="sign-in-form" id="sign-in" method="post">
                     <h2 class="title">Đăng nhập</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="Tên đăng nhập" >
+                        <input type="text" id="loginUsername" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Mật Khẩu" >
-
+                        <input type="password" id="loginPassword" placeholder="Mật Khẩu" >
                     </div>
                     <input type="submit" value="Đăng nhập" class="btn solid">
 
@@ -37,19 +35,35 @@
                         
                 </form>
 
-                <form action="" class="sign-up-form">
+                <form action="http://localhost:8082/guests/login" class="sign-up-form" id="sign-up" method="post">
                     <h2 class="title">Đăng kí</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="Tên đăng nhập" >
+                        <input type="text" id="signUpUsername" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="text" placeholder="Email" >
+                        <input type="text" id="signUpEmail" placeholder="Email" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Mật khẩu" >
+                        <input type="password" id="signUpPassword" placeholder="Mật khẩu" >
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="firstName" placeholder="Ho" >
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="lastName" placeholder="Ten" >
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" id="phone" placeholder="So dien thoai" >
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-map-marker-alt"></i>
+                        <input type="text" id="address" placeholder="Dia chi" >
                     </div>
                     <input type="submit" value="Đăng kí" class="btn solid">
 
@@ -89,6 +103,7 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../login/app.js"></script>
 </body>
 </html>

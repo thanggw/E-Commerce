@@ -22,7 +22,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         validateLoginRequest(request);
 
-        UserEntity user = userRepository.findByEmail(request.getEmail())
+        UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> CustomExceptionHandler.notFoundException("User not found"));
 
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -38,8 +38,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     private void validateLoginRequest(AuthenticationRequest request) {
 
-        if (request.getEmail() == null) {
-            throw CustomExceptionHandler.badRequestException("Email is required");
+        if (request.getUsername() == null) {
+            throw CustomExceptionHandler.badRequestException("Username is required");
         }
 
         if (request.getPassword() == null) {

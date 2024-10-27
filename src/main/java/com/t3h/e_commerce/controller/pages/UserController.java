@@ -15,7 +15,7 @@ public class UserController {
 
     @GetMapping("/homepage")
     public String homepage() {
-        return "guest/home-page";
+        return "guest/homepage";
     }
     @GetMapping("/payment")
     public String paymentPage() {
@@ -25,7 +25,7 @@ public class UserController {
     public String viewDetailPage() {
         return "guest/demo";
     }
-    @GetMapping("cart")
+    @GetMapping("/cart")
     public String viewCart(){
         return "guest/cart";
     }
