@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.configuration;
 
-
+import com.t3h.e_commerce.exception.CustomAccessDeniedHandler;
+import com.t3h.e_commerce.exception.CustomAuthenticationEntryPoint;
 import com.t3h.e_commerce.utils.Endpoints;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,18 +29,24 @@ public class WebSecurityConfig {
         httpSecurity.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(Endpoints.Public_Endpoints).permitAll()
-                        .requestMatchers("/guests/**", "/login/**").permitAll()
-                        .requestMatchers("/home-guest", "/").permitAll()
+                        .requestMatchers("/guests/**").permitAll()
+                        .requestMatchers("/home-guest", "/").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
+                        .requestMatchers("/seller").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/image/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/seller_css/**").permitAll()
+                        .requestMatchers("/seller_js/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
+                        .requestMatchers("/orders/order").permitAll()
+                        .requestMatchers("/carts/add").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        httpSecurity.exceptionHandling(exception -> {
-//            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
-//            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-//        });
+        httpSecurity.exceptionHandling(exception -> {
+            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
+            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+        });
 
         return httpSecurity.build();
     }

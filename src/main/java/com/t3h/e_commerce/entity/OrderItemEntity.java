@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +25,7 @@ public class OrderItemEntity extends BaseEntity{
     ProductEntity product;
 
     Integer quantity;
-    Double price;
+    BigDecimal price;
 
     Integer cartItemId;
 }

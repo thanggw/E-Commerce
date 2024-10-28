@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderResourceController {
     private final IOrderService iOrderService;
 
-    @PostMapping("/add")
+    @PostMapping("/order")
     public OrderResponse orderProduct(@RequestBody OrderCreationRequest request) {
         return iOrderService.orderProduct(request);
     }
