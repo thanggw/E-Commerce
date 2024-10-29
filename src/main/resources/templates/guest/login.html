@@ -13,15 +13,15 @@
     <div class="container">
         <div class="form-container">
             <div class="signin-signup">
-                <form th:action="@{/perform_login}" class="sign-in-form" id="sign-in" method="POST">
+                <form action="" class="sign-in-form">
                     <h2 class="title">Đăng nhập</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text"  id="loginUsername" placeholder="Tên đăng nhập" >
+                        <input type="text" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="loginPassword" placeholder="Mật Khẩu" >
+                        <input type="password" placeholder="Mật Khẩu" >
 
                     </div>
                     <input type="submit" value="Đăng nhập" class="btn solid">
@@ -38,19 +38,19 @@
                         
                 </form>
 
-                <form action="" class="sign-up-form" id="sign-up" method="post">
+                <form action="" class="sign-up-form">
                     <h2 class="title">Đăng kí</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" id="signUpUsername" placeholder="Tên đăng nhập" >
+                        <input type="text" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="text" id="signUpEmail" placeholder="Email" >
+                        <input type="text" placeholder="Email" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="signUpPassword" placeholder="Mật khẩu" >
+                        <input type="password" placeholder="Mật khẩu" >
                     </div>
                     <input type="submit" value="Đăng kí" class="btn solid">
 
@@ -90,7 +90,6 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script href="../js/login.js"></script>
+    <script th:src="@{../../static/cms/js/app.js}"></script>
 </body>
 </html>

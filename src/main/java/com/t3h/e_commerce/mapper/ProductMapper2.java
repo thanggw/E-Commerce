@@ -13,4 +13,5 @@ public interface ProductMapper2 {
     ProductResponse toProductResponse(ProductEntity product);
 
 
+
 }

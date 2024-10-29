@@ -1,6 +1,5 @@
 package com.t3h.e_commerce.mapper;
 
-import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.responses.CartItemResponse;
 import com.t3h.e_commerce.dto.responses.CartResponse;
 import com.t3h.e_commerce.entity.CartEntity;
@@ -11,23 +10,15 @@ import java.util.List;
 public class CartMapper {
 
 
-    public static CartResponse toCartResponse(CartEntity cart, int page, int size){
+    public static CartResponse toCartResponse(CartEntity cart){
 
         List<CartItemResponse> cartItemResponses = cart.getCartItems().stream()
                 .map(CartMapper::toCartItemResponse)
                 .toList();
 
-        ResponsePage<CartItemResponse> responsePage = ResponsePage.<CartItemResponse>builder()
-                .content(cartItemResponses)
-                .pageSize(size)
-                .currentPage(page)
-                .totalPages((int) Math.ceil((double) cart.getCartItems().size() / size))
-                .totalElements((long) cart.getCartItems().size())
-                .build();
-
         return CartResponse.builder()
                 .id(cart.getId())
-                .items(responsePage)
+                .items(cartItemResponses)
                 .createdBy(cart.getCreatedBy())
                 .createdDate(cart.getCreatedDate())
                 .totalQuantity(cart.getTotalQuantity())
