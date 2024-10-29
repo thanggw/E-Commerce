@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-    <link rel="stylesheet" th:thref="@{./fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.min.css}">
-    <link rel="stylesheet" th:href="@{../../static/login/style.css}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../login/login.css">
 
     <title>Document</title>
 </head>
@@ -13,15 +13,15 @@
     <div class="container">
         <div class="form-container">
             <div class="signin-signup">
-                <form action="" class="sign-in-form">
+                <form th:action="@{/perform_login}" method="POST" class="sign-in-form">
                     <h2 class="title">Đăng nhập</h2>
                     <div class="input-field">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="Tên đăng nhập" >
+                        <input type="text"  id="username" name="username" placeholder="Tên đăng nhập" >
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Mật Khẩu" >
+                        <input type="password" id="password" name="password" placeholder="Mật Khẩu" >
 
                     </div>
                     <input type="submit" value="Đăng nhập" class="btn solid">
@@ -90,6 +90,6 @@
             </div>
         </div>
     </div>
-    <script th:src="@{../../static/cms/js/app.js}"></script>
+    <script src="../login/login.js"></script>
 </body>
 </html>

@@ -20,7 +20,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
-@Configurable
 public class WebSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -43,7 +42,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/image/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/login/").permitAll()
+                        .requestMatchers("/guests/login").permitAll()
                         .requestMatchers("/seller_css/**").permitAll()
                         .requestMatchers("/seller_js/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
@@ -51,10 +50,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/carts/add").permitAll()
                         .anyRequest().authenticated())
         .formLogin((form) -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
-                .failureUrl("/login?error=true")
+                .loginPage("/guests/login") // config truy cap url login
+                .loginProcessingUrl("/perform_login") // config url gui username, pass tu form login len server
+                .defaultSuccessUrl("/guests/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
+                .failureUrl("/guests/login?error=true") //  url neu login fals
                 .permitAll()
         )
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

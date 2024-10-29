@@ -11,17 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
 @RestController
 @RequestMapping("/guests")
 public class UserController {
-    @Autowired
-    ILoginService loginService;
 
-    @GetMapping(value="/login")
-    public String loginPage() {
-        return "guest/login";
-    }
+
 
     @Autowired
     private UserServiceImpl userService;
@@ -31,9 +26,6 @@ public class UserController {
         UserResponse userResponse = userService.getUserProfile(username);
         return ResponseEntity.ok(userResponse);
     }
-    @GetMapping(value = "process-after-login")
-    public String processAfterLoginController(){
-         return loginService.processAfterLogin();
-    }
+
 
 }
