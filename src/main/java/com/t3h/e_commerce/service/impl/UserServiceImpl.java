@@ -22,11 +22,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -142,5 +144,27 @@ public class UserServiceImpl implements IUserService {
         user.setCart(cart);
 
         return user;
+    }
+    public UserResponse getUserProfile(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Convert UserEntity to UserResponse DTO
+        return UserResponse.builder()
+                .id(userEntity.getId())
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .phone(userEntity.getPhone())
+                .roles(userEntity.getRoles().stream()
+                        .map(RoleEntity::getCode)
+                        .collect(Collectors.toSet()))
+                .createdDate(userEntity.getCreatedDate())
+                .createdBy(userEntity.getCreatedBy())
+                .lastModifiedDate(userEntity.getLastModifiedDate())
+                .lastModifiedBy(userEntity.getLastModifiedBy())
+                .deleted(userEntity.getDeleted())
+                .build();
     }
 }

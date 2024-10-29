@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Của Tôi</title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-left">
+            <h1>Hồ Sơ Của Tôi</h1>
+            <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input type="text" id="username" name="username" disabled value="thngthng701">
+                    <small class="info-text">Tên Đăng nhập chỉ có thể thay đổi một lần.</small>
+                </div>
+                <div class="form-group">
+                    <label for="name">Tên</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <a href="#" class="add-link">Thêm</a>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <a href="#" class="add-link">Thêm</a>
+                    <div class="warning">
+                        <span>Liên kết số điện thoại bạn đang sử dụng với tài khoản để có thể đăng nhập và mua hàng</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <input type="radio" id="male" name="gender" value="male"> Nam
+                    <input type="radio" id="female" name="gender" value="female"> Nữ
+                    <input type="radio" id="other" name="gender" value="other"> Khác
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh</label>
+                    <span>06/11/2004</span>
+                    <a href="#" class="edit-link">Thay đổi</a>
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="updateBtn">Lưu</button>
+                </div>
+            </form>
+        </div>
+        <div class="profile-right">
+            <div class="avatar-container">
+                <img src="https://via.placeholder.com/150" alt="avatar" class="avatar">
+                <button type="button" class="choose-avatar-btn">Chọn Ảnh</button>
+                <small class="avatar-info">Dụng lượng file tối đa 1 MB<br>Định dạng: .JPEG, .PNG</small>
+            </div>
+        </div>
+    </div>
+<script src="../js/profile.js"></script>
+</body>
+</html>

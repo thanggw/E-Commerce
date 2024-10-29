@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/brands")
+@RequestMapping("/api/brands")
 public class BrandResourceController {
     private final IBrandService iBrandService;
 }

@@ -2,20 +2,28 @@ package com.t3h.e_commerce.configuration;
 
 import com.t3h.e_commerce.exception.CustomAccessDeniedHandler;
 import com.t3h.e_commerce.exception.CustomAuthenticationEntryPoint;
+import com.t3h.e_commerce.security.SecurityUtils;
 import com.t3h.e_commerce.utils.Endpoints;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
+@Configurable
 public class WebSecurityConfig {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
     @Bean
@@ -24,24 +32,47 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filter(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filter(HttpSecurity http) throws Exception {
 
-        httpSecurity.cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable);
-        httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(Endpoints.Public_Endpoints).permitAll()
-                        .requestMatchers("/guests/**").permitAll()
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests((request) -> request
+                        .requestMatchers("/guests/**").hasAnyRole(SecurityUtils.Role.USER.name(),SecurityUtils.Role.ADMIN.name())
                         .requestMatchers("/home-guest", "/").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
+                        .requestMatchers("/seller").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/image/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/login/").permitAll()
+                        .requestMatchers("/seller_css/**").permitAll()
+                        .requestMatchers("/seller_js/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
+                        .requestMatchers("/orders/order").permitAll()
+                        .requestMatchers("/carts/add").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.exceptionHandling(exception -> {
-            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
-            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-        });
+        .formLogin((form) -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
+                .failureUrl("/login?error=true")
+                .permitAll()
+        )
+                .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .permitAll()
+                );
 
-        return httpSecurity.build();
+
+//        httpSecurity.exceptionHandling(exception -> {
+//            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
+//            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+//        });
+
+        return http.build();
+    }
+
+    public static void main(String[] args) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println("Password account admin: "+encoder.encode("admin"));
+        System.out.println("Password account user: "+encoder.encode("admin"));
     }
 }

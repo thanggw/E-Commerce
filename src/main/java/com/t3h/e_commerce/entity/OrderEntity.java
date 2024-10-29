@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderEntity extends BaseEntity{
+public class OrderEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<OrderItemEntity> orderItems;
@@ -34,9 +34,18 @@ public class OrderEntity extends BaseEntity{
 
     BigDecimal finalPrice;
 
+    // Thêm các trường mới vào đây
+    BigDecimal discount; // Thêm discount
+    String trackingId; // Thêm tracking ID
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expected_delivery_date") // Tên cột trong cơ sở dữ liệu
+    Date expectedDeliveryDate; // Thêm ngày giao hàng dự kiến
+
     @ManyToOne
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
     PaymentEntity payment;
+    String paymentMethod;
+    String paymentStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -45,6 +54,4 @@ public class OrderEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     RecipientEntity recipient;
-
-
 }
