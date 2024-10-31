@@ -1,5 +1,6 @@
 package com.t3h.e_commerce.controller.resources;
 
+import com.t3h.e_commerce.dto.Response;
 import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
 import com.t3h.e_commerce.dto.requests.UserRequestFilter;
@@ -45,6 +46,22 @@ public class UserResourceController {
                 filter.setFullName(fullName);
 
         return iUserService.getAllUsers(filter, page, size);
+    }
+
+    @GetMapping("profile")
+    public ResponseEntity<Response<UserResponse>> profile(){
+             Response<UserResponse> response =iUserService.getProfileUser();
+             return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUse(@RequestBody UserResponse user){
+            try {
+                  UserResponse userResponse =iUserService.updateProfileUser(user);
+                  return ResponseEntity.ok(userResponse);
+            }catch (Exception e){
+                  return ResponseEntity.badRequest().body("Error: "+e.getMessage());
+            }
     }
 
 }

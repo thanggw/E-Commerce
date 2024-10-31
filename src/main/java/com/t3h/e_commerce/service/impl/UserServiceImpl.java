@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.service.impl;
 
 import com.t3h.e_commerce.constant.DefaultRoles;
+import com.t3h.e_commerce.dto.Response;
 import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
 import com.t3h.e_commerce.dto.requests.UserRequestFilter;
@@ -10,21 +11,26 @@ import com.t3h.e_commerce.entity.RoleEntity;
 import com.t3h.e_commerce.entity.UserEntity;
 import com.t3h.e_commerce.exception.CustomExceptionHandler;
 import com.t3h.e_commerce.mapper.UserMapper;
+import com.t3h.e_commerce.mapper.UserMapper2;
 import com.t3h.e_commerce.repository.CartRepository;
 import com.t3h.e_commerce.repository.RoleRepository;
 import com.t3h.e_commerce.repository.UserRepository;
+import com.t3h.e_commerce.security.SecurityUtils;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -39,6 +45,9 @@ public class UserServiceImpl implements IUserService {
     private final ModelMapper modelMapper;
     private final CartRepository cartRepository;
     private final RoleRepository roleRepository;
+
+    @Autowired
+    private UserMapper2 userMapper;
 
     @Override
     public UserResponse createUser(UseCreationRequest request) {
@@ -96,6 +105,42 @@ public class UserServiceImpl implements IUserService {
                     CustomExceptionHandler.notFoundException("User not found"));
 
         }
+        return null;
+    }
+
+    @Override
+    public UserResponse getUserByUsername(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        UserResponse userDTO = userMapper.toDTO(userEntity);
+        // Nếu user chưa có avatar lưu trong db. Sẽ lấy avatar mặc định
+        if (StringUtils.isEmpty(userDTO.getPathAvatar())){
+            userDTO.setPathAvatar(avatarRelativePath + FileServiceImpl.DEFAULT_FILE_NAME);
+        }
+        return userDTO;
+    }
+    @Override
+    public Response<UserResponse> getProfileUser() {
+        String userCurrentUser = SecurityUtils.getCurrentUserName();
+        if (StringUtils.isEmpty(userCurrentUser)){
+            // query và chuyển sang DTO
+            Response<UserResponse> response = new Response<>();
+            response.setData(null);
+            response.setCode(HttpStatus.UNAUTHORIZED.value());
+            response.setMessage("Unauthorized");
+            return response;
+        }
+
+        // query và chuyển sang DTO
+        UserResponse userDTO= getUserByUsername(userCurrentUser);
+        Response<UserResponse> response = new Response<>();
+        response.setData(userDTO);
+        response.setCode(HttpStatus.OK.value());
+        response.setMessage("Success");
+        return response;
+    }
+
+    @Override
+    public UserResponse updateProfileUser(UserResponse userResponse) {
         return null;
     }
 

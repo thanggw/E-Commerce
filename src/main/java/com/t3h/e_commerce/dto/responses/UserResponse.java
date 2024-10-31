@@ -1,9 +1,11 @@
 package com.t3h.e_commerce.dto.responses;
 
+import com.t3h.e_commerce.dto.RoleDTO;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -19,10 +21,11 @@ public class UserResponse {
     String firstName;
     String lastName;
     String phone;
-    Set<String> roles;
     LocalDateTime createdDate;
     String createdBy;
+    Set<RoleDTO> roles = new HashSet<>();
     LocalDateTime lastModifiedDate;
     String lastModifiedBy;
     Boolean deleted;
+    private String pathAvatar;
 }

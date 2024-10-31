@@ -15,17 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/guests")
 public class UserController {
-
-
-
-    @Autowired
-    private UserServiceImpl userService;
-
     @GetMapping("/profile")
-    public ResponseEntity<UserResponse> getUserProfile(@RequestParam String username) {
-        UserResponse userResponse = userService.getUserProfile(username);
-        return ResponseEntity.ok(userResponse);
+    public String profile(){
+return "guest/profile";
     }
-
-
 }

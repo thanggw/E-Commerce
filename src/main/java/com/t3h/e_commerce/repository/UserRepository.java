@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.repository;
 
 import com.t3h.e_commerce.dto.requests.UserRequestFilter;
+import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +17,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findUserByUsername(String username);
     UserEntity findByUsernameAndDeletedIsFalse(String username);
 
-    Optional<UserEntity> findByUsername(String username);
+    UserEntity findByUsername(String username);
     Optional<UserEntity> findByEmail(String email);
+
 
     @Query(value = "select u from UserEntity u " +
             " where (:#{#filter.username} is null or u.username LIKE CONCAT('%', :#{#filter.username}, '%')) and" +

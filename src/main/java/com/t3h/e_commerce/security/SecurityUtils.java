@@ -10,6 +10,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SecurityUtils {
+
+    public static String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // kiem tra xem da dang nhap chua
+        if (authentication != null && authentication.isAuthenticated()) {
+            // neu dang nhap roi => return username
+            return authentication.getName();
+        }
+        return "";
+    }
+
     public static final String PREFIX_ROLE = "ROLE_";
     public static enum Role {
         ADMIN(1),
