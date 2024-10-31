@@ -17,6 +17,9 @@ import java.util.List;
 
 public class OrderResponse {
     private Long orderId;
+
+    private List<OrderItemResponse> items;
+
     private int totalQuantity;
     private BigDecimal totalPrice;
     private BigDecimal shippingCost;
@@ -29,8 +32,10 @@ public class OrderResponse {
     private String paymentStatus;
     private String paymentMethod;
     private ShippingAddressResponse shippingAddress;
-    private List<OrderItemResponse> items;
-    private String trackingId;
 
-    // Getters và Setters
+
+
+
+
+    private String trackingId;
 }
