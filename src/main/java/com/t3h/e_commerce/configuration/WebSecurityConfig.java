@@ -26,7 +26,7 @@ public class WebSecurityConfig {
 
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -35,9 +35,9 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((request) -> request
-                        .requestMatchers("/guests/**").hasAnyRole(SecurityUtils.Role.USER.name(),SecurityUtils.Role.ADMIN.name())
-                        .requestMatchers("/home-guest", "/").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
-                        .requestMatchers("/seller").permitAll()  // Thêm /home-guest và / để cho phép truy cập công khai
+                        .requestMatchers("/guests/**").hasAnyRole(SecurityUtils.Role.USER.name(), SecurityUtils.Role.ADMIN.name())
+                        .requestMatchers("/home-guest", "/").permitAll()
+                        .requestMatchers("/seller").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/image/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
@@ -45,17 +45,19 @@ public class WebSecurityConfig {
                         .requestMatchers("/guests/login").permitAll()
                         .requestMatchers("/seller_css/**").permitAll()
                         .requestMatchers("/seller_js/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
                         .requestMatchers("/orders/order").permitAll()
                         .requestMatchers("/carts/add").permitAll()
                         .anyRequest().authenticated())
-        .formLogin((form) -> form
-                .loginPage("/guests/login") // config truy cap url login
-                .loginProcessingUrl("/perform_login") // config url gui username, pass tu form login len server
-                .defaultSuccessUrl("/guests/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
-                .failureUrl("/guests/login?error=true") //  url neu login fals
-                .permitAll()
-        )
+                .formLogin((form) -> form
+                        .loginPage("/guests/login") // config truy cap url login
+                        .loginProcessingUrl("/perform_login") // config url gui username, pass tu form login len server
+                        .defaultSuccessUrl("/guests/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
+                        .failureUrl("/guests/login?error=true") //  url neu login fals
+                        .permitAll()
+                )
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll()
                 );
@@ -71,7 +73,7 @@ public class WebSecurityConfig {
 
     public static void main(String[] args) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println("Password account admin: "+encoder.encode("admin"));
-        System.out.println("Password account user: "+encoder.encode("admin"));
+        System.out.println("Password account admin: " + encoder.encode("admin"));
+        System.out.println("Password account user: " + encoder.encode("admin"));
     }
 }

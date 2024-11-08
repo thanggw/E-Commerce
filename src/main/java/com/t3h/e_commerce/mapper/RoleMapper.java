@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
-      RoleDTO toRoleDTO(RoleEntity roleEntity);
-      RoleEntity toRoleEntity(RoleDTO roleDTO);
+    RoleDTO toRoleDTO(RoleEntity roleEntity);
+    RoleEntity toRoleEntity(RoleDTO roleDTO);
 
     default Set<RoleDTO> toRoleDTOSet(Set<RoleEntity> roleEntities) {
         return roleEntities.stream().map(this::toRoleDTO).collect(Collectors.toSet());
     }
-    default Set<RoleEntity> toRoleEntitySet(Set<RoleDTO> roleDTOSet) {
-        return roleDTOSet.stream().map(this::toRoleEntity).collect(Collectors.toSet());
+    default Set<RoleEntity> toRoleEntitySet(Set<RoleDTO> roleDTOS) {
+        return roleDTOS.stream().map(this::toRoleEntity).collect(Collectors.toSet());
     }
 }

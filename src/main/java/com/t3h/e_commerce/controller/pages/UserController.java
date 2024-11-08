@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RestController
+@Controller
 @RequestMapping("/guests")
 public class UserController {
     @GetMapping("/profile")
     public String profile(){
-return "guest/profile";
+        return "guest/profile";
+    }
+
+    @GetMapping("/cart")
+    public String cart(){
+        return "guest/cart";
     }
 }

@@ -3,68 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../assets/style.css">
-</head> <i class="glyphicon glyphicon-search"></i>
+    <title>Giỏ hàng của bạn</title>
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
 <body>
+<header class="main-header">
+    <div class="top-bar">
+        <div class="left-section">
+            <span><a href="./Seller.html">Kênh Người Bán</a></span>
+            <span><a href="#">Trở thành Người bán Shopee</a></span>
+            <span><a href="#">Tải ứng dụng</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Kết nối</a></span>
+        </div>
+        <div class="right-section">
+            <span><a href="#">Thông Báo</a></span>
+            <span><a href="#">Hỗ Trợ</a></span>
+            <span class="language-selector" style="width: 77px;">
+                <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
+                <div class="language-dropdown">
+                    <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                    <span class="language-option" data-lang="en">English</span>
+                </div>
+            </span>
+        </div>
 
-    <div class="container">
-        <header>
-            <h1>LIST PRODUCT</h1>
-            <div class="iconCart">
-                <img src="icon.png">
-                <div class="totalQuantity">0</div>
+    </div>
+
+    <div class="header-container">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="./image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <label>
+                <input type="text" placeholder="Bạn muốn tìm gì?">
+            </label>
+            <button><i class="fa fa-search"></i></button>
+            <div class="suggestions">
+                <span class="scroll-to-products">Giày cao gót</span>
+                <span class="scroll-to-products">Giày búp bê</span>
+                <span class="scroll-to-products">Túi xách</span>
+                <span class="scroll-to-products">Mắt kính</span>
             </div>
-        </header>
+        </div>
 
-        <div class="listProduct">
+        <!-- User Info and Cart Section -->
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
+                <span>Tài khoản</span>
 
-            <div class="item">
-                <img src="images/1.webp" alt="">
-                <h2>CoPilot / Black / Automatic</h2>
-                <div class="price">$550</div>
-                <button>Add To Cart</button>
+                <!-- Vùng dropdown-container -->
+                <div class="dropdown-container">
+                    <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 0px;"></i>
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu">
+                        <a href="./login.html">Đăng nhập</a>
+                        <a href="./login.html">Đăng ký</a>
+                    </div>
+                </div>
             </div>
 
+            <div class="wishlist" >
+                <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61">Yêu thích</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+            </div>
+
+            <div class="cart">
+                <a href="cart.html"> <i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <!--cần xử lý với giỏ hàng-->
+                <span style="color: #ff6f61 ; margin-top: 5px;" id="inCart">Giỏ hàng</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+            </div>
+        </div>
+
+        <!--           hien thi danh sach san pham cua gio hang-->
+
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation">
+        <ul id="menu-list">
+            <li><a href="./HomePage.html">Trang chủ</a></li>
+            <li><a href="#">Sản phẩm</a></li>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Tin khuyến mãi</a></li>
+            <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Câu hỏi thường gặp</a></li>
+            <li><a href="#">Hệ thống cửa hàng</a></li>
+            <li><a href="tel:19006750"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
+            <li><a href="tel:xxx" title="Hotline" class="devvn_animation_zoom">
+                <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
+            </a></li>
+        </ul>
+
+    </nav>
+    <div class="contact-icons">
+
+        <div class="messenger">
+            <i class="fa-brands fa-facebook-messenger"></i>
         </div>
     </div>
 
-    <div class="cart">
-        <h2>
-            CART
-        </h2>
+</header>
+<div class="cart-container">
+    <h2 class="cart-title">Giỏ hàng của bạn</h2>
 
-        <div class="listCart">
-
-
-            <div class="item">
-                <img src="images/1.webp">
-                <div class="content">
-                    <div class="name">CoPilot / Black / Automatic</div>
-                    <div class="price">$550 / 1 product</div>
-                </div>
-                <div class="quantity">
-                    <button>-</button>
-                    <span class="value">3</span>
-                    <button>+</button>
-                </div>
-            </div>
-
-
-        </div>
-
-        <div class="buttons">
-            <div class="close">
-                CLOSE
-            </div>
-            <div class="checkout">
-                <a href="checkout.html">CHECKOUT</a>
-            </div>
-        </div>
+    <!-- Khu vực hiển thị các sản phẩm trong giỏ -->
+    <div class="cart-items" id="cart-items">
+        <!-- Các sản phẩm sẽ được JavaScript thêm vào đây -->
     </div>
 
+    <!-- Thông tin tổng quan giỏ hàng -->
+    <div class="cart-summary">
+        <p id="total-quantity">Tổng số lượng sản phẩm: 0</p>
+        <p id="total-price">Tổng tiền: 0 VND</p>
+        <button class="checkout-btn">Tiến hành thanh toán</button>
+    </div>
 
-     <script src="../assets/checkout.js"></script>
-    
+    <!-- Thông tin khác -->
+    <div class="cart-meta">
+        <p id="created-info">Ngày tạo: </p>
+        <p id="modified-info">Ngày chỉnh sửa: </p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Subscribe</h4>
+                <form>
+                    <input type="email" placeholder="Enter your email" />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MyShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<script src="../js/cart.js"></script>
 </body>
 </html>

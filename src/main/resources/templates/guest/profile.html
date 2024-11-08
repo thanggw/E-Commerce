@@ -3,59 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ Sơ Của Tôi</title>
+    <title>User Profile</title>
     <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
-    <div class="profile-container">
-        <div class="profile-left">
-            <h1>Hồ Sơ Của Tôi</h1>
-            <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
-            <form id="profileForm">
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input type="text" id="username" name="username" disabled value="thngthng701">
-                    <small class="info-text">Tên Đăng nhập chỉ có thể thay đổi một lần.</small>
+<header class="main-header">
+    <div class="top-bar">
+        <div class="left-section">
+            <span><a href="./Seller.html">Kênh Người Bán</a></span>
+            <span><a href="#">Trở thành Người bán Shopee</a></span>
+            <span><a href="#">Tải ứng dụng</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Kết nối</a></span>
+        </div>
+        <div class="right-section">
+            <span><a href="#">Thông Báo</a></span>
+            <span><a href="#">Hỗ Trợ</a></span>
+            <span class="language-selector" style="width: 77px;">
+                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
+                    <div class="language-dropdown">
+                        <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                        <span class="language-option" data-lang="en">English</span>
+                    </div>
+                </span>
+        </div>
+
+    </div>
+
+    <div class="header-container">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="../image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <label>
+                <input type="text" placeholder="Bạn muốn tìm gì?">
+            </label>
+            <button><i class="fa fa-search"></i></button>
+            <div class="suggestions">
+                <span class="scroll-to-products">Giày cao gót</span>
+                <span class="scroll-to-products">Giày búp bê</span>
+                <span class="scroll-to-products">Túi xách</span>
+                <span class="scroll-to-products">Mắt kính</span>
+            </div>
+        </div>
+
+        <!-- User Info and Cart Section -->
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
+                <span>Tài khoản</span>
+
+                <!-- Vùng dropdown-container -->
+                <div class="dropdown-container">
+                    <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 8px;"></i>
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu">
+                        <a href="./login.html">Đăng nhập</a>
+                        <a href="./login.html">Đăng ký</a>
+                    </div>
                 </div>
+            </div>
+
+            <div class="wishlist" >
+                <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61">Yêu thích</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+            </div>
+
+            <div class="cart">
+                <a href="cart.html"> <i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <!--cần xử lý với giỏ hàng-->
+                <span style="color: #ff6f61 ; margin-top: 0px;" id="inCart">Giỏ hàng</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+            </div>
+        </div>
+
+        <!--           hien thi danh sach san pham cua gio hang-->
+
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation">
+        <ul id="menu-list">
+            <li><a href="./HomePage.html">Trang chủ</a></li>
+            <li><a href="#">Sản phẩm</a></li>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Tin khuyến mãi</a></li>
+            <li><a href="#">Liên hệ</a></li>
+            <li><a href="#">Câu hỏi thường gặp</a></li>
+            <li><a href="#">Hệ thống cửa hàng</a></li>
+            <li><a href="tel:19006750"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
+            <li><a href="tel:xxx" title="Hotline" class="devvn_animation_zoom">
+                <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
+            </a></li>
+        </ul>
+
+    </nav>
+
+</header>
+<div class="profile-container">
+    <!-- Sidebar -->
+
+
+    <!-- Profile content -->
+    <div class="profile-content">
+        <h2>Tài khoản</h2>
+
+        <!-- Avatar Section -->
+        <div class="profile-avatar">
+            <img id="avatar-img" src="" alt="Avatar">
+            <div class="avatar-actions">
+                <input type="file" id="upload" class="upload-button" accept="image/*">
+                <button class="remove-avatar-button" id="remove-avatar">Remove Avatar</button>
+            </div>
+        </div>
+
+        <!-- Personal Info Form -->
+        <div class="profile-info">
+            <form id="formAccountSettings">
                 <div class="form-group">
-                    <label for="name">Tên</label>
-                    <input type="text" id="name" name="name">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" value="JohnDoe" disabled>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <a href="#" class="add-link">Thêm</a>
+                    <input type="email" id="email" value="johndoe@example.com">
                 </div>
                 <div class="form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <a href="#" class="add-link">Thêm</a>
-                    <div class="warning">
-                        <span>Liên kết số điện thoại bạn đang sử dụng với tài khoản để có thể đăng nhập và mua hàng</span>
-                    </div>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" value="John">
                 </div>
                 <div class="form-group">
-                    <label>Giới tính</label>
-                    <input type="radio" id="male" name="gender" value="male"> Nam
-                    <input type="radio" id="female" name="gender" value="female"> Nữ
-                    <input type="radio" id="other" name="gender" value="other"> Khác
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" value="Doe">
                 </div>
                 <div class="form-group">
-                    <label>Ngày sinh</label>
-                    <span>06/11/2004</span>
-                    <a href="#" class="edit-link">Thay đổi</a>
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" value="123-456-7890">
                 </div>
                 <div class="form-group">
-                    <button type="submit" id="updateBtn">Lưu</button>
+                    <label for="address">Address</label>
+                    <input type="text" id="address" value="123 Street Name">
                 </div>
+                <button type="submit" class="save-button">Update</button>
             </form>
         </div>
-        <div class="profile-right">
-            <div class="avatar-container">
-                <img src="https://via.placeholder.com/150" alt="avatar" class="avatar">
-                <button type="button" class="choose-avatar-btn">Chọn Ảnh</button>
-                <small class="avatar-info">Dụng lượng file tối đa 1 MB<br>Định dạng: .JPEG, .PNG</small>
-            </div>
+
+        <!-- Recent Activity Section -->
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul class="activity-list">
+                <li>Order #12345 - <span class="status">Delivered</span></li>
+                <li>Reviewed product "Wireless Headphones" - <span class="rating">5 stars</span></li>
+                <li>New notification: Your order has been shipped!</li>
+            </ul>
         </div>
     </div>
+</div>
+<div class="contact-icons">
+
+    <div class="messenger">
+        <i class="fa-brands fa-facebook-messenger"></i>
+    </div>
+</div>
+
+<!-- Modal for notifications -->
+<div id="success-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="close-modal">&times;</span>
+        <p>Profile updated successfully!</p>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Subscribe</h4>
+                <form>
+                    <input type="email" placeholder="Enter your email" />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MyShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="../js/profile.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.t3h.e_commerce.security;
 
+import com.t3h.e_commerce.utils.Constants;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +15,7 @@ public class SecurityUtils {
     public static String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // kiem tra xem da dang nhap chua
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && !Constants.ANONYMOUS_USER.equals(authentication.getName())) {
             // neu dang nhap roi => return username
             return authentication.getName();
         }

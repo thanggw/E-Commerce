@@ -33,9 +33,5 @@ public class OrderResponse {
     private String paymentMethod;
     private ShippingAddressResponse shippingAddress;
 
-
-
-
-
     private String trackingId;
 }

@@ -21,6 +21,6 @@ public class LoginServiceImpl implements ILoginService {
        if (roleCode.contains("ROLE_ADMIN")){
            return "redirect:/guests/home-guest"; // redirect sang trang admin
        }
-        return "redirect:/guests/profile"; // redirect sang trang user
+        return "redirect:/guests/home-guest"; // redirect sang trang user
     }
 }

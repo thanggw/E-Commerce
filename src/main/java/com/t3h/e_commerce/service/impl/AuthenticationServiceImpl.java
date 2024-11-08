@@ -23,7 +23,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         validateLoginRequest(request);
 
         UserEntity user = userRepository.findByUsername(request.getUsername())
-               ;
+                .orElseThrow(() -> CustomExceptionHandler.notFoundException("User not found"));
 
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 

@@ -3,7 +3,6 @@ package com.t3h.e_commerce.mapper.decorator;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.UserEntity;
 import com.t3h.e_commerce.mapper.RoleMapper;
-import com.t3h.e_commerce.mapper.UserMapper;
 import com.t3h.e_commerce.mapper.UserMapper2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

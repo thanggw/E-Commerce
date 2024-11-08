@@ -21,11 +21,13 @@ public class UserResponse {
     String firstName;
     String lastName;
     String phone;
+    String address;
     LocalDateTime createdDate;
     String createdBy;
     Set<RoleDTO> roles = new HashSet<>();
     LocalDateTime lastModifiedDate;
     String lastModifiedBy;
     Boolean deleted;
+    String file;
     private String pathAvatar;
 }

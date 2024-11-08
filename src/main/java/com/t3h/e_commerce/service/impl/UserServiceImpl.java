@@ -1,127 +1,68 @@
 package com.t3h.e_commerce.service.impl;
 
-import com.t3h.e_commerce.constant.DefaultRoles;
+import com.t3h.e_commerce.configuration.ApplicationConfig;
 import com.t3h.e_commerce.dto.Response;
-import com.t3h.e_commerce.dto.ResponsePage;
-import com.t3h.e_commerce.dto.requests.UseCreationRequest;
-import com.t3h.e_commerce.dto.requests.UserRequestFilter;
 import com.t3h.e_commerce.dto.responses.UserResponse;
-import com.t3h.e_commerce.entity.CartEntity;
-import com.t3h.e_commerce.entity.RoleEntity;
 import com.t3h.e_commerce.entity.UserEntity;
-import com.t3h.e_commerce.exception.CustomExceptionHandler;
-import com.t3h.e_commerce.mapper.UserMapper;
 import com.t3h.e_commerce.mapper.UserMapper2;
-import com.t3h.e_commerce.repository.CartRepository;
-import com.t3h.e_commerce.repository.RoleRepository;
 import com.t3h.e_commerce.repository.UserRepository;
 import com.t3h.e_commerce.security.SecurityUtils;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
+    @Autowired
+    private UserRepository userRepository;
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
-    private final CartRepository cartRepository;
-    private final RoleRepository roleRepository;
 
     @Autowired
     private UserMapper2 userMapper;
 
-    @Override
-    public UserResponse createUser(UseCreationRequest request) {
+    @Autowired
+    private ApplicationConfig applicationConfig;
 
-        UserEntity user = validateRegisterRequest(request);
+    @Value("${storage.avatar.relative.path}")
+    private String avatarRelativePath;
 
-        Set<RoleEntity> authorities = new HashSet<>();
-
-        authorities.add(roleRepository.findRoleEntityByCode(DefaultRoles.USER_ROLE).orElseThrow(() ->
-                CustomExceptionHandler.notFoundException("Default role not found")));
-
-        user.setRoles(authorities);
-        user = userRepository.save(user);
-
-        return UserMapper.toUserResponse(user);
-    }
-
-    @Override
-    public UserResponse getUserById(Integer userId) {
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> CustomExceptionHandler.notFoundException("User not found"));
-        return UserMapper.toUserResponse(user);
-    }
-
-    @Override
-    public ResponsePage<UserResponse> getAllUsers(UserRequestFilter filter, int page, int size) {
-
-        Sort nameSorted = Sort.by("username").ascending();
-        Pageable pageable = PageRequest.of(page, size, nameSorted);
-
-        Page<UserEntity> userEntityPage = userRepository.findAllUserByConditions(filter, pageable);
-
-        List<UserResponse> userResponses = userEntityPage.getContent().stream()
-                .map(UserMapper::toUserResponse)
-                .toList();
-
-        ResponsePage<UserResponse> responsePage = new ResponsePage<>();
-        responsePage.setContent(userResponses);
-        responsePage.setPageSize(userEntityPage.getSize());
-        responsePage.setTotalElements(userEntityPage.getTotalElements());
-        responsePage.setTotalPages(userEntityPage.getTotalPages());
-        responsePage.setCurrentPage(pageable.getPageNumber());
-
-        return responsePage;
-    }
-
-    @Override
-    public UserEntity getUserLoggedIn() {
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if(principal instanceof UserDetails){
-            String userEmail = ((UserDetails) principal).getUsername();
-            return userRepository.findByEmail(userEmail).orElseThrow(() ->
-                    CustomExceptionHandler.notFoundException("User not found"));
-
-        }
-        return null;
-    }
 
     @Override
     public UserResponse getUserByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username);
-        UserResponse userDTO = userMapper.toDTO(userEntity);
-        // Nếu user chưa có avatar lưu trong db. Sẽ lấy avatar mặc định
-        if (StringUtils.isEmpty(userDTO.getPathAvatar())){
-            userDTO.setPathAvatar(avatarRelativePath + FileServiceImpl.DEFAULT_FILE_NAME);
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+
+        if (userEntityOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return userDTO;
+
+        UserEntity userEntity = userEntityOptional.get();
+        UserResponse UserResponse = userMapper.toDTO(userEntity);
+
+        // Nếu user chưa có avatar lưu trong db, sẽ lấy avatar mặc định
+        if (StringUtils.isEmpty(UserResponse.getPathAvatar())) {
+            UserResponse.setPathAvatar(avatarRelativePath + FileServiceImpl.DEFAULT_FILE_NAME);
+        }
+
+        return UserResponse;
     }
+
     @Override
     public Response<UserResponse> getProfileUser() {
         String userCurrentUser = SecurityUtils.getCurrentUserName();
-        if (StringUtils.isEmpty(userCurrentUser)){
+
+        if (StringUtils.isEmpty(userCurrentUser)) {
             // query và chuyển sang DTO
             Response<UserResponse> response = new Response<>();
             response.setData(null);
@@ -129,87 +70,88 @@ public class UserServiceImpl implements IUserService {
             response.setMessage("Unauthorized");
             return response;
         }
-
         // query và chuyển sang DTO
-        UserResponse userDTO= getUserByUsername(userCurrentUser);
+        UserResponse UserResponse = getUserByUsername(userCurrentUser);
         Response<UserResponse> response = new Response<>();
-        response.setData(userDTO);
+        response.setData(UserResponse);
         response.setCode(HttpStatus.OK.value());
         response.setMessage("Success");
         return response;
     }
 
     @Override
-    public UserResponse updateProfileUser(UserResponse userResponse) {
-        return null;
+    public UserResponse updateProfileUser(UserResponse UserResponse)  {
+        UserEntity userEntity = userRepository.findById(UserResponse.getId().intValue())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        handleAvatar(UserResponse, userEntity);
+
+        userEntity.setFirstName(UserResponse.getFirstName());
+        userEntity.setLastName(UserResponse.getLastName());
+        userEntity.setEmail(UserResponse.getEmail());
+        userEntity.setLastModifiedDate(LocalDateTime.now());
+        userEntity.setLastModifiedBy(UserResponse.getUsername());
+        userEntity.setAddress(UserResponse.getAddress());
+        userEntity.setPhone(UserResponse.getPhone());
+
+        userRepository.save(userEntity);
+
+        return UserResponse;
     }
 
-    private UserEntity validateRegisterRequest(UseCreationRequest request){
+    private void handleAvatar(UserResponse UserResponse, UserEntity userEntity) {
+        if (StringUtils.hasText(UserResponse.getFile())) {
+            // Chuỗi base64 có định dạng: data:image/jpeg;base64,...
+            String base64String = UserResponse.getFile();
+            String[] parts = base64String.split(",");
 
-        String username = request.getUsername();
-        String email = request.getEmail();
-        String password = request.getPassword();
+            // Phần MIME type, ví dụ: data:image/jpeg;base64
+            String mimeType = parts[0];
 
-        boolean usernameExist = userRepository.findByUsername(username).isPresent();
-        boolean emailExist = userRepository.findByEmail(email).isPresent();
+            // Phần dữ liệu thực sự Base64
+            String base64Data = parts[1];
 
-        if (username == null) {
-            throw CustomExceptionHandler.badRequestException("Username is required");
+            // Giải mã Base64
+            byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
+
+            // Xác định định dạng file từ MIME type (ví dụ: jpg, png)
+            String fileExtension = "";
+            if (mimeType.contains("image/jpeg")) {
+                fileExtension = "jpg";
+            } else if (mimeType.contains("image/png")) {
+                fileExtension = "png";
+            }
+            // Lưu file vào folder của hệ thống, nhận về file name để thực hiện tạo ra đường dẫn tương đối
+            String fileName = saveFileToFolder(UserResponse, fileExtension, decodedBytes);
+            String pathAvatarSaveDb = avatarRelativePath + fileName;
+            // Set đường dẫn file avatar vào UserEntity
+            userEntity.setPathAvatar(pathAvatarSaveDb);
         }
-
-        if (email == null) {
-            throw CustomExceptionHandler.badRequestException("Email is required");
-        }
-
-        if (password == null) {
-            throw CustomExceptionHandler.badRequestException("Password is required");
-        }
-
-        if (emailExist) {
-            throw CustomExceptionHandler.badRequestException("Email already in use");
-        }
-
-        if (usernameExist){
-            throw CustomExceptionHandler.badRequestException("Username already in use");
-        }
-
-        UserEntity user = modelMapper.map(request, UserEntity.class);
-
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setCreatedDate(LocalDateTime.now());
-        user.setLastModifiedDate(LocalDateTime.now());
-
-        user = userRepository.save(user);
-
-        CartEntity cart = new CartEntity();
-        cart.setUser(user);
-
-         cartRepository.save(cart);
-
-        user.setCart(cart);
-
-        return user;
     }
-    public UserResponse getUserProfile(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        // Convert UserEntity to UserResponse DTO
-        return UserResponse.builder()
-                .id(userEntity.getId())
-                .username(userEntity.getUsername())
-                .email(userEntity.getEmail())
-                .firstName(userEntity.getFirstName())
-                .lastName(userEntity.getLastName())
-                .phone(userEntity.getPhone())
-                .roles(userEntity.getRoles().stream()
-                        .map(RoleEntity::getCode)
-                        .collect(Collectors.toSet()))
-                .createdDate(userEntity.getCreatedDate())
-                .createdBy(userEntity.getCreatedBy())
-                .lastModifiedDate(userEntity.getLastModifiedDate())
-                .lastModifiedBy(userEntity.getLastModifiedBy())
-                .deleted(userEntity.getDeleted())
-                .build();
+    private String saveFileToFolder(UserResponse UserResponse, String fileExtension, byte[] decodedBytes) {
+        // Tạo đường dẫn đầy đủ cho file ảnh (rootFolder + tên file)
+        String rootFolder = applicationConfig.getRootFolderAvatar();
+        String fileName = "avatar_" + UserResponse.getUsername() + "_" + UserResponse.getId() + "." + fileExtension;
+        String finalPath = rootFolder + fileName;
+
+        // Kiểm tra và tạo thư mục nếu chưa tồn tại
+        File folder = new File(rootFolder);
+        if (!folder.exists()) {
+            folder.mkdirs(); // Tạo tất cả các thư mục cần thiết nếu chúng chưa tồn tại
+        }
+
+        // Lưu file ảnh vào hệ thống
+        try (FileOutputStream fos = new FileOutputStream(new File(finalPath))) {
+            fos.write(decodedBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return fileName;
     }
+
+
 }
+
+

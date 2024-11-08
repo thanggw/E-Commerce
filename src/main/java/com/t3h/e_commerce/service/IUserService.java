@@ -11,15 +11,10 @@ import java.util.List;
 
 public interface IUserService {
 
-    UserResponse createUser(UseCreationRequest request);
-
-    UserResponse getUserById(Integer userId);
-
-    UserEntity getUserLoggedIn();
 
     Response<UserResponse> getProfileUser();
     UserResponse updateProfileUser(UserResponse userResponse);
     UserResponse getUserByUsername(String username);
 
-    ResponsePage<UserResponse> getAllUsers(UserRequestFilter filter, int page, int size);
+
 }

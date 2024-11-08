@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
 public class BaseEntity {
 
     @Id
@@ -24,6 +23,5 @@ public class BaseEntity {
     String createdBy;
     LocalDateTime lastModifiedDate;
     String lastModifiedBy;
-    @Builder.Default
     Boolean deleted = false;
 }
