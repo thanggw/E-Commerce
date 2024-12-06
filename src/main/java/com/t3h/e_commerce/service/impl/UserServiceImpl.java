@@ -1,10 +1,13 @@
 package com.t3h.e_commerce.service.impl;
 
 import com.t3h.e_commerce.configuration.ApplicationConfig;
+import com.t3h.e_commerce.constant.DefaultRoles;
 import com.t3h.e_commerce.dto.Response;
 import com.t3h.e_commerce.dto.responses.UserResponse;
+import com.t3h.e_commerce.entity.RoleEntity;
 import com.t3h.e_commerce.entity.UserEntity;
 import com.t3h.e_commerce.mapper.UserMapper2;
+import com.t3h.e_commerce.repository.RoleRepository;
 import com.t3h.e_commerce.repository.UserRepository;
 import com.t3h.e_commerce.security.SecurityUtils;
 import com.t3h.e_commerce.service.IUserService;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,6 +41,8 @@ public class UserServiceImpl implements IUserService {
 
     @Value("${storage.avatar.relative.path}")
     private String avatarRelativePath;
+
+
 
 
     @Override

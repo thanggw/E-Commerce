@@ -11,19 +11,20 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="http://localhost:8082/seller">Kênh Người Bán</a></span>
-            <span><a href="http://localhost:8082/guests/login">Trở thành Người bán Shopee</a></span>
-            <span><a href="#">Tải ứng dụng</a></span>
-            <span><a href="https://www.instagram.com/_thawngg/">Kết nối</a></span>
+            <span><a href="">Seller Channel</a></span>
+            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+            <span><a href="#">Download App</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
         </div>
         <div class="right-section">
-            <span><a href="#">Thông Báo</a></span>
-            <span><a href="#">Hỗ Trợ</a></span>
+            <span><a href="#">Notifications</a></span>
+            <span><a href="#">Support</a></span>
             <span class="language-selector" style="width: 77px;">
-                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
+                    <a href="#">English  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
                         <span class="language-option" data-lang="vi">Tiếng Việt</span>
                         <span class="language-option" data-lang="en">English</span>
+                        <span class="language-option" data-lang="en">Other...</span>
                     </div>
                 </span>
         </div>
@@ -39,14 +40,14 @@
         <!-- Search Bar -->
         <div class="search-bar">
             <label>
-                <input type="text" placeholder="Bạn muốn tìm gì?">
+                <input type="text" class="animated-input" id="animatedInput" placeholder="What are you looking for?" >
             </label>
             <button><i class="fa fa-search"></i></button>
             <div class="suggestions">
-                <span class="scroll-to-products">Giày cao gót</span>
-                <span class="scroll-to-products">Giày búp bê</span>
-                <span class="scroll-to-products">Túi xách</span>
-                <span class="scroll-to-products">Mắt kính</span>
+                <span class="scroll-to-products">Sneaker</span>
+                <span class="scroll-to-products">Nike</span>
+                <span class="scroll-to-products">Sport Shoes</span>
+                <span class="scroll-to-products">Adidas</span>
             </div>
         </div>
 
@@ -54,32 +55,32 @@
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
-                <span>Tài khoản</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
+                <span>Account</span>
 
                 <!-- Vùng dropdown-container -->
                 <div class="dropdown-container">
-                    <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 0px;"></i>
+                    <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
                     <!-- Dropdown menu -->
                     <div class="dropdown-menu">
-                        <a href="#">Đăng nhập</a>
-                        <a href="#">Đăng ký</a>
+                        <a href="#">Login</a>
+                        <a href="#">Register</a>
                     </div>
                 </div>
             </div>
 
             <div class="wishlist">
                 <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61">Yêu thích</span>
-                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+                <span style="color: #ff6f61">Wishlist</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
             </div>
 
             <div class="cart">
 
-                <a href="http://localhost:8082/guest/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
                 <!--cần xử lý với giỏ hàng-->
-                <span style="color: #ff6f61" id="inCart">Giỏ hàng</span>
-                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+                <span style="color: #ff6f61" id="inCart">Cart</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
 
             </div>
         </div>
@@ -94,14 +95,14 @@
         <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
 
         <ul id="menu-list">
-            <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Sản phẩm</a></li>
-            <li><a href="#">Giới thiệu</a></li>
-            <li><a href="#">Tin tức</a></li>
-            <li><a href="#">Tin khuyến mãi</a></li>
-            <li><a href="#">Liên hệ</a></li>
-            <li><a href="#">Câu hỏi thường gặp</a></li>
-            <li><a href="#">Hệ thống cửa hàng</a></li>
+            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
+            <li><a href=".news-section">News</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Store Locations</a></li>
             <li><a href="tel:19006750"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
             <li><a href="tel:xxx" title="Hotline" class="devvn_animation_zoom">
                 <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
@@ -110,219 +111,108 @@
     </nav>
 
 </header>
+<div class="scroll-icons">
+    <div class="scroll" id="scroll">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+</div>
 
 <section class="main-content">
     <!-- Phần banner ở bên trái -->
     <section class="banner">
-        <img src="/image/sale-banner-template-design-web-social-media_8829-2694.jpg" alt="Sales Banner">
+        <div class="slider">
+            <img src="http://localhost:8082/file/images-product/banner1.jpg" class="slide active" alt="Sales Banner">
+            <img src="http://localhost:8082/file/images-product/banner2.jpg" class="slide" alt="Sales Banner">
+            <img src="http://localhost:8082/file/images-product/banner3.jpg" class="slide" alt="Sales Banner">
+            <img src="http://localhost:8082/file/images-product/banner4.jpg" class="slide" alt="Sales Banner">
+
+        </div>
     </section>
 
     <!-- Phần chương trình khuyến mãi hot bên phải -->
     <section class="promotion">
-        <h2>Chương trình khuyến mãi hot</h2>
+        <h2>Hot Promotion Programs</h2>
         <ul>
             <li>
                 <img src="/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
-                Voucher giảm 50% cho đơn hàng đầu tiên
+                50% Discount Voucher for First Order
             </li>
             <li>
                 <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Miễn phí vận chuyển cho đơn hàng trên 500k
+                Free Shipping for Orders Over 500k
             </li>
             <li>
                 <img src="/image/image-voucher3.webp" alt="Voucher Icon" class="voucher-icon">
-                Nhận ngay 100k khi mua đơn hàng từ 1 triệu
+                Receive 100k for Orders Over 1 Million
             </li>
             <li>
                 <img src="/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
-                Voucher giảm 50% cho đơn hàng đầu tiên
+                50% Discount Voucher for First Order
             </li>
             <li>
                 <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Miễn phí vận chuyển cho đơn hàng trên 500k
+                Free Shipping for Orders Over 500k
             </li>
             <li>
                 <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Miễn phí vận chuyển cho đơn hàng trên 500k
+                Free Shipping for Orders Over 500k
             </li>
-
         </ul>
-        <!-- Nút Xem tất cả -->
-        <button class="view-all">Xem tất cả</button>
+        <button class="view-all-voucher">View All</button>
     </section>
+
     <div class="contact-icons">
-        <div class="messenger">
+        <div class="messenger" id="messenger-icon">
             <i class="fa-brands fa-facebook-messenger"></i>
         </div>
     </div>
+
+    <!-- Div để hiển thị chatbox -->
+    <div id="chatbox" style="display: none; position: fixed; bottom: 50px; right: 100px; width: 300px; height: 400px; background-color: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); ">
+        <!-- Nội dung chatbox sẽ hiển thị ở đây -->
+        <div id="chatbox-header" style="background-color: #FF5722; color: white; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px 10px 0 0; cursor: pointer;">MyFashion Hello!</div>
+
+        <!-- Nội dung tin nhắn với chiều cao động -->
+        <div id="chatbox-content" style="padding: 15px; overflow-y: auto; flex-grow: 1; background-color: #f9f9f9;">
+            <!-- Tin nhắn sẽ xuất hiện ở đây -->
+            <div id="messages" style="font-size: 14px; line-height: 1.5;"></div>
+        </div>
+
+        <!-- Phần nhập và nút gửi tin nhắn -->
+        <div id="chatbox-footer" style="padding: 10px; border-top: 1px solid #ddd; display: flex; align-items: center; ">
+            <input type="text" id="user-input" placeholder="Type a message..." style="flex-grow: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; font-size: 14px; box-sizing: border-box;" />
+            <button id="send-message-btn" style="margin-left: 10px; background-color: #FF5722; color: white; padding: 10px; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Send</button>
+        </div>
+    </div>
+
+
+
 </section>
 
 
 <!-- Product List Section -->
 <section id="product-list" class="product-list">
     <h2>Featured Products</h2>
-    <div class="products">
-        <!-- Product 1 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 1">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 1</h3>
-            <p>$100.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 2 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 2">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 2</h3>
-            <p>$150.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 3 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 3">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 3</h3>
-            <p>$200.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 4 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 4">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 4</h3>
-            <p>$250.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 5">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 5</h3>
-            <p>$300.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 6 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 6">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 6</h3>
-            <p>$350.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 7 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 7">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 7</h3>
-            <p>$400.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
-        <!-- Product 8 -->
-        <div class="product">
-            <img src="/image/product1.webp" alt="Product 8">
-            <div class="color-options1">
-
-                <ul class="color-list1">
-                    <li style="background-color: #f0bf82;"></li>
-                    <li style="background-color: #e86868;"></li>
-                    <li style="background-color: #e47bf0;"></li>
-                </ul>
-            </div>
-            <h3>Product 8</h3>
-            <p>$450.00</p>
-            <div class="rating">
-                ★★★★☆
-            </div>
-            <button>Add to Cart</button>
-        </div>
+    <div class="products" id="products-container">
+        <!-- Sản phẩm sẽ được thêm vào đây từ JavaScript -->
     </div>
+    <button id="viewMoreBtn">View More</button> <!-- Nút để tải thêm sản phẩm -->
 </section>
 
 
+
+
 <section class="flash-sale">
-    <h2>Sale hot trong ngày</h2>
+    <h2>Hot Sale of the Day</h2>
     <div class="flash-sale-timers">
-        <div class="timer">00:00 - 06:00 <span>Đã diễn ra</span></div>
-        <div class="timer">06:00 - 12:00 <span>Đã diễn ra</span></div>
-        <div class="timer active">12:00 - 20:00 <span>Đang diễn ra</span></div>
-        <div class="timer">20:00 - 24:00 <span>Sắp diễn ra</span></div>
+        <div class="timer">00:00 - 06:00 <span>Completed</span></div>
+        <div class="timer">06:00 - 12:00 <span>Completed</span></div>
+        <div class="timer active">12:00 - 20:00 <span>In Progress</span></div>
+        <div class="timer">20:00 - 24:00 <span>Upcoming</span></div>
     </div>
 
     <div class="flash-sale-timer-countdown">
-        <span>Thời gian khuyến mãi</span>
+        <span>Sale Time</span>
         <div class="countdown">
             <span class="time">7</span> :
             <span class="time">9</span> :
@@ -333,87 +223,87 @@
     <div class="products-sale">
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="/image/ảnh kính.webp" alt="Kính thời trang">
-            <h3>Mắt Kính Butterfly Trendy Kim Loại</h3>
-            <p class="price">495.000đ <span class="original-price">550.000đ</span></p>
-            <p>Đã bán 30</p>
+            <img src="http://localhost:8082/file/images-product/Anh12(2).webp" alt="Kính thời trang">
+            <h3>Gs Durant Men's Ultra-Light Carbon Sole Running Shoes </h3>
+            <p class="price">495$ <span class="original-price">550$</span></p>
+            <p>Sold 30</p>
             <div class="progress-bar"></div>
-            <button class="option-button">Tùy chọn</button>
+            <button class="option-button">View Details</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="/image/ảnh ví.webp" alt="Ví thời trang">
-            <h3>Ví Phối Khoá Cats Trang Trí</h3>
-            <p class="price">555.000đ <span class="original-price">700.000đ</span></p>
-            <p>Đã bán 45</p>
+            <img src="http://localhost:8082/file/images-product/Anh16(2).webp" alt="Ví thời trang">
+            <h3>Double Air Cushion Shoes Cushioning Flyweave Mesh Sneakers</h3>
+            <p class="price">555$ <span class="original-price">700$</span></p>
+            <p>Sold 45</p>
             <div class="progress-bar"></div>
-            <button class="option-button">Tùy chọn</button>
+            <button class="option-button">View Details</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="/image/ảnh túi 1.jpg" alt="Túi thời trang">
-            <h3>Túi Xách Trung Nhiều Ngăn</h3>
-            <p class="price">795.000đ <span class="original-price">850.000đ</span></p>
-            <p>Đã bán 34</p>
+            <img src="http://localhost:8082/file/images-product/Anh19(2).webp" alt="Túi thời trang">
+            <h3>Low Top Skate Shoes - Non Slip Comfy Soft Sole Sneakers</h3>
+            <p class="price">795$ <span class="original-price">850$</span></p>
+            <p>Sold 34</p>
             <div class="progress-bar"></div>
-            <button class="option-button">Tùy chọn</button>
+            <button class="option-button">View Details</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="/image/ảnh giày.webp" alt="Giày thời trang">
-            <h3>Giày Icebreaker</h3>
-            <p class="price">699.000đ</p>
+            <img src="http://localhost:8082/file/images-product/Anh11(3).webp" alt="Giày thời trang">
+            <h3>RY Lightweight Wide Toe Box Walking Sneaker</h3>
+            <p class="price">699$</p>
             <p>Hết hàng</p>
             <div class="progress-bar"></div>
-            <button class="option-button">Tùy chọn</button>
+            <button class="option-button">View Details</button>
         </div>
     </div>
     <div>
-        <button class="view-all">Xem tất cả</button>
+        <button class="view-all">View All</button>
     </div>
 
     <div class="vouchers">
         <div class="voucher">
             <div class="voucher-header">
-                <p>Giảm 10.000đ</p>
-                <p>Áp dụng cho đơn hàng từ 1 triệu trở lên</p>
+                <p>10$ Discount</p>
+                <p>Applied to orders from 100$ and up</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA50</span>
-                <button class="copy-code">Sao chép</button>
+                <button class="copy-code">Copy</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
                 <p>Miễn ship</p>
-                <p>Áp dụng cho đơn hàng từ 1 triệu trở lên</p>
+                <p>Applied to orders from 50$ and up</p>
             </div>
             <div class="voucher-footer">
                 <span>FREESHIP</span>
-                <button class="copy-code">Sao chép</button>
+                <button class="copy-code">Copy</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
-                <p>Giảm 20k</p>
-                <p>Áp dụng cho đơn hàng từ 2 triệu trở lên</p>
+                <p>10$ Discount</p>
+                <p>Applied to orders from 100$ and up</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA20</span>
-                <button class="copy-code">Sao chép</button>
+                <button class="copy-code">Copy</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
-                <p>Giảm 50k</p>
-                <p>Áp dụng cho đơn hàng từ 3 triệu trở lên</p>
+                <p>5$ Discount</p>
+                <p>Applied to orders from 30$ and up</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA50K</span>
-                <button class="copy-code">Sao chép</button>
+                <button class="copy-code">Copy</button>
             </div>
         </div>
     </div>
@@ -421,243 +311,39 @@
 </section>
 
 <div class="featured-products">
-    <h2 style=" text-align: center; color: #f74c3c;        font-size: 26px;
-        margin-bottom: 36px;
-        margin-top: -5px;">Các sản phẩm bán chạy </h2>
+    <h2 style="text-align: center; color: #f74c3c; font-size: 26px; margin-bottom: 36px; margin-top: -5px;">
+        Best selling products
+    </h2>
+
+    <!-- Row 1: Banner + 2 Products -->
     <div class="row-1">
         <div class="highlight-banner">
-            <img src="/image/banner-sale-70_083649523.jpg" alt="Banner sale" />
+            <img src="http://localhost:8082/file/images-product/banner2.jpg" alt="Banner sale" />
         </div>
 
-        <div class="products-sales">
-            <!-- Product 1 -->
-            <div class="product-sales">
-                <div class="sale-badge">Sale</div>
-                <img src="/image/ảnh cặp 1.webp" alt="Balo Laptop Phối Hoạ Tiết Dập Nổi" />
-                <h3>Balo Laptop Phối Hoạ Tiết Dập Nổi</h3>
-                <p class="price">  <span class="sale-price">459.000đ</span>
-                    <span class="original-price">550.000đ</span></p>
-                <!-- Cart Icon -->
-                <div class="cart-icon">
-                    <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-                </div>
-
-                <!-- Size options -->
-                <div class="size-options">
-                    <label for="size">Kích cỡ:</label>
-                    <select id="size" name="size">
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                    </select>
-                </div>
-
-                <!-- Color options -->
-                <div class="color-options">
-
-                    <ul class="color-list">
-                        <li style="background-color: #000000;"></li>
-                        <li style="background-color: #aa9f9f;"></li>
-                        <li style="background-color: #e57edd;"></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="product-sales">
-                <div class="sale-badge">Sale</div>
-                <img src="/image/ảnh túi 1.jpg" alt="Balo May Chỉ Trang Trí" />
-                <h3>Balo May Chỉ Trang Trí</h3>
-                <p class="price">  <span class="sale-price">459.000đ</span>
-                    <span class="original-price">550.000đ</span></p>
-                <!-- Cart Icon -->
-                <div class="cart-icon">
-                    <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-                </div>
-
-                <!-- Size options -->
-                <div class="size-options">
-                    <label for="size">Kích cỡ:</label>
-                    <select id="size" name="size">
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                    </select>
-                </div>
-
-                <!-- Color options -->
-                <div class="color-options">
-
-                    <ul class="color-list">
-                        <li style="background-color: #000000;"></li>
-                        <li style="background-color: #aa9f9f;"></li>
-                        <li style="background-color: #e57edd;"></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="products-sales" id="top-selling-products">
+            <!-- Các sản phẩm sẽ được thêm vào đây bằng JavaScript -->
         </div>
     </div>
 
-    <div class="row-2">
-        <!-- Product 3 -->
-        <div class="product-sales small-product sale-item">
-            <div class="sale-badge">Sale</div>
-            <img src="/image/ảnh giày 1.webp" alt="Giày Búp Bê Mary Jane Đính Khóa" />
-            <h3>Giày Búp Bê Mary Jane Đính Khóa</h3>
-            <p class="price">
-                <span class="sale-price">459.000đ</span>
-                <span class="original-price">550.000đ</span>
-            </p>
-            <!-- Cart Icon -->
-            <div class="cart-icon">
-                <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-            </div>
-
-            <!-- Size options -->
-            <div class="size-options">
-                <label for="size">Kích cỡ:</label>
-                <select id="size" name="size">
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                </select>
-            </div>
-
-            <!-- Color options -->
-            <div class="color-options">
-
-                <ul class="color-list">
-                    <li style="background-color: #000000;"></li>
-                    <li style="background-color: #aa9f9f;"></li>
-                    <li style="background-color: #e57edd;"></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-sales small-product sale-item">
-            <div class="sale-badge">Sale</div>
-            <img src="/image/ảnh cặp 1.webp" alt="Giày Cao Gót Phối Khóa Trang Trí" />
-            <h3>Giày Cao Gót Phối Khóa Trang Trí</h3>
-            <p class="price">
-                <span class="sale-price">459.000đ</span>
-                <span class="original-price">550.000đ</span>
-            </p>
-            <!-- Cart Icon -->
-            <div class="cart-icon">
-                <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-            </div>
-
-            <!-- Size options -->
-            <div class="size-options">
-                <label for="size">Kích cỡ:</label>
-                <select id="size" name="size">
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                </select>
-            </div>
-
-            <!-- Color options -->
-            <div class="color-options">
-
-                <ul class="color-list">
-                    <li style="background-color: #000000;"></li>
-                    <li style="background-color: #aa9f9f;"></li>
-                    <li style="background-color: #e57edd;"></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Product 5 with Sale tag -->
-        <div class="product-sales small-product sale-item">
-            <div class="sale-badge">Sale</div>
-            <img src="/image/ảnh cặp 1.webp" alt="Giày Mules Hở Mũi Phối Khóa Trang Trí" />
-            <h3>Giày Mules Hở Mũi Phối Khóa Trang Trí</h3>
-            <p class="price">
-                <span class="sale-price">459.000đ</span>
-                <span class="original-price">550.000đ</span>
-            </p>
-            <!-- Cart Icon -->
-            <div class="cart-icon">
-                <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-            </div>
-
-            <!-- Size options -->
-            <div class="size-options">
-                <label for="size">Kích cỡ:</label>
-                <select id="size" name="size">
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                </select>
-            </div>
-
-            <!-- Color options -->
-            <div class="color-options">
-
-                <ul class="color-list">
-                    <li style="background-color: #000000;"></li>
-                    <li style="background-color: #aa9f9f;"></li>
-                    <li style="background-color: #e57edd;"></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="product-sales small-product sale-item">
-            <div class="sale-badge">Sale</div>
-            <img src="/image/ảnh cặp 1.webp" alt="Mắt Kính Aviator Kim Loại" />
-            <h3>Mắt Kính Aviator Kim Loại</h3>
-            <p class="price">
-                <span class="sale-price">459.000đ</span>
-                <span class="original-price">550.000đ</span>
-            </p>
-            <!-- Cart Icon -->
-            <div class="cart-icon">
-                <button><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-            </div>
-
-            <!-- Size options -->
-            <div class="size-options">
-                <label for="size">Kích cỡ:</label>
-                <select id="size" name="size">
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                </select>
-            </div>
-
-            <!-- Color options -->
-            <div class="color-options">
-
-                <ul class="color-list">
-                    <li style="background-color: #000000;"></li>
-                    <li style="background-color: #aa9f9f;"></li>
-                    <li style="background-color: #e57edd;"></li>
-                </ul>
-            </div>
-        </div>
+    <!-- Row 2: More Products -->
+    <div class="row-2" id="more-products">
+        <!-- Các sản phẩm sẽ được thêm vào đây bằng JavaScript -->
     </div>
 </div>
 
+
 <div class="news-section">
-    <h2 id="news_h2">Tin tức mới nhất</h2>
+    <h2 id="news_h2">Latest News</h2>
     <div class="news-items">
         <!-- News Item 1 -->
         <div class="news-item">
             <img src="/image/image-voucher1.webp" alt="Tin tức 1" />
             <div class="news-content">
-                <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Kinh nghiệm săn lùng các ví nữ hàng hiệu giá rẻ</h3>
-                <p>Kinh nghiệm săn lùng các ví nữ hàng hiệu giá rẻ... </p>
-                <a href="#" class="read-more">Đọc tiếp</a>
+                <span class="news-date">30/11/2024</span>
+                <h3 id="news_h3">Experience hunting for cheap branded shoes</h3>
+                <p>Experience hunting for cheap branded shoes... </p>
+                <a href="#" class="read-more">Read more</a>
             </div>
         </div>
 
@@ -665,10 +351,10 @@
         <div class="news-item">
             <img src="/image/image-voucher2.webp" alt="Tin tức 2" />
             <div class="news-content">
-                <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Điểm danh những mẫu ví dài nữ mà các nàng nên sở hữu</h3>
-                <p>Điểm danh những mẫu ví dài nữ mà các nàng nên sở hữu...</p>
-                <a href="#" class="read-more">Đọc tiếp</a>
+                <span class="news-date">01/12/2024</span>
+                <h3 id="news_h3">List of women's shoe models that girls should own</h3>
+                <p>List of women's shoe models that girls should own...</p>
+                <a href="#" class="read-more">Read more</a>
             </div>
         </div>
 
@@ -677,9 +363,9 @@
             <img src="/image/image-voucher3.webp" alt="Tin tức 3" />
             <div class="news-content">
                 <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Các bản phối ngẫu hứng từ những đôi giày sneaker nữ 2023</h3>
-                <p>Các bản phối ngẫu hứng từ những đôi giày sneaker nữ...</p>
-                <a href="#" class="read-more">Đọc tiếp</a>
+                <h3 id="news_h3">Random mixes from 2024 sneakers that teenagers should own</h3>
+                <p>Random mixes from 2024 sneakers that teenagers should own...</p>
+                <a href="#" class="read-more">Read more</a>
             </div>
         </div>
 
@@ -688,9 +374,9 @@
             <img src="/image/image-voucher1.webp" alt="Tin tức 4" />
             <div class="news-content">
                 <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Kinh nghiệm chọn balo du lịch nữ mà nàng nên biết</h3>
-                <p>Kinh nghiệm chọn balo du lịch nữ mà nàng nên biết...</p>
-                <a href="#" class="read-more">Đọc tiếp</a>
+                <h3 id="news_h3">Shoe selection tips you should know about the fashionable shoes</h3>
+                <p>Shoe selection tips you should know about the fashionable shoes...</p>
+                <a href="#" class="read-more">Read More</a>
             </div>
         </div>
     </div>
@@ -701,25 +387,25 @@
     <p><a href="https://www.instagram.com/_thawngg/" target="_blank">@thang_sieu_dep_traiii</a></p>
     <div class="instagram-items">
         <div class="instagram-item">
-            <img src="/image/insta1.jpg" alt="Instagram 1" />
+            <img src="http://localhost:8082/file/images-product/insta1.webp" alt="Instagram 1" />
             <div class="instagram-overlay">
                 <i class="fa-brands fa-instagram"></i>
             </div>
         </div>
         <div class="instagram-item">
-            <img src="/image/insta2.jpg" alt="Instagram 2" />
+            <img src="http://localhost:8082/file/images-product/insta2.jpg" alt="Instagram 2" />
             <div class="instagram-overlay">
                 <i class="fa-brands fa-instagram"></i>
             </div>
         </div>
         <div class="instagram-item">
-            <img src="/image/insta3.jpg" alt="Instagram 3" />
+            <img src="http://localhost:8082/file/images-product/insta3.jpg" alt="Instagram 3" />
             <div class="instagram-overlay">
                 <i class="fa-brands fa-instagram"></i>
             </div>
         </div>
         <div class="instagram-item">
-            <img src="/image/insta4.jpg" alt="Instagram 4" />
+            <img src="http://localhost:8082/file/images-product/insta4.webp" alt="Instagram 4" />
             <div class="instagram-overlay">
                 <i class="fa-brands fa-instagram"></i>
             </div>
@@ -733,32 +419,32 @@
     <a href="index.html">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_1.png?1705899054230" alt="Miễn phí vận chuyển">
-            <p>Miễn phí vận chuyển</p>
-            <span>Áp dụng free ship cho tất cả đơn hàng từ 1 triệu trở lên </span>
+            <p>FreeShip</p>
+            <span>Free shipping applies to all orders from 100$ and up. </span>
         </div>
     </a>
 
     <a href="index.html">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_2.png?1705899054230" alt="Đổi trả dễ dàng">
-            <p>Đổi trả dễ dàng</p>
-            <span>Chính sách 7 ngày đổi trả ví bất kì lí do gì và free ship </span>
+            <p>Easy returns</p>
+            <span>7-day return policy for any reason and free shipping </span>
         </div>
     </a>
 
     <a href="index.html">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_3.png?1705899054230" alt="Hỗ trợ nhanh chóng">
-            <p>Hỗ trợ nhanh chóng</p>
-            <span>Gọi Hotline: 19006750 để được hỗ trợ ngay và phục vụ 24/7</span>
+            <p>Fast support</p>
+            <span>Call Hotline: 19006750 for immediate support and 24/7 service</span>
         </div>
     </a>
 
     <a href="index.html">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_4.png?1705899054230" alt="Thanh toán đa dạng">
-            <p>Thanh toán đa dạng</p>
-            <span>Thanh toán khi nhận hàng, Napas, Visa, Chuyển Khoản</span>
+            <p>Diverse payment</p>
+            <span>Cash on delivery, Napas, Visa, Bank Transfer</span>
         </div>
     </a>
 </div>
@@ -804,12 +490,14 @@
         </div>
     </div>
 </footer>
-    
+
 
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/script.js"></script>
-<script src="../js/guest/home-page.js"></script>
+
 <script src="../js/homepage.js"></script>
 <script src="../js/profile.js"></script>
+<script src="../js/cart.js"></script>
 </html>

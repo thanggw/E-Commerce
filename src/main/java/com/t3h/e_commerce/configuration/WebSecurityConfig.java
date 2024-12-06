@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,10 +21,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalAuthentication
 public class WebSecurityConfig {
-    @Autowired
-    private UserDetailsService userDetailsService;
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,44 +31,39 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
-
         http.csrf(AbstractHttpConfigurer::disable);
+
         http.authorizeHttpRequests((request) -> request
-                        .requestMatchers("/guests/**").hasAnyRole(SecurityUtils.Role.USER.name(), SecurityUtils.Role.ADMIN.name())
-                        .requestMatchers("/home-guest", "/").permitAll()
-                        .requestMatchers("/seller").permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers("/image/**").permitAll()
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/guests/login").permitAll()
-                        .requestMatchers("/seller_css/**").permitAll()
-                        .requestMatchers("/seller_js/**").permitAll()
+                        .requestMatchers("/home-guest/**", "/").permitAll() // Cho phép truy cập homepage
+                        .requestMatchers("/css/**", "/image/**", "/js/**").permitAll() // Static resources
+                        .requestMatchers("/login/**").permitAll() // Trang login
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/users/**").permitAll()
-                        .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN")
-                        .requestMatchers("/orders/order").permitAll()
-                        .requestMatchers("/carts/add").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/orders/order", "/carts/add").authenticated() // Bắt buộc phải login
+                        .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN") // Chỉ admin mới truy cập
+                        .anyRequest().authenticated()) // Mọi request khác phải login
                 .formLogin((form) -> form
-                        .loginPage("/guests/login") // config truy cap url login
-                        .loginProcessingUrl("/perform_login") // config url gui username, pass tu form login len server
-                        .defaultSuccessUrl("/guests/process-after-login", true) // sau khi login thành công sẽ truy cập vào url process-after-login để điều hướng phân quyền
-                        .failureUrl("/guests/login?error=true") //  url neu login fals
+                        .loginPage("/guests/login") // URL của trang đăng nhập
+                        .loginProcessingUrl("/perform_login") // Xử lý đăng nhập
+                        .defaultSuccessUrl("/guests/process-after-login", true) // Sau khi đăng nhập thành công
+                        .failureUrl("/guests/login?error=true") // URL khi đăng nhập thất bại
                         .permitAll()
                 )
-                .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/guests/login?logout=true") // Sau khi đăng xuất thành công
+                        .deleteCookies("JSESSIONID") // Xóa cookie session
                         .permitAll()
                 );
 
-
-//        httpSecurity.exceptionHandling(exception -> {
-//            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
-//            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-//        });
+        // Bỏ xử lý lỗi cho URL được permitAll
+        http.exceptionHandling(exception -> {
+            exception.accessDeniedHandler(new CustomAccessDeniedHandler());
+            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // Định nghĩa rõ URL chuyển hướng
+        });
 
         return http.build();
     }
+
 
     public static void main(String[] args) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();

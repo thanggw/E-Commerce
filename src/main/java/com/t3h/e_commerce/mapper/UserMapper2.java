@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 @DecoratedWith(UserMapperDecorator.class)
 public interface UserMapper2 {
-      @Mapping(source = "address", target = "address")
+
       UserResponse toDTO(UserEntity userEntity);
       UserEntity toEntity(UserResponse userResponse);
 }

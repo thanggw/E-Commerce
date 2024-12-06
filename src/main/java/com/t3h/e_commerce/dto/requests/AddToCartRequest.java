@@ -9,6 +9,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddToCartRequest {
-    Integer productId;
-    Integer quantity;
+    private Integer userId;
+    private Integer productId;
+    private Integer quantity;
+    private Integer colorId; // Thêm colorId
+    private Integer sizeId;  // Thêm sizeId
 }

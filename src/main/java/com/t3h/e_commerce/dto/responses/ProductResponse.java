@@ -5,6 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,7 +16,7 @@ import java.time.LocalDateTime;
 public class ProductResponse {
     Integer id;
     String name;
-    String imageUrl;
+    private List<String> imageUrls;;
     BigDecimal price;
     String description;
     BrandResponse brand;
@@ -21,11 +24,12 @@ public class ProductResponse {
     boolean isSoldOut;
     boolean isAvailable;
     Integer quantity;
-    String productStatus;
+    ProductStatusResponse status;
     LocalDateTime createdDate;
     String createdBy;
     LocalDateTime lastModifiedDate;
     String lastModifiedBy;
     boolean deleted;
-
+    private Set<ColorResponse> colors;
+    private Set<SizeResponse> sizes;
 }

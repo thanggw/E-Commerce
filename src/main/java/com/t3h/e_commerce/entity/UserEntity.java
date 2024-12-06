@@ -23,14 +23,24 @@ public class UserEntity extends BaseEntity {
     String address;
     String pathAvatar;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
     Set<RoleEntity> roles = new HashSet<>();
 
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    CartEntity cart;
+    private CartEntity cart;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "wishlist_id", referencedColumnName = "id")
+    private WishlistEntity wishlist;
+
 
     @OneToMany(mappedBy = "payer", cascade = CascadeType.ALL)
     Set<PaymentEntity> payments;

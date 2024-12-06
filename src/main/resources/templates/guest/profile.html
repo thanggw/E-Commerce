@@ -12,19 +12,20 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="./Seller.html">Kênh Người Bán</a></span>
-            <span><a href="#">Trở thành Người bán Shopee</a></span>
-            <span><a href="#">Tải ứng dụng</a></span>
-            <span><a href="https://www.instagram.com/_thawngg/">Kết nối</a></span>
+            <span><a href="">Seller Channel</a></span>
+            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+            <span><a href="#">Download App</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
         </div>
         <div class="right-section">
-            <span><a href="#">Thông Báo</a></span>
-            <span><a href="#">Hỗ Trợ</a></span>
+            <span><a href="#">Notifications</a></span>
+            <span><a href="#">Support</a></span>
             <span class="language-selector" style="width: 77px;">
-                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
+                    <a href="#">English  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
                         <span class="language-option" data-lang="vi">Tiếng Việt</span>
                         <span class="language-option" data-lang="en">English</span>
+                        <span class="language-option" data-lang="en">Other...</span>
                     </div>
                 </span>
         </div>
@@ -40,14 +41,14 @@
         <!-- Search Bar -->
         <div class="search-bar">
             <label>
-                <input type="text" placeholder="Bạn muốn tìm gì?">
+                <input type="text" class="animated-input" id="animatedInput" placeholder="Bạn muốn tìm gì?" >
             </label>
             <button><i class="fa fa-search"></i></button>
             <div class="suggestions">
-                <span class="scroll-to-products">Giày cao gót</span>
-                <span class="scroll-to-products">Giày búp bê</span>
-                <span class="scroll-to-products">Túi xách</span>
-                <span class="scroll-to-products">Mắt kính</span>
+                <span class="scroll-to-products">Sneaker</span>
+                <span class="scroll-to-products">Nike</span>
+                <span class="scroll-to-products">Sport Shoes</span>
+                <span class="scroll-to-products">Adidas</span>
             </div>
         </div>
 
@@ -55,31 +56,31 @@
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Thông tin</span>
-                <span>Tài khoản</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 48px;width: 160px;top: -2px;" id="span1">Thông tin</span>
+                <span>Account</span>
 
                 <!-- Vùng dropdown-container -->
                 <div class="dropdown-container">
-                    <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 8px;"></i>
+                    <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
                     <!-- Dropdown menu -->
                     <div class="dropdown-menu">
-                        <a href="./login.html">Đăng nhập</a>
-                        <a href="./login.html">Đăng ký</a>
+                        <a href="#">Login</a>
+                        <a href="#">Register</a>
                     </div>
                 </div>
             </div>
 
             <div class="wishlist" >
                 <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61">Yêu thích</span>
-                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+                <span style="color: #ff6f61">Wishlist</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
             </div>
 
             <div class="cart">
-                <a href="cart.html"> <i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
                 <!--cần xử lý với giỏ hàng-->
-                <span style="color: #ff6f61 ; margin-top: 0px;" id="inCart">Giỏ hàng</span>
-                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản phẩm</span>
+                <span style="color: #ff6f61 ; margin-top: 0px;" id="inCart">Cart</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
             </div>
         </div>
 
@@ -90,14 +91,14 @@
     <!-- Navigation Menu -->
     <nav class="navigation">
         <ul id="menu-list">
-            <li><a href="./HomePage.html">Trang chủ</a></li>
-            <li><a href="#">Sản phẩm</a></li>
-            <li><a href="#">Giới thiệu</a></li>
-            <li><a href="#">Tin tức</a></li>
-            <li><a href="#">Tin khuyến mãi</a></li>
-            <li><a href="#">Liên hệ</a></li>
-            <li><a href="#">Câu hỏi thường gặp</a></li>
-            <li><a href="#">Hệ thống cửa hàng</a></li>
+            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href=".news-section">News</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Store Locations</a></li>
             <li><a href="tel:19006750"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
             <li><a href="tel:xxx" title="Hotline" class="devvn_animation_zoom">
                 <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
@@ -113,7 +114,7 @@
 
     <!-- Profile content -->
     <div class="profile-content">
-        <h2>Tài khoản</h2>
+        <h2>Your Profile</h2>
 
         <!-- Avatar Section -->
         <div class="profile-avatar">

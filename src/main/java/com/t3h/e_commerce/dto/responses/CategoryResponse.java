@@ -1,16 +1,16 @@
 package com.t3h.e_commerce.dto.responses;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryResponse {
     Integer id;
-    String name;
+    String code;
     String description;
-
 }

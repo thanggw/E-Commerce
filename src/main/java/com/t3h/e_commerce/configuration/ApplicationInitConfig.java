@@ -37,30 +37,38 @@ public class ApplicationInitConfig {
     }
 
     @Bean
-    ApplicationRunner applicationRunner(){
+    ApplicationRunner applicationRunner() {
         return args -> {
-            log.info("Initializing Application.....");
-            if(userRepository.findUserByUsername("admin").isEmpty()){
+            log.info("Initializing Application...");
 
-                RoleEntity adminRole = new RoleEntity();
-                adminRole.setCode(DefaultRoles.ADMIN_ROLE);
-                adminRole.setDescription("Admin role");
+            if (userRepository.findByUsername("admin").isEmpty()) {
+                log.info("Checking and initializing default roles...");
 
+                RoleEntity adminRole = getOrCreateRole(DefaultRoles.ADMIN_ROLE, "Admin role");
+                RoleEntity userRole = getOrCreateRole(DefaultRoles.USER_ROLE, "User role");
 
-                RoleEntity userRole = new RoleEntity();
-                userRole.setCode(DefaultRoles.USER_ROLE);
-                userRole.setDescription("User role");
+                log.info("Default roles initialized.");
 
+                // Tạo admin user
                 UserEntity admin = new UserEntity();
-                admin.setUsername(ADMIN_USERNAME);
-                admin.setPassword(passwordEncoder.encode(ADMIN_PASSWORD));
+                admin.setUsername("admin");
+                admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setEmail("admin@gmail.com");
+                admin.setRoles(Set.of(adminRole, userRole));
 
-                admin.setRoles(Set.of(adminRole));
-
-                roleRepository.saveAll(List.of(adminRole, userRole));
                 userRepository.save(admin);
+                log.info("Admin user '{}' created successfully.", "admin");
+            } else {
+                log.info("Admin user '{}' already exists. Skipping initialization.", "admin");
             }
         };
-    };
+    }
+
+    private RoleEntity getOrCreateRole(String roleCode, String roleDescription) {
+        return roleRepository.findRoleEntityByCode(roleCode)
+                .orElseGet(() -> roleRepository.save(new RoleEntity(roleCode, roleDescription)));
+    }
+
+
+
 }

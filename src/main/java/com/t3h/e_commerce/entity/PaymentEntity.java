@@ -17,6 +17,7 @@ import java.util.List;
 public class PaymentEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
     PaymentType paymentMethod;
 
     @Column(name = "payment_status")

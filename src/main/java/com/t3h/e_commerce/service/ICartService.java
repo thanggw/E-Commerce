@@ -7,8 +7,6 @@ import com.t3h.e_commerce.dto.responses.CartResponse;
 public interface ICartService {
 
     CartResponse addToCart(AddToCartRequest request);
-
-    CartResponse updateCart(Integer itemId, CartItemUpdate request);
-
-    CartResponse deleteCart(Integer itemId);
+    CartResponse getCartByUserId(Integer userId);
+    boolean removeItemFromCart(Integer userId, Integer productId);
 }

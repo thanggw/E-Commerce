@@ -22,22 +22,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
-        ApiHandleResponse<CustomError> apiHandleResponse  = new ApiHandleResponse<>();
-        apiHandleResponse.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
-        CustomError customError = CustomError.builder()
-                .code("RESOURCE_ACCESS_DENIED")
-                .path(request.getRequestURI())
-                .timestamp(new Date())
-                .message(accessDeniedException.getMessage())
-                .details("Access is denied due to only ADMIN or MANAGER permission access those endpoints. Please recheck your information!")
-                .build();
-
-        apiHandleResponse.setError(customError);
-
+        // Đặt mã lỗi 403 và chuyển hướng
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(apiHandleResponse));
-
-
+        response.sendRedirect("/error?errorCode=403");
     }
+
 }

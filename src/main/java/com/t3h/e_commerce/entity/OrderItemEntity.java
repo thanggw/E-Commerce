@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class OrderItemEntity extends BaseEntity{
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
     OrderEntity order;
 
     @ManyToOne
@@ -28,4 +28,6 @@ public class OrderItemEntity extends BaseEntity{
     BigDecimal price;
 
     Integer cartItemId;
+
+
 }

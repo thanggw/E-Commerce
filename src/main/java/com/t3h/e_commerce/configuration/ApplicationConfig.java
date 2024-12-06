@@ -9,4 +9,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationConfig {
     @Value("${storage.root.folder.avatar}")
     private String rootFolderAvatar;
+
+    @Value("${storage.root.folder.product}")
+    private String rootFolderProduct;
 }

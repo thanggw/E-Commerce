@@ -1,8 +1,6 @@
 package com.t3h.e_commerce.dto.responses;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
@@ -12,26 +10,13 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
-
 public class OrderResponse {
-    private Long orderId;
-
-    private List<OrderItemResponse> items;
-
-    private int totalQuantity;
+    private Integer orderId;
     private BigDecimal totalPrice;
-    private BigDecimal shippingCost;
-    private double discount;
-    private double finalPrice;
     private String orderStatus;
-    private String orderPlacedBy;
-    private LocalDateTime createdDate;
-    private LocalDateTime expectedDeliveryDate;
-    private String paymentStatus;
-    private String paymentMethod;
-    private ShippingAddressResponse shippingAddress;
-
-    private String trackingId;
+    private String expectedDeliveryDate;
+    private String message;
 }

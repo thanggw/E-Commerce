@@ -14,32 +14,20 @@ import java.io.IOException;
 import java.util.Date;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+        String requestURI = request.getRequestURI();
 
-        ApiHandleResponse<CustomError> apiHandleResponse = new ApiHandleResponse<>();
-        apiHandleResponse.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
-        CustomError customError = CustomError.builder()
-                .path(request.getRequestURI())
-                .timestamp(new Date())
-                .code("RESOURCE_UNAUTHORIZED")
-                .details("You need to authenticate or provide valid credentials to access this resource. Please recheck your information!")
-                .message(authException.getMessage())
-                .build();
+        // Nếu yêu cầu là một trang công khai, không cần chuyển hướng
+        if (requestURI.startsWith("/home-guest") || requestURI.startsWith("/css") || requestURI.startsWith("/js")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
 
-        apiHandleResponse.setError(customError);
-
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(apiHandleResponse));
-
-
+        // Chuyển hướng người dùng chưa đăng nhập đến trang login
+        response.sendRedirect("/guests/login");
     }
 }
+

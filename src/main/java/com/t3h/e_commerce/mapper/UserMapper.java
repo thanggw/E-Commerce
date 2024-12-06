@@ -1,37 +1,31 @@
 package com.t3h.e_commerce.mapper;
 
-import com.t3h.e_commerce.dto.RoleDTO;
-import com.t3h.e_commerce.dto.responses.UserResponse;
-import com.t3h.e_commerce.entity.RoleEntity;
+
+import com.t3h.e_commerce.dto.requests.AuthenticationRequest;
+import com.t3h.e_commerce.dto.responses.AuthenticationResponse;
 import com.t3h.e_commerce.entity.UserEntity;
+import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
+@Component
 public class UserMapper {
-
-    public static UserResponse toUserResponse(UserEntity user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .roles(user.getRoles().stream()
-                        .map(roleEntity -> mapToRoleDTO(roleEntity)) // Map từ RoleEntity sang RoleDTO
-                        .collect(Collectors.toSet()))
-                .createdBy(user.getUsername())
-                .createdDate(user.getCreatedDate())
-                .lastModifiedDate(user.getLastModifiedDate())
-                .deleted(user.getDeleted())
-                .lastModifiedBy(user.getLastModifiedBy())
-                .build();
+    public UserEntity toEntity(AuthenticationRequest request) {
+        UserEntity user = new UserEntity();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPhone(request.getPhone());
+        user.setAddress(request.getAddress());
+        return user;
     }
-    private static RoleDTO mapToRoleDTO(RoleEntity roleEntity) {
-        RoleDTO roleDTO = new RoleDTO();
-        roleDTO.setCode(roleEntity.getCode());
-        roleDTO.setName(roleEntity.getDescription()); // Map description của RoleEntity thành name trong RoleDTO
-        return roleDTO;
+
+    public AuthenticationResponse toResponse(UserEntity user) {
+        AuthenticationResponse response = new AuthenticationResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setMessage("Đăng ký thành công");
+        return response;
     }
 }
-

@@ -4,6 +4,7 @@ import com.t3h.e_commerce.dto.ResponsePage;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,9 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartResponse {
-    Integer id;
-    List<CartItemResponse> items;
-    Integer totalQuantity;
+    private Integer cartId;
+    private Integer totalQuantity;
+    private BigDecimal totalPrice;
+    private List<CartItemResponse> items;
     LocalDateTime createdDate;
     String createdBy;
     LocalDateTime lastModifiedDate;

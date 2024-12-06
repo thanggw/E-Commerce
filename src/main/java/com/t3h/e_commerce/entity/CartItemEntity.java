@@ -3,7 +3,6 @@ package com.t3h.e_commerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.math.BigDecimal;
 
 
@@ -26,4 +25,14 @@ public class CartItemEntity extends BaseEntity{
 
     Integer quantity;
     BigDecimal price;
+
+
+    @ManyToOne
+    @JoinColumn(name = "color_id") // Liên kết với bảng Color
+    Color color;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")  // Liên kết với bảng Size
+    Size size;
+
 }

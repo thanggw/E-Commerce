@@ -24,4 +24,42 @@ public class UserController {
     public String cart(){
         return "guest/cart";
     }
+
+    @GetMapping("/allproducts")
+    public String allProducts(){
+        return "guest/allproducts";
+    }
+
+    @GetMapping("/checkout")
+    public String checkout(){
+        return "guest/checkout";
+    }
+    @GetMapping("/notification")
+    public String notification(){
+        return "guest/notification";
+    }
+    @GetMapping("/voucher")
+    public String voucher(){
+        return "guest/voucher";
+    }
+    @GetMapping("/order")
+    public String order(){
+        return "guest/orderInterface";
+    }
+    @GetMapping("/detail")
+    public String detail(){
+        return "guest/viewdetail";
+    }
+    @GetMapping("/wishlist")
+    public String wishlist(){
+        return "guest/wishlist";
+    }
+    @GetMapping("/seller")
+    public String seller(){
+        return "guest/seller";
+    }
+    @GetMapping("/aboutus")
+    public String aboutus(){
+        return "guest/AboutUs";
+    }
 }

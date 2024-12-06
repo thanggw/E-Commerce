@@ -30,12 +30,16 @@ logging:
 storage:
   root:
     folder:
-      avatar: D:\\claim_manager\\T3H---UTC_Insurance_claim\\insurance-claims\\storage\\avatar\\
-      product: D:\\claim_manager\\T3H---UTC_Insurance_claim\\insurance-claims\\storage\\images-product\\
+      avatar: D:\\Backend-Final-T3H\\E-Commerce\\storage\\avatar\\
+      product: D:\\Backend-Final-T3H\\E-Commerce\\storage\\images-product\\
 
   avatar:
     relative:
       path: http://localhost:8082/file/avatar/
+
+  product:
+    relative:
+      path: http://localhost:8082/file/images-product/
 
 #  storage.root.folder_avatar=D:\\T3h\\T3H - UTC_Insurance_claim\\insurance-claims\\storage\\avatar\\
 #  storage.avatar.relative.path=http://localhost:8080/file/avatar/

@@ -1,0 +1,978 @@
+
+.wishlist-icon2 {
+    position: absolute;
+    left: 85%;
+    cursor: pointer;
+    font-size: 24px;
+    color: #db2424;
+    transition: color 0.3s ease;
+}
+
+.wishlist-icon2:hover {
+    color: #e74c3c; /* Đỏ khi hover */
+}
+/* Tooltip ẩn mặc định */
+.wishlist-icon2::after {
+    content: attr(data-tooltip); /* Nội dung lấy từ thuộc tính data-tooltip */
+    position: absolute;
+    bottom: 120%; /* Hiển thị phía trên icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Màu nền của tooltip */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap; /* Giữ tooltip trên một dòng */
+    opacity: 0; /* Ẩn tooltip */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10;
+}
+
+/* Hiển thị tooltip khi hover */
+.wishlist-icon2:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.main-header {
+    width: 100%;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+.top-bar {
+    background-color: #f53d2d;
+    padding: 10px 20px;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.top-bar .left-section,
+.top-bar .right-section {
+    display: flex;
+}
+.top-bar span:hover{
+    text-decoration: underline;
+}
+.top-bar span {
+    margin-right: 20px;
+}
+
+.top-bar span a {
+    color: white;
+    text-decoration: none;
+}
+
+.top-bar span i:hover {
+    text-decoration: underline;
+}
+
+.right-section {
+    display: flex;
+    gap: 20px; /* Tạo khoảng cách giữa các mục */
+}
+.language-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.language-dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 100px;
+    top: 20px;
+}
+
+.language-dropdown span {
+    display: block;
+    padding: 8px;
+    cursor: pointer;
+    color: black;
+}
+
+.language-dropdown span:hover {
+    background-color: #f1f1f1;
+}
+
+/* Hiển thị dropdown khi hover cả vào selector và dropdown */
+.language-selector:hover .language-dropdown,
+.language-dropdown:hover {
+    display: block;
+}
+
+.arrow-down {
+    margin-bottom: 3px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    margin-left: 5px;
+    transform: rotate(45deg);
+}
+
+
+
+
+.header-container {
+    margin-bottom: -15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background-color: white;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.logo img {
+    max-width: 150px;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+
+
+    font-family: Arial, sans-serif;
+
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 400px;
+    border: 2px solid rgb(247, 67, 67);
+    border-radius: 5px;
+}
+.animated-input {
+    width: 300px;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.animated-input:focus {
+    border-color: #2980b9;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.suggestions {
+    margin-left: -20px;
+    margin-top: 5px;
+    color: #b0b0b0;
+}
+
+.search-bar button {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+
+.suggestions span {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 1024px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo img {
+        max-width: 120px; /* Thu nhỏ logo */
+    }
+
+    .search-bar input {
+        width: 300px; /* Thu nhỏ thanh tìm kiếm */
+    }
+
+    .user-info {
+        margin-top: 10px; /* Cách đều phần thông tin người dùng */
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 10px 2%; /* Thu hẹp khoảng cách padding */
+    }
+
+    .search-bar input {
+        width: 250px; /* Thu nhỏ thanh tìm kiếm hơn nữa */
+    }
+
+    .user-info {
+        flex-direction: column; /* Chuyển thông tin người dùng sang dạng cột */
+        align-items: flex-start;
+    }
+
+    .user-info > div {
+        margin-left: 0;
+        margin-top: 10px; /* Cách đều các phần tử trong thông tin người dùng */
+    }
+
+    .wishlist, .cart {
+        margin-top: 5px;
+    }
+    .navigation ul {
+        flex-direction: column; /* Chuyển từ hàng ngang sang cột */
+        align-items: center;
+        display: none; /* Ẩn menu mặc định */
+    }
+
+    .navigation ul.show {
+        display: flex; /* Hiển thị menu khi có class show */
+    }
+
+    .navigation ul li {
+        margin: 10px 0; /* Tăng khoảng cách giữa các mục menu */
+    }
+
+    .navigation .menu-icon {
+        display: block; /* Hiển thị icon hamburger */
+        cursor: pointer;
+        font-size: 24px;
+        color: #c83a3a;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .navbar .menu {
+        display: none;
+    }
+
+    .navbar .search-box {
+        width: 100%;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        display: none;
+    }
+
+    #content {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        max-width: 100px; /* Thu nhỏ logo hơn nữa */
+    }
+
+    .search-bar input {
+        width: 200px; /* Thanh tìm kiếm nhỏ hơn */
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-info i {
+        width: 30px; /* Thu nhỏ icon người dùng */
+        height: 30px;
+        font-size: 16px; /* Giảm kích thước font của icon */
+    }
+
+    .user-info span {
+        font-size: 13px; /* Giảm kích thước chữ */
+    }
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .button-row {
+        justify-content: center;
+    }
+    .navigation .menu-icon {
+        display: block; /* Hiển thị icon hamburger */
+        cursor: pointer;
+        font-size: 24px;
+        color: #c83a3a;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .navigation ul {
+        display: none; /* Ẩn menu mặc định */
+    }
+
+    .navigation ul.show {
+        display: flex; /* Hiển thị menu khi có class show */
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
+/* Ẩn icon hamburger khi màn hình lớn hơn 480px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .navigation .menu-icon {
+        display: none; /* Ẩn icon hamburger */
+    }
+}
+
+/* Ẩn icon hamburger và hiển thị menu chính khi màn hình lớn hơn 768px */
+@media (min-width: 769px) {
+    .navigation .menu-icon {
+        display: none; /* Ẩn icon hamburger */
+    }
+
+    .navigation ul {
+        display: flex; /* Hiển thị menu chính */
+    }
+}
+
+
+
+
+
+
+
+/* Căn chỉnh chung cho từng nhóm thông tin */
+.user-info > div {
+    display: flex;
+    align-items: center;
+    margin-left: 60px;
+    position: relative;
+}
+
+/* Căn chỉnh icon và dòng chữ theo hàng ngang */
+.user-info i {
+    font-size: 20px;
+    margin-right: 8px;
+    background-color: #f3eceb;
+    color: white;
+    border-radius: 50%;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+/* Căn chỉnh văn bản */
+.user-info span {
+    font-size: 15px;
+    color: #333;
+    display: block;
+}
+
+.user-info div > span:first-of-type {
+    position: absolute;
+    top: 5px;
+    right: -3px;
+    color: #ff6f61;
+}
+
+/* Căn chỉnh cho phần "Tài khoản" */
+.user-info div > span:last-of-type {
+    margin-top: 23px;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+/* Biểu tượng caret-down nhỏ kế bên chữ "Tài khoản" */
+.fa-caret-down {
+    margin-left: 5px;
+    font-size: 10px; /* Kích thước nhỏ hơn */
+    color: #333;
+}
+
+
+/* Mặc định biểu tượng và chữ giữ nguyên */
+.user-icon, .wishlist-icon, .cart-icon, .hover-text {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover qua biểu tượng thay đổi màu sắc và scale lớn hơn một chút */
+.user-icon:hover, .wishlist-icon:hover, .cart-icon:hover {
+    color: #e63946;
+    transform: scale(1.2);
+}
+
+/* Hover qua phần chữ thay đổi màu sắc */
+.hover-text:hover {
+    color: #e63946;
+    text-decoration: underline; /* Nếu muốn chữ có gạch chân khi hover */
+}
+
+
+
+/* Phần Wishlist */
+.wishlist i, .cart i {
+    font-size: 20px;
+    margin-right: 8px;
+    background-color: #f3eceb;
+    color: white;
+    border-radius: 50%;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.wishlist span, .cart span {
+    font-size: 15px;
+    color: #333;
+    display: block;
+}
+
+/* Đặt màu cam cho dòng chữ đầu tiên trong mỗi phần */
+.wishlist > span:first-of-type, .cart > span:first-of-type {
+    color: #ff6f61;
+}
+
+/* Đặt màu xám cho dòng chữ thứ hai */
+.wishlist > span:last-of-type, .cart > span:last-of-type {
+    margin-top: 23px;
+    font-size: 13px;
+    color: #333;
+}
+
+.dropdown-menu {
+    width:100px;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+    z-index: 1;
+}
+
+
+.dropdown-container:hover .dropdown-menu {
+    display: block;
+}
+
+
+.dropdown-menu a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+}
+
+
+.dropdown-menu a:hover {
+    color: #ff6f61;
+}
+
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+
+
+/* Các quy tắc CSS cho navigation như trước đó */
+.navigation {
+    background-color: #f8e5e5;
+    padding: 10px;
+    text-align: center;
+}
+
+.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation ul li {
+    margin: 0 15px;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: #c83a3a;
+    font-weight: bold;
+}
+
+
+
+.navigation ul li a {
+    text-decoration: none;
+    color: #c83a3a;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navigation ul li a i {
+    margin-right: 5px;
+    animation: ring 1s infinite;
+}
+@keyframes ring {
+    0% { transform: rotate(0); }
+    10% { transform: rotate(15deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(10deg); }
+    40% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+    60% { transform: rotate(-2deg); }
+    100% { transform: rotate(0); }
+}
+
+.ringing {
+    color: #c83a3a;
+}
+.navigation ul li a:hover i {
+    color: #ff0000;
+}
+.navigation ul li a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Positioning */
+.contact-icons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000; /* Ensure it's always on top */
+}
+
+.messenger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+/* Styling for the Messenger icon */
+.messenger i {
+    font-size: 40px;
+    color: #fff;
+    background-color: #0084FF; /* Facebook Messenger blue */
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    transition: transform 0.2s ease-in-out;
+    margin-top: -20px;
+}
+
+/* Hover effects for icons */
+.contact i:hover, .messenger i:hover {
+    transform: scale(1.05);
+}
+
+
+a.devvn_animation_zoom {
+    display: block;
+    background: #e55c4b;
+    position: fixed;
+    right: 25px;
+    top: 75%;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    padding: 17px;
+    z-index: 9999;
+    -webkit-animation: devvn_zoom 1.5s infinite linear;
+    -moz-animation: devvn_zoom 1.5s infinite linear;
+    -o-animation: devvn_zoom 1.5s infinite linear;
+    animation: devvn_zoom 1.5s infinite linear;
+    box-shadow: 0 0 0 0 #e55c4b;
+}
+a.devvn_animation_zoom img {
+    width: 35px;
+    height: 35px;
+    -webkit-animation: calltrap_spin 3s infinite linear;
+    -moz-animation: calltrap_spin 3s infinite linear;
+    -o-animation: calltrap_spin 3s infinite linear;
+    animation: calltrap_spin 3s infinite linear
+}
+@-webkit-keyframes devvn_zoom {
+    70% {
+        box-shadow: 0 0 0 15px transparent
+    }
+    100% {
+        box-shadow: 0 0 0 0 transparent
+    }
+}
+@keyframes devvn_zoom {
+    70% {
+        box-shadow: 0 0 0 15px transparent
+    }
+    100% {
+        box-shadow: 0 0 0 0 transparent
+    }
+}
+@-webkit-keyframes calltrap_spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    30% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    33% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    36% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    39% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    42% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    45% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    48% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg);
+        opacity: 1
+    }
+    51% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    54% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    57% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+}
+@-moz-keyframes calltrap_spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    30% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    33% {
+        -moz-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    36% {
+        -moz-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    39% {
+        -moz-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    42% {
+        -moz-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    45% {
+        -moz-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    48% {
+        -moz-transform: rotate(10deg);
+        transform: rotate(10deg);
+        opacity: 1
+    }
+    51% {
+        -moz-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    54% {
+        -moz-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    57% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+}
+@-o-keyframes calltrap_spin {
+    0% {
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    30% {
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    33% {
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    36% {
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    39% {
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    42% {
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    45% {
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    48% {
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+        opacity: 1
+    }
+    51% {
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    54% {
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    57% {
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+}
+@keyframes calltrap_spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    30% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    33% {
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    36% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    39% {
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    42% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    45% {
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    48% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+        opacity: 1
+    }
+    51% {
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg)
+    }
+    54% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg)
+    }
+    57% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+}
+
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 20px;
+    min-width: 200px;
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer-section p, .footer-section ul {
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ff6f61;
+}
+.social-links {
+    display: flex;
+    gap: 15px; /* Increased gap for larger icons */
+}
+
+.social-links a {
+    font-size: 40px; /* Increase the font size for larger icons */
+    color: #fff; /* Set the icon color to white */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.social-links .fa-instagram:hover {
+    color: #ff6f61;
+}
+.social-links .fa-facebook:hover {
+    color: #1877F2;
+}
+.social-links .fa-twitter:hover {
+    color: #1DA1F2;
+}
+
+
+.footer-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-section form input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.footer-section form button {
+    padding: 10px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.footer-section form button:hover {
+    background-color: #e55c4b;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #bbb;
+}

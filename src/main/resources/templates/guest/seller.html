@@ -4,52 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard</title>
-    <link rel="stylesheet" href="seller.css">
+    <link rel="stylesheet" href="../css/seller.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-   
-    <nav class="navbar">
-        <div class="logo">MyShop</div>
-        <ul class="nav-links">
-            <li><a href="#">Trang chủ</a></li>
-            <li><a href="#">Sản phẩm</a></li>
-            <li><a href="#">Đơn hàng</a></li>
-            <li><a href="#">Doanh thu</a></li>
-            <li><a href="#">Khuyến mãi</a></li>
-            <li><a href="#">Thông báo</a></li>
-            <li><a href="#">Cài đặt tài khoản</a></li>
-            <li><a href="#">Đăng xuất</a></li>
-        </ul>
-    </nav>
 
-    
-    <section class="dashboard">
-        <h1>Bảng điều khiển người bán</h1>
-        <div class="overview">
-            <div class="overview-item">
-                <h3>Tổng số sản phẩm</h3>
-                <p>120</p>
-            </div>
-            <div class="overview-item">
-                <h3>Đơn hàng hôm nay</h3>
-                <p>25</p>
-            </div>
-            <div class="overview-item">
-                <h3>Doanh thu hôm nay</h3>
-                <p>3,500,000 VND</p>
-            </div>
-            <div class="overview-item">
-                <h3>Sản phẩm bán chạy</h3>
-                <p>Áo thun nam</p>
+<div class="top-bar">
+    <div class="left-section">
+        <span><a href="">Seller Channel</a></span>
+        <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+        <span><a href="#">Download App</a></span>
+        <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+    </div>
+    <div class="right-section">
+        <span><a href="#">Notifications</a></span>
+        <span><a href="#">Support</a></span>
+        <span class="language-selector" style="width: 77px;">
+                <a href="#">English  <i class="arrow-down"></i></a>
+                <div class="language-dropdown">
+                    <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                        <span class="language-option" data-lang="en">English</span>
+                        <span class="language-option" data-lang="en">Other...</span>
+                    </div>
+            </span>
+    </div>
+
+</div>
+
+<div class="header-container">
+    <!-- Logo Section -->
+    <div class="logo">
+        <img src="/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <label>
+            <input type="text" class="animated-input" id="animatedInput" placeholder="What are you looking for?" >
+        </label>
+        <button><i class="fa fa-search"></i></button>
+        <div class="suggestions">
+            <span class="scroll-to-products">Sneaker</span>
+            <span class="scroll-to-products">Nike</span>
+            <span class="scroll-to-products">Sport Shoes</span>
+            <span class="scroll-to-products">Adidas</span>
+        </div>
+    </div>
+
+    <!-- User Info and Cart Section -->
+    <div class="user-info">
+        <div class="user-details">
+            <i class="fa fa-user" style="color: #ff6f61"></i>
+            <span style="color: #ff6f61; margin-top: 9px; position: absolute; left: 50px;" id="span1">Profile</span>
+            <span>Account</span>
+
+            <!-- Vùng dropdown-container -->
+            <div class="dropdown-container">
+                <i class="fa fa-caret-down" style="color: black; background-color: white; width: 20px; margin-top: 22px; font-size: 15px; margin-left: 0px;"></i>
+                <!-- Dropdown menu -->
+                <div class="dropdown-menu">
+                    <a href="#">Login</a>
+                    <a href="#">Register</a>
+                </div>
             </div>
         </div>
-    </section>
+
+        <div class="wishlist">
+            <i class="fa fa-heart" style="color: #ff6f61"></i>
+            <span style="color: #ff6f61">Wishlist</span>
+            <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+        </div>
+
+        <div class="cart">
+            <i class="fa fa-shopping-bag" style="color: #ff6f61"></i>
+            <span style="color: #ff6f61">Cart</span>
+            <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+        </div>
+    </div>
 
 
-    <section class="chart-container">
-        <h2>Biểu đồ doanh thu tháng</h2>
+
+
+</div>
+
+
+    <div class="container">
+        <h1>Add New Products</h1>
+        <form id="addProductForm">
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter the name of your product" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" placeholder="Enter the price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Enter the description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" placeholder="Enter the quantity" required>
+            </div>
+
+            <div class="form-group">
+                <label for="brandCode">Brand:</label>
+                <input type="text" id="brandCode" name="brandCode" placeholder="Enter your brand" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoryCode">Category:</label>
+                <input type="text" id="categoryCode" name="categoryCode" placeholder="Enter the category" required>
+            </div>
+
+            <div class="form-group">
+                <label for="colors">Colors (separated by commas):</label>
+                <input type="text" id="colors" name="colors" placeholder="Example: Red, Blue, Black">
+            </div>
+
+            <div class="form-group">
+                <label for="sizes">Size (separated by comma):</label>
+                <input type="text" id="sizes" name="sizes" placeholder="Example: M, L, XL">
+            </div>
+
+            <div class="form-group">
+                <label for="imageUrls">Images (URLs, separated by commas):</label>
+                <textarea id="imageUrls" name="imageUrls" placeholder="VD: http://example.com/image1.jpg, http://example.com/image2.jpg"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="statusCode">Status:</label>
+                <select id="statusCode" name="statusCode">
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">InActive</option>
+                    <option value="AVAILABLE">Available</option>
+                    <option value="SOLD_OUT">SOLD_OUT</option>
+                </select>
+            </div>
+
+            <button type="submit">Add Product</button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </div>
+<section class="dashboard">
+    <h1>Seller Dashboard</h1>
+    <div class="overview">
+        <div class="overview-item">
+            <h3>Total Products</h3>
+            <p>120</p>
+        </div>
+        <div class="overview-item">
+            <h3>Orders Today</h3>
+            <p>25</p>
+        </div>
+        <div class="overview-item">
+            <h3>Revenue Today</h3>
+            <p>3,500,000 VND</p>
+        </div>
+        <div class="overview-item">
+            <h3>Best Selling Product</h3>
+            <p>Men's T-shirt</p>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="chart-container">
+        <h2>Monthly revenue chart</h2>
         <div class="charts-row">
             <div class="chart-box">
                 <canvas id="revenueChart" width="420" height="390"></canvas>
@@ -62,143 +190,121 @@
             </div>
         </div>
     </section>
-    
-    
 
-   
-    <section class="notifications">
-        <h2>Thông báo</h2>
-        <div class="notification-item">
-            <p>Khách hàng A vừa đặt hàng sản phẩm của bạn</p>
-            <span>2 phút trước</span>
-        </div>
-        <div class="notification-item">
-            <p>Sản phẩm "Giày thể thao" đang hết hàng, cần nhập thêm</p>
-            <span>10 phút trước</span>
-        </div>
-    </section>
 
-    
-    <section class="add-product">
-        <h2>Thêm sản phẩm mới</h2>
-        <form id="addProductForm">
-            <label for="productName">Tên sản phẩm:</label>
-            <input type="text" id="productName" name="productName" required>
-    
-            <label for="productPrice">Giá sản phẩm:</label>
-            <input type="number" id="productPrice" name="productPrice" required>
-    
-            <label for="productQuantity">Số lượng:</label>
-            <input type="number" id="productQuantity" name="productQuantity" required>
 
-            <label for="productStatus">Trạng thái(Còn hàng hay hết hàng):</label>
-            <input type="text" id="productStatus" name="productStatus" required>
-    
-            <label for="productImage">Hình ảnh sản phẩm:</label>
-            <input type="file" id="productImage" name="productImage" required>
-    
-            <button type="submit" class="btn">Thêm sản phẩm</button>
-        </form>
-    </section>
-    
 
-    <section class="product-management">
-        <h2>Danh sách sản phẩm</h2>
-        <table class="product-table">
-            <thead>
-                <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><img src="shirt.jpg" alt="Áo thun" class="product-img"></td>
-                    <td>Áo thun nam</td>
-                    <td>200,000 VND</td>
-                    <td>50</td>
-                    <td>Còn hàng</td>
-                    <td>
-                        <button class="btn">Chỉnh sửa</button>
-                        <button class="btn danger">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
-                    <td>Giày thể thao</td>
-                    <td>800,000 VND</td>
-                    <td>20</td>
-                    <td>Còn hàng</td>
-                    <td>
-                        <button class="btn">Chỉnh sửa</button>
-                        <button class="btn danger">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
-                    <td>Giày thể thao</td>
-                    <td>800,000 VND</td>
-                    <td>20</td>
-                    <td>Còn hàng</td>
-                    <td>
-                        <button class="btn">Chỉnh sửa</button>
-                        <button class="btn danger">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
-                    <td>Giày thể thao</td>
-                    <td>800,000 VND</td>
-                    <td>20</td>
-                    <td>Còn hàng</td>
-                    <td>
-                        <button class="btn">Chỉnh sửa</button>
-                        <button class="btn danger">Xóa</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="shoes.jpg" alt="Giày thể thao" class="product-img"></td>
-                    <td>Giày thể thao</td>
-                    <td>800,000 VND</td>
-                    <td>20</td>
-                    <td>Còn hàng</td>
-                    <td>
-                        <button class="btn">Chỉnh sửa</button>
-                        <button class="btn danger">Xóa</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <!-- Modal chỉnh sửa sản phẩm -->
+<section class="notifications">
+    <h2>Notifications</h2>
+    <div class="notification-item">
+        <p>Customer A has just placed an order for your product</p>
+        <span>2 minutes ago</span>
+    </div>
+    <div class="notification-item">
+        <p>The product "Sports Shoes" is out of stock, needs to be restocked</p>
+        <span>10 minutes ago</span>
+    </div>
+</section>
+
+<section class="product-management">
+    <h2>Product List</h2>
+    <table class="product-table">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><img src="http://localhost:8082/file/images-product/Anh1(1).webp" alt="T-shirt" class="product-img"></td>
+            <td>Solid Skate Shoes, Comfy Non Slip Lace Up Casual Sneakers</td>
+            <td>200$</td>
+            <td>50</td>
+            <td>In stock</td>
+            <td>
+                <button class="btn">Edit</button>
+                <button class="btn danger">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="http://localhost:8082/file/images-product/Anh2(1).webp" alt="Sports Shoes" class="product-img"></td>
+            <td>Non Slip Comfy Sneakers For Casual Activities</td>
+            <td>800$</td>
+            <td>20</td>
+            <td>In stock</td>
+            <td>
+                <button class="btn">Edit</button>
+                <button class="btn danger">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="http://localhost:8082/file/images-product/Anh3(1).webp" alt="Sports Shoes" class="product-img"></td>
+            <td>Handmade Stitching Casual Shoes s</td>
+            <td>800$</td>
+            <td>20</td>
+            <td>In stock</td>
+            <td>
+                <button class="btn">Edit</button>
+                <button class="btn danger">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="http://localhost:8082/file/images-product/Anh4(1).webp" alt="Sports Shoes" class="product-img"></td>
+            <td>Striped Running Shoes Lace Up Breathable Low Top </td>
+            <td>600$</td>
+            <td>20</td>
+            <td>In stock</td>
+            <td>
+                <button class="btn">Edit</button>
+                <button class="btn danger">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><img src="http://localhost:8082/file/images-product/Anh5(1).webp" alt="Sports Shoes" class="product-img"></td>
+            <td>Solid Skateboard Shoes Adjustable Buckle Casual Outdoor </td>
+            <td>700$</td>
+            <td>20</td>
+            <td>In stock</td>
+            <td>
+                <button class="btn">Edit</button>
+                <button class="btn danger">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Modal chỉnh sửa sản phẩm -->
 <div id="editProductModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Chỉnh sửa sản phẩm</h2>
+        <h2>Edit Product</h2>
         <form id="editProductForm">
-            <label for="editName">Tên sản phẩm:</label>
+            <label for="editName">Product Name:</label>
             <input type="text" id="editName" name="name">
 
-            <label for="editPrice">Giá sản phẩm:</label>
+            <label for="editPrice">Product Price:</label>
             <input type="number" id="editPrice" name="price">
 
-            <label for="editQuantity">Số lượng:</label>
+            <label for="editQuantity">Quantity:</label>
             <input type="number" id="editQuantity" name="quantity">
 
-            <label for="editStatus">Trạng thái:</label>
+            <label for="editStatus">Status:</label>
             <select id="editStatus" name="status">
-                <option value="Còn hàng">Còn hàng</option>
-                <option value="Hết hàng">Hết hàng</option>
+                <option value="In stock">In stock</option>
+                <option value="Out of stock">Out of stock</option>
             </select>
 
-            <button type="button" id="updateProductBtn">Cập nhật</button>
+            <button type="button" id="updateProductBtn">Update</button>
         </form>
     </div>
 </div>
+
 <footer>
     <div class="footer-container">
         <div class="footer-top">
@@ -236,16 +342,16 @@
         </div>
     </div>
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 // Biểu đồ doanh thu (biểu đồ cột)
 const ctx = document.getElementById('revenueChart').getContext('2d');
 const revenueChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
         datasets: [{
-            label: 'Doanh thu (VND)',
+            label: 'Revenue ($)',
             data: [5000000, 4005000, 3034000, 6000000],
             backgroundColor: 'rgba(255, 87, 34, 0.2)',
             borderColor: 'rgba(255, 87, 34, 1)',
@@ -264,9 +370,9 @@ const revenueChart = new Chart(ctx, {
 
 // Biểu đồ tròn 1 - Ví dụ: Phân loại sản phẩm
 const pieData1 = {
-    labels: ['Áo thun', 'Giày thể thao', 'Quần jeans'],
+    labels: ['Sport Shoes', 'Sneaker', 'Fashion Shoes'],
     datasets: [{
-        label: 'Sản phẩm',
+        label: 'Product',
         data: [50, 20, 30],
         backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
         hoverOffset: 4
@@ -279,9 +385,9 @@ const pieChart1 = new Chart(
 
 // Biểu đồ tròn 2 - Ví dụ: Tình trạng kho
 const pieData2 = {
-    labels: ['Còn hàng', 'Hết hàng'],
+    labels: ['Available', 'Sold out'],
     datasets: [{
-        label: 'Tình trạng kho',
+        label: 'Status of Stock',
         data: [70, 30],
         backgroundColor: ['#4bc0c0', '#ffcd56'],
         hoverOffset: 4
@@ -292,6 +398,8 @@ const pieChart2 = new Chart(
     { type: 'pie', data: pieData2 }
 );
 </script>
-    <script src="script.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="../js/seller.js"></script>
 </body>
 </html>

@@ -1,18 +1,18 @@
 package com.t3h.e_commerce.dto.responses;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemResponse {
-    private Long itemId;
     private String productName;
-    private int quantity;
-    private double pricePerUnit;
-    private String size;
-    private String color;
+    private Integer quantity;
+    private BigDecimal pricePerUnit;
+    private BigDecimal totalPrice;
 }

@@ -19,7 +19,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByUsername(String username);
     Optional<UserEntity> findByEmail(String email);
-
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 
     @Query(value = "select u from UserEntity u " +
             " where (:#{#filter.username} is null or u.username LIKE CONCAT('%', :#{#filter.username}, '%')) and" +
@@ -28,7 +29,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
             " (:#{#filter.address} is null or u.address LIKE CONCAT('%', :#{#filter.address}, '%')) and" +
             " (:#{#filter.fullName} is null or CONCAT(u.firstName, ' ', u.lastName) LIKE CONCAT('%', :#{#filter.fullName}, '%'))")
     Page<UserEntity> findAllUserByConditions(@Param("filter") UserRequestFilter filter, Pageable pageable);
-
-
-
 }

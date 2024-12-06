@@ -18,7 +18,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderEntity extends BaseEntity {
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     List<OrderItemEntity> orderItems;
 
     @Enumerated(EnumType.STRING)
@@ -38,14 +38,13 @@ public class OrderEntity extends BaseEntity {
     BigDecimal discount; // Thêm discount
     String trackingId; // Thêm tracking ID
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "expected_delivery_date") // Tên cột trong cơ sở dữ liệu
+    @Column(name = "expected_delivery_date")
     Date expectedDeliveryDate; // Thêm ngày giao hàng dự kiến
 
     @ManyToOne
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
     PaymentEntity payment;
-    String paymentMethod;
-    String paymentStatus;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "status")
+@Table(name = "productstatus")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
