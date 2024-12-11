@@ -1,3 +1,74 @@
+#nextPageBtn {
+    background-color: #F15A24; /* Màu cam đặc trưng của Shopee */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 90%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border-radius: 2px; /* Góc vuông nhẹ như Shopee */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+#nextPageBtn:hover {
+    background-color: #FF6600; /* Màu cam sáng hơn khi hover */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+#nextPageBtn:active {
+    background-color: #E54C1E; /* Màu cam sẫm hơn khi nhấn */
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#prevPageBtn {
+    background-color: #F15A24; /* Màu cam đặc trưng của Shopee */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 2%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border-radius: 2px; /* Góc vuông nhẹ như Shopee */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+#prevPageBtn:hover {
+    background-color: #FF6600; /* Màu cam sáng hơn khi hover */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+#prevPageBtn:active {
+    background-color: #E54C1E; /* Màu cam sẫm hơn khi nhấn */
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
 .main-header {
     width: 100%;
 }
