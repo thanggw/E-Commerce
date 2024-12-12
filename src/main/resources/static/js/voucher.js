@@ -1,3 +1,7 @@
+
+
+
+
 // code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
 $(document).ready(function () {
     // Khi trang được tải, gọi hàm getCart

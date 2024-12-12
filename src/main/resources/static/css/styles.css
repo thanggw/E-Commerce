@@ -2038,3 +2038,49 @@ footer {
 .slide.active {
     opacity: 1; /* Hiển thị ảnh active */
 }
+
+
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    z-index: 9999;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Mặc định ẩn */
+}
+
+
+
+
+
+
+.product-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%; /* Chiều rộng linh hoạt */
+    box-sizing: border-box; /* Đảm bảo padding không vượt chiều rộng */
+    position: relative; /* Để ::after hoạt động chính xác */
+    z-index: 10000; /* Tách biệt khỏi vùng chứa */
+}
+
+
+.product-item:hover {
+    background-color: #eaeaea;
+}
+
+
+
+

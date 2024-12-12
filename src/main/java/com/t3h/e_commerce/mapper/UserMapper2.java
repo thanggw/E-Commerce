@@ -11,6 +11,13 @@ import org.mapstruct.Mapping;
 @DecoratedWith(UserMapperDecorator.class)
 public interface UserMapper2 {
 
+      @Mapping(source = "id", target = "id")
+      @Mapping(source = "username", target = "username")
+      @Mapping(source = "email", target = "email")
+      @Mapping(source = "firstName", target = "firstName")
+      @Mapping(source = "lastName", target = "lastName")
+      @Mapping(source = "phone", target = "phone")
+      @Mapping(source = "address", target = "address")
       UserResponse toDTO(UserEntity userEntity);
       UserEntity toEntity(UserResponse userResponse);
 }

@@ -9,8 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
+    List<ProductEntity> findByNameContainingIgnoreCase(String name);
 
     @Query(value = "select p from ProductEntity p left join p.brand b left join p.category c" +
         " WHERE (:#{#filter.name} is null OR LOWER(p.name) LIKE LOWER(CONCAT('%', :#{#filter.name}, '%')))" +

@@ -65,6 +65,18 @@ public class ProductServiceImpl implements IProductService {
         return responsePage;
     }
 
+    @Override
+    public List<ProductResponse> searchProductsByName(String name) {
+        // Sử dụng repository để tìm kiếm sản phẩm theo tên gần đúng
+        List<ProductEntity> products = productRepository.findByNameContainingIgnoreCase(name);
+
+        // Chuyển đổi từ ProductEntity sang ProductResponse
+        return products.stream()
+                .map(ProductMapper::toProductResponse)
+                .toList();
+    }
+
+
 
 
     @Override

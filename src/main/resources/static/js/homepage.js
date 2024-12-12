@@ -474,6 +474,53 @@ function getColorCode(colorName) {
 
 
 
+
+async function searchProducts(query) {
+    const searchResultsDiv = document.getElementById("searchResults");
+
+    // Xóa nội dung cũ và ẩn thẻ nếu không có input
+    if (!query.trim()) {
+        searchResultsDiv.innerHTML = "";
+        searchResultsDiv.style.display = "none"; // Ẩn thẻ khi trống
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/products/search?name=${encodeURIComponent(query)}`);
+        const products = await response.json();
+
+        searchResultsDiv.innerHTML = ""; // Clear previous results
+        if (products.length > 0) {
+            searchResultsDiv.style.display = "block"; // Hiển thị thẻ khi có kết quả
+            products.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.className = "product-item";
+                productDiv.innerText = product.name.length > 20
+                    ? product.name.substring(0, 40) + "..."
+                    : product.name;
+                productDiv.title = product.name;
+                searchResultsDiv.appendChild(productDiv);
+            });
+        } else {
+            searchResultsDiv.style.display = "none"; // Ẩn thẻ nếu không có kết quả
+        }
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+        searchResultsDiv.style.display = "none"; // Ẩn thẻ khi có lỗi
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).ready(function () {
     $('.view-all-voucher').click(function () {
         window.location.href = 'http://localhost:8082/guests/voucher';

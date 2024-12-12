@@ -11,8 +11,6 @@ import org.mapstruct.factory.Mappers;
 public interface BrandMapper {
     BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);
     BrandEntity toEntity(BrandCreationRequest brandCreationRequest);
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "code", target = "code")
-    @Mapping(source = "description", target = "description")
+
     BrandResponse toResponse(BrandEntity brandEntity);
 }

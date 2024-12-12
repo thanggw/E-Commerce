@@ -554,6 +554,7 @@
         </div>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const filterBtns = document.querySelectorAll('.filter-btn');
     const voucherCards = document.querySelectorAll('.voucher-card');
@@ -587,7 +588,10 @@
         button.addEventListener('click', function() {
             const code = this.previousElementSibling.textContent;
             navigator.clipboard.writeText(code).then(() => {
-                alert('Đã sao chép mã: ' + code);
+                Swal.fire({
+                    icon: "success",
+                    title: "Copy voucher "+code+" successfully!"
+                });
             }).catch(err => {
                 console.error('Không thể sao chép', err);
             });
@@ -605,7 +609,10 @@
         const code = voucherInput.value.trim();
         if (code) {
             // Xử lý khi người dùng nhập mã
-            alert('Đã lưu mã voucher: ' + code);
+            Swal.fire({
+                icon: "success",
+                title: "Save voucher "+code+" successfully!"
+            });
             voucherInput.value = ''; // Clear input
             voucherSubmit.disabled = true;
         }

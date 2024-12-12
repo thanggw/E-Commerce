@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +47,13 @@ public class ProductResourceController {
 
         return iProductService.getAllProducts(filter, page, size);
     }
+    @GetMapping("/search")
+    public List<ProductResponse> searchProductsByName(
+            @RequestParam(name = "name") String name
+    ) {
+        return iProductService.searchProductsByName(name);
+    }
+
 
 
     @PutMapping("/update/{id}")

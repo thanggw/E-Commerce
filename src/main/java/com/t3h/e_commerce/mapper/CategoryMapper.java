@@ -13,8 +13,6 @@ public interface CategoryMapper {
 
     CategoryEntity toEntity(CategoryCreationRequest categoryCreationRequest);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "code", target = "code")
-    @Mapping(source = "description", target = "description")
+
     CategoryResponse toResponse(CategoryEntity categoryEntity);
 }
