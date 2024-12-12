@@ -41,8 +41,14 @@
         <!-- Search Bar -->
         <div class="search-bar">
             <label>
-                <input type="text" class="animated-input" id="animatedInput" placeholder="Bạn muốn tìm gì?" >
+                <input
+                        type="text"
+                        class="animated-input"
+                        id="animatedInput"
+                        placeholder="What are you looking for?"
+                        oninput="searchProducts(this.value)" />
             </label>
+            <div id="searchResults" class="search-results"></div>
             <button><i class="fa fa-search"></i></button>
             <div class="suggestions">
                 <span class="scroll-to-products">Sneaker</span>

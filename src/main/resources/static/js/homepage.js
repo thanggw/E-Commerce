@@ -478,10 +478,9 @@ function getColorCode(colorName) {
 async function searchProducts(query) {
     const searchResultsDiv = document.getElementById("searchResults");
 
-    // Xóa nội dung cũ và ẩn thẻ nếu không có input
     if (!query.trim()) {
         searchResultsDiv.innerHTML = "";
-        searchResultsDiv.style.display = "none"; // Ẩn thẻ khi trống
+        searchResultsDiv.style.display = "none";
         return;
     }
 
@@ -489,26 +488,39 @@ async function searchProducts(query) {
         const response = await fetch(`/api/products/search?name=${encodeURIComponent(query)}`);
         const products = await response.json();
 
-        searchResultsDiv.innerHTML = ""; // Clear previous results
+        searchResultsDiv.innerHTML = "";
         if (products.length > 0) {
-            searchResultsDiv.style.display = "block"; // Hiển thị thẻ khi có kết quả
+            searchResultsDiv.style.display = "block";
             products.forEach(product => {
                 const productDiv = document.createElement("div");
                 productDiv.className = "product-item";
+
+                // Hiển thị tên sản phẩm
                 productDiv.innerText = product.name.length > 20
                     ? product.name.substring(0, 40) + "..."
                     : product.name;
                 productDiv.title = product.name;
+
+                // Gán productId dưới dạng thuộc tính data
+                productDiv.dataset.productId = product.id;
+
+                // Thêm sự kiện click để chuyển hướng
+                productDiv.onclick = () => {
+                    const productId = productDiv.dataset.productId;
+                    window.location.href = `/guests/detail?productId=${productId}`;
+                };
+
                 searchResultsDiv.appendChild(productDiv);
             });
         } else {
-            searchResultsDiv.style.display = "none"; // Ẩn thẻ nếu không có kết quả
+            searchResultsDiv.style.display = "none";
         }
     } catch (error) {
         console.error("Error fetching search results:", error);
-        searchResultsDiv.style.display = "none"; // Ẩn thẻ khi có lỗi
+        searchResultsDiv.style.display = "none";
     }
 }
+
 
 
 
