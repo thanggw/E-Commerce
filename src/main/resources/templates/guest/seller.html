@@ -139,10 +139,29 @@
             </div>
 
             <div class="form-group">
-                <label for="imageUrls">Images (URLs, separated by commas):</label>
-                <textarea id="imageUrls" name="imageUrls" placeholder="VD: http://example.com/image1.jpg, http://example.com/image2.jpg"></textarea>
+                <label>Images:</label>
+            <div class="product-upload-container">
+                <div id="imageUploadArea" class="image-upload-area">
+                    <input type="file" id="imageInput" class="image-input" multiple accept="image/*">
+
+                    <div id="uploadPrompt">
+
+                        <div class="upload-text">Upload product photos (Unlimited quantity)</div>
+                        <button type="button" id="selectFiles" class="upload-button">Choose Image</button>
+                    </div>
+
+                    <div id="previewImages" class="preview-images"></div>
+                    <div id="imageCount" class="image-count"></div>
+                </div>
+                <textarea id="imageUrls" name="imageUrls" style="display:none;"></textarea>
             </div>
 
+            <div id="imageModal">
+                <span id="closeModal">&times;</span>
+                <img id="modalImage" alt="Ảnh đầy đủ">
+            </div>
+
+            </div>
             <div class="form-group">
                 <label for="statusCode">Status:</label>
                 <select id="statusCode" name="statusCode">
@@ -404,7 +423,7 @@ const pieChart2 = new Chart(
     { type: 'pie', data: pieData2 }
 );
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="../js/seller.js"></script>
 </body>

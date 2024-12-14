@@ -15,16 +15,18 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -40,6 +42,12 @@ public class ProductServiceImpl implements IProductService {
 
     private final ColorRespository colorRepository;
     private final SizeRepository sizeRepository;
+    @Value("${storage.root.folder.product}")
+    private String storagePath;
+
+    @Value("${storage.product.relative.path}")
+    private String relativePath;
+
 //    private  final ProductMapper2 productMapper;
 
     @Override
@@ -159,13 +167,14 @@ public class ProductServiceImpl implements IProductService {
         product.setCategory(category);
         product.setStatus(status);
 
-        // Tạo ProductImage
-        Set<ProductImage> images = request.getImageUrls().stream()
-                .map(url -> {
+        // Lưu ảnh từ Base64
+        List<String> imagePaths = saveImagesFromBase64(request.getImageBase64s(), request.getName());
+        Set<ProductImage> images = imagePaths.stream()
+                .map(path -> {
                     ProductImage image = new ProductImage();
-                    image.setImageUrl(url);
+                    image.setImageUrl(path); // Lưu đường dẫn ảnh
                     image.setProduct(product);
-                    image.setIsMain(false); // Có thể đặt logic cho ảnh chính
+                    image.setIsMain(false); // Logic xác định ảnh chính nếu cần
                     return image;
                 }).collect(Collectors.toSet());
 
@@ -173,6 +182,51 @@ public class ProductServiceImpl implements IProductService {
 
         return productRepository.save(product);
     }
+
+    private List<String> saveImagesFromBase64(List<String> base64Images, String productName) {
+        List<String> imagePaths = new ArrayList<>();
+
+        for (String base64 : base64Images) {
+            try {
+                String mimeType = base64.substring(5, base64.indexOf(";"));
+                String fileExtension = "";
+                if ("image/png".equals(mimeType)) {
+                    fileExtension = "png";
+                }else if ("image/jpeg".equals(mimeType)) {
+                    fileExtension = "jpg";
+                } else if ("image/webp".equals(mimeType)) {
+                    fileExtension = "webp";
+                } else if ("image/gif".equals(mimeType)) {
+                    fileExtension = "gif";
+                }else {
+                    throw new RuntimeException("Định dạng ảnh không được hỗ trợ: " + mimeType);
+                }
+
+                byte[] decodedBytes = Base64.getDecoder().decode(base64.split(",")[1]);
+                if (!storagePath.endsWith("/")) {
+                    storagePath += "/";
+                }
+                File directory = new File(storagePath);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                String fileName = "product_" + productName + "_" + UUID.randomUUID() + "." + fileExtension;
+                File imageFile = new File(directory, fileName);
+                try (FileOutputStream fos = new FileOutputStream(imageFile)) {
+                    fos.write(decodedBytes);
+                }
+                imagePaths.add(relativePath + fileName);
+            } catch (Exception e) {
+                for (String path : imagePaths) {
+                    new File(storagePath + path).delete();
+                }
+                throw new RuntimeException("Lỗi khi lưu ảnh từ Base64: " + e.getMessage(), e);
+            }
+        }
+        return imagePaths;
+    }
+
 
     @Override
     public ProductResponse getProductById(Integer id) {
