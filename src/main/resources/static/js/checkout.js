@@ -37,11 +37,11 @@ function getUserProfile() {
                     alert("Bạn đã đăng xuất!");
                     // Thay đổi lại giao diện về trạng thái chưa đăng nhập
                     dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
                         `;
                     // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Thông tin";
+                    usernameSpan.textContent = "Information";
                 });
             }
         },
@@ -234,7 +234,7 @@ function fetchProductDetails(productId) {
         url: `${urlBase3}api/products/${productId}`, // API lấy chi tiết sản phẩm
         type: 'GET',
         success: function (response) {
-            console.log("Thông tin sản phẩm:", response);
+            console.log("Product Information:", response);
 
             let cartItemsContainer = $('#checkout-items');
             cartItemsContainer.empty(); // Xóa nội dung cũ
@@ -251,8 +251,8 @@ function fetchProductDetails(productId) {
 
             // Nếu không tìm thấy color hoặc size, hiển thị lỗi
             if (!selectedColor || !selectedSize) {
-                console.error("Không tìm thấy màu sắc hoặc kích thước với ID được truyền vào.");
-                $('#checkout-items').html('<p>Không thể hiển thị thông tin sản phẩm. Vui lòng kiểm tra lại thông tin màu sắc hoặc kích thước.</p>');
+                console.error("Color or size with the provided ID was not found.");
+                $('#checkout-items').html('<p>Can not find information about product. Please check color and size again</p>');
                 return;
             }
 
@@ -293,8 +293,8 @@ function fetchProductDetails(productId) {
         }
         ,
         error: function (error) {
-            console.error("Không thể lấy thông tin sản phẩm:", error);
-            $('#checkout-items').html('<p>Không thể hiển thị thông tin sản phẩm.</p>');
+            console.error("Can not get the information about product:", error);
+            $('#checkout-items').html('<p>Can not get the information about product</p>');
         }
     });
 }
@@ -345,8 +345,8 @@ function checkoutSingleProduct(productId) {
             window.location.href = 'http://localhost:8082/guests/notification';
         },
         error: function (error) {
-            console.error("Không thể checkout sản phẩm:", error);
-            $('#checkout-items').html('<p>Không thể tính toán thông tin sản phẩm.</p>');
+            console.error("Unable to checkout the product.:", error);
+            $('#checkout-items').html('<p>Unable to calculate product information.</p>');
         }
     });
 }
@@ -380,7 +380,7 @@ function checkoutAllProduct() {
             },
             error: function (error) {
                 console.error("Checkout failed:", error);
-                alert("Có lỗi xảy ra khi đặt hàng.");
+                alert("An error occurred while placing the order");
             }
         });
 }

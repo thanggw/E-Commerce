@@ -240,11 +240,11 @@ function getUserProfile() {
                     alert("Bạn đã đăng xuất!");
                     // Thay đổi lại giao diện về trạng thái chưa đăng nhập
                     dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
                         `;
                     // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Thông tin";
+                    usernameSpan.textContent = "Information";
                 });
             }
         },
@@ -269,7 +269,7 @@ document.querySelector(".btn-cart").addEventListener("click", () => {
     }
 
     if (isNaN(quantity) || quantity < 1) {
-        alert("Số lượng không hợp lệ!");
+        alert("Invalid Quantity");
         return;
     }
 
@@ -295,7 +295,7 @@ document.querySelector(".btn-cart").addEventListener("click", () => {
         body: JSON.stringify(cartItemData)
     })
         .then((response) => {
-            if (!response.ok) throw new Error("Lỗi khi thêm vào giỏ hàng");
+            if (!response.ok) throw new Error("Error occur when adding into cart");
             return response.json();
         })
         .then((data) => {
@@ -311,7 +311,7 @@ document.querySelector(".btn-cart").addEventListener("click", () => {
         })
         .catch((error) => {
             console.error("Error adding to cart:", error);
-            alert("Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại!");
+            alert("Unable to add to cart. Try again!");
         });
 });
 
@@ -349,7 +349,7 @@ function getCart() {
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
+                cartItemsContainer.html('<p>Your cart is empty.</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
@@ -360,14 +360,14 @@ function getCart() {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${item.productPrice}.000 VND</p>
+                <p>Quantity: ${item.productQuantity}</p>
+                <p>Price: ${item.productPrice}.000 VND</p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
+                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Delete</button>
             </div>
         </div>`;
                     cartItemsContainer.append(cartItemHTML);
@@ -377,14 +377,14 @@ function getCart() {
                 });
 
                 // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+                $('#total-quantity').text(`Total number of product: ${totalQuantity}`);
+                $('#total-price').text(`Total price: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
             // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
-            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
+            $('#created-info').text(`Created date: ${response.createdDate}`);
+            $('#modified-info').text(`Changed Date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -485,7 +485,7 @@ $(document).ready(function () {
         }
 
         if (isNaN(quantity) || quantity < 1) {
-            alert("Số lượng không hợp lệ!");
+            alert("Invalid Number");
             return;
         }
 
@@ -495,8 +495,8 @@ $(document).ready(function () {
             // Chuyển hướng đến trang checkout với các thông tin
             window.location.href = `/guests/checkout?productId=${productId}&color=${colorId}&size=${sizeId}&quantity=${quantity}`;
         } else {
-            console.error("Vui lòng chọn màu sắc và kích thước trước khi mua");
-            alert("Vui lòng chọn màu sắc và kích thước trước khi mua.");
+            console.error("Please choose an size and color before click buy");
+            alert("Please choose an size and color before click buy.");
         }
     });
 });

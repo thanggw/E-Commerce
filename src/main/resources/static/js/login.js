@@ -54,11 +54,11 @@ else console.error("One or more elements not found");
             window.location.href = 'http://localhost:8082/guests/login'; // Chuyển hướng đến trang đăng nhập
         } else {
     const errorData = await response.json();
-    alert(`Đăng ký thất bại: ${errorData.message}`);
+    alert(`Registration failed: ${errorData.message}`);
 }
 } catch (error) {
     console.error('Error:', error);
-    alert('Có lỗi xảy ra. Vui lòng thử lại!');
+    alert('An error occurred. Please try again!');
 }
 }
 
