@@ -300,12 +300,12 @@ document.querySelector(".btn-cart").addEventListener("click", () => {
         })
         .then((data) => {
             Swal.fire({
-                icon: 'success', // loại biểu tượng: 'success', 'error', 'warning', 'info'
+                icon: 'success',
                 title: 'Success!',
-                text: 'Add thí product to your cart successfully!',
-                timer: 2000, // tự động đóng sau 3 giây
+                text: 'Add this product to your cart successfully!',
+                timer: 2000,
                 timerProgressBar: true,
-                showConfirmButton: false // ẩn nút xác nhận
+                showConfirmButton: false
             });
             console.log(data);
         })

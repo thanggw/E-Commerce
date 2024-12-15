@@ -525,24 +525,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (response.status === 204) {
                         return { status: response.status, data: null }; // Xử lý trường hợp 204 No Content
                     }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Add your product to the shop successfully!',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
                     return response.json().then(data => ({ status: response.status, data }));
                 })
-                .then(data => {
-                    if (status < 200 || status >= 300) {
-                        throw new Error(`Failed to create product. HTTP Status: ${status}`);
-                    }
-                    alert('Product created successfully!');
-                    console.log('Product created:', data);
 
-                    // Reset form và danh sách ảnh sau khi tạo sản phẩm thành công
-                    addProductForm.reset();
-                    previewImages.innerHTML = '';
-                    imageBase64s.length = 0;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to create product. Please try again.');
-                });
         } catch (error) {
             console.error('Error in form submission:', error);
             alert('An error occurred while preparing product data.');
