@@ -42,7 +42,7 @@ function getCart() {
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
+                cartItemsContainer.html('<p>Your cart is empty</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `

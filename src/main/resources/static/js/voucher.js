@@ -32,7 +32,7 @@ function getCart() {
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
+                cartItemsContainer.html('<p>Your cart is empty.</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
@@ -43,14 +43,14 @@ function getCart() {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${item.productPrice}.000 VND</p>
+                <p>Quantity: ${item.productQuantity}</p>
+                <p>Price: ${item.productPrice}.000 VND</p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
+                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Delete</button>
             </div>
         </div>`;
                     cartItemsContainer.append(cartItemHTML);
@@ -60,14 +60,14 @@ function getCart() {
                 });
 
                 // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+                $('#total-quantity').text(`Total number of product: ${totalQuantity}`);
+                $('#total-price').text(`Total Price: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
             // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
-            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
+            $('#created-info').text(`Created Date: ${response.createdDate}`);
+            $('#modified-info').text(`Changed date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -92,9 +92,9 @@ function getUserProfile() {
 
                 // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
-                        <a href="http://localhost:8082/guests/order" >Đơn Mua</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
+                        <a href="http://localhost:8082/guests/profile">Information</a>
+                        <a href="http://localhost:8082/guests/order" >Orders</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Log out</a>
                     `;
 
                 // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
@@ -108,14 +108,14 @@ function getUserProfile() {
                 // Xử lý sự kiện đăng xuất
                 document.getElementById('logout').addEventListener('click', function() {
                     // Logic đăng xuất (ví dụ xóa session hoặc localStorage)
-                    alert("Bạn đã đăng xuất!");
+                    alert("You have logged out!");
                     // Thay đổi lại giao diện về trạng thái chưa đăng nhập
                     dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
                         `;
                     // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Thông tin";
+                    usernameSpan.textContent = "Information";
                 });
             }
         },

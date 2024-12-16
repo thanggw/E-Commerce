@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-    getUserProfile(); // Lấy thông tin người dùng từ backend
+    getUserProfile(); // Fetch user profile from backend
 });
+
 const urlBase4 = "http://localhost:8082/";
+
 function getUserProfile() {
     $.ajax({
         url: urlBase4 + 'api/users/profile',
@@ -10,14 +12,14 @@ function getUserProfile() {
             if (response.code === 200 && response.data) {
                 const dropdownMenu = document.querySelector('.dropdown-menu');
 
-                // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
+                // Update the dropdown menu to show "Information" and "Logout"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
-                        <a href="http://localhost:8082/guests/order" >Đơn Mua</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
+                        <a href="http://localhost:8082/guests/profile">Information</a>
+                        <a href="http://localhost:8082/guests/order" >Orders</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Logout</a>
                     `;
 
-                // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
+                // Display user information (prioritize full name if available, otherwise show username)
                 const usernameSpan = document.getElementById('span1');
                 const fullName = (response.data.firstName && response.data.lastName)
                     ? `${response.data.firstName} ${response.data.lastName}`
@@ -25,17 +27,17 @@ function getUserProfile() {
 
                 usernameSpan.textContent = fullName;
 
-                // Xử lý sự kiện đăng xuất
+                // Handle logout event
                 document.getElementById('logout').addEventListener('click', function() {
-                    // Logic đăng xuất (ví dụ xóa session hoặc localStorage)
-                    alert("Bạn đã đăng xuất!");
-                    // Thay đổi lại giao diện về trạng thái chưa đăng nhập
+                    // Logout logic (e.g., clear session or localStorage)
+                    alert("You have logged out!");
+                    // Reset the UI to the logged-out state
                     dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
                         `;
-                    // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Thông tin";
+                    // Reset username display to the default state
+                    usernameSpan.textContent = "Information";
                 });
             }
         },
@@ -45,24 +47,23 @@ function getUserProfile() {
     });
 }
 
-
-// Hàm gọi API và hiển thị tất cả các đơn hàng
+// Function to fetch and display all orders
 async function fetchAndDisplayOrders(userId) {
-    const apiUrl = `/api/orders/${userId}`; // Đường dẫn API
+    const apiUrl = `/api/orders/${userId}`; // API endpoint
 
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error("Không thể lấy thông tin đơn hàng");
+            throw new Error("Unable to fetch order information");
         }
 
         const orders = await response.json();
 
         const orderList = document.getElementById('order-list');
-        orderList.innerHTML = ''; // Xóa nội dung cũ
+        orderList.innerHTML = ''; // Clear old content
 
         if (orders.length === 0) {
-            orderList.innerHTML = '<p>Không có đơn hàng nào.</p>';
+            orderList.innerHTML = '<p>No orders found.</p>';
             return;
         }
 
@@ -72,56 +73,56 @@ async function fetchAndDisplayOrders(userId) {
 
             orderCard.innerHTML = `
                 <div class="order-header">
-                    <div class="order-id">Mã đơn: ${order.orderId}</div>
-                    <div class="order-status">Trạng thái: ${order.orderStatus}</div>
+                    <div class="order-id">Order ID: ${order.orderId}</div>
+                    <div class="order-status">Status: ${order.orderStatus}</div>
                 </div>
                 <div class="info-section">
-                    <div class="section-title">Thông tin vận chuyển</div>
+                    <div class="section-title">Shipping Information</div>
                     <div class="info-row">
-                        <div class="info-label">Người nhận:</div>
+                        <div class="info-label">Recipient:</div>
                         <div class="info-content">${order.recipientName}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Số điện thoại:</div>
+                        <div class="info-label">Phone:</div>
                         <div class="info-content">${order.recipientPhone}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Địa chỉ:</div>
+                        <div class="info-label">Address:</div>
                         <div class="info-content">${order.recipientAddress}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Ngày giao dự kiến:</div>
+                        <div class="info-label">Estimated Delivery Date:</div>
                         <div class="info-content">${order.expectedDeliveryDate}</div>
                     </div>
                     <div class="tracking-info">
-                        <div class="tracking-number">Mã theo dõi: ${order.trackingId}</div>
+                        <div class="tracking-number">Tracking ID: ${order.trackingId}</div>
                     </div>
                 </div>
                 <div class="info-section">
-                    <div class="section-title">Thông tin thanh toán</div>
+                    <div class="section-title">Payment Information</div>
                     <div class="info-row">
-                        <div class="info-label">Tổng tiền:</div>
+                        <div class="info-label">Total Price:</div>
                         <div class="info-content">${order.totalPrice} VNĐ</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Phương thức:</div>
+                        <div class="info-label">Method:</div>
                         <div class="info-content">
                             <span>${order.paymentMethod}</span>
-                            <span>${order.paymentStatus ? " (Đã thanh toán)" : " (Chưa thanh toán)"}</span>
+                            <span>${order.paymentStatus ? " (Paid)" : " (Unpaid)"}</span>
                         </div>
                     </div>
                 </div>
             `;
 
-            orderList.appendChild(orderCard); // Thêm thẻ vào danh sách
+            orderList.appendChild(orderCard); // Add the card to the list
         });
     } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
-        alert("Có lỗi xảy ra khi tải dữ liệu đơn hàng.");
+        console.error("Error fetching orders:", error);
+        alert("An error occurred while loading order data.");
     }
 }
 
-// Gọi hàm khi trang được tải
+// Call the function when the page loads
 document.addEventListener("DOMContentLoaded", function () {
     let userId = localStorage.getItem("userId");
     if (!userId) {
@@ -131,18 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchAndDisplayOrders(userId);
 });
 
-
-
-
-// code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
+// Display the cart items and update the UI with the total count
 $(document).ready(function () {
-    // Khi trang được tải, gọi hàm getCart
     getCart();
 });
 
 function getCart() {
     console.log("Refreshing cart...");
-    // Lấy userId từ localStorage
     let userId = localStorage.getItem("userId");
 
     if (!userId) {
@@ -150,7 +146,6 @@ function getCart() {
         return;
     }
 
-    // Gọi API giỏ hàng với userId lấy từ localStorage
     $.ajax({
         url: urlBase4 + `api/carts/${userId}`,
         type: 'GET',
@@ -158,31 +153,26 @@ function getCart() {
             console.log("Cart fetched successfully:", response);
             let cartItems = response.items;
             let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty(); // Xóa nội dung cũ
+            cartItemsContainer.empty(); // Clear old content
 
             let totalQuantity = 0;
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
+                cartItemsContainer.html('<p>Your cart is empty.</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
                            <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <!-- Hiển thị ảnh sản phẩm -->
             <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-
-            <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${item.productPrice}.000 VND</p>
+                <p>Quantity: ${item.productQuantity}</p>
+                <p>Price: ${item.productPrice}.000 VND</p>
             </div>
-
-            <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
+                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Remove</button>
             </div>
         </div>`;
                     cartItemsContainer.append(cartItemHTML);
@@ -191,15 +181,13 @@ function getCart() {
                     totalPrice += item.productQuantity * item.productPrice;
                 });
 
-                // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+                $('#total-quantity').text(`Total Quantity: ${totalQuantity}`);
+                $('#total-price').text(`Total Price: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
-            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
-            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
+            $('#created-info').text(`Created Date: ${response.createdDate}`);
+            $('#modified-info').text(`Last Modified Date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -207,8 +195,9 @@ function getCart() {
     });
 }
 
+// Redirections
 $('.scroll-to-products').on('click', function () {
-    window.location.href = 'http://localhost:8082/guests/allproducts';  // Chuyển hướng tới trang mới hiển thị toàn bộ sản phẩm
+    window.location.href = 'http://localhost:8082/guests/allproducts';
 });
 
 $(document).ready(function () {
@@ -216,203 +205,3 @@ $(document).ready(function () {
         window.location.href = 'http://localhost:8082/guests/cart';
     });
 });
-
-
-
-
-const input4 = document.getElementById('animatedInput');
-const placeholders4 = [
-    'Bạn đang tìm gì?',
-    'Adidas Superstar',
-    'Nike Air Force 1',
-    'Converse Chuck Taylor',
-    'Vans Old Skool',
-    'Puma Suede',
-    'New Balance 574',
-    'Reebok Classic Leather'
-];
-
-let currentIndex4 = 0;
-let isDeleting4 = false;
-let currentText4 = '';
-let charIndex4 = 0;
-
-function typeEffect() {
-    const currentPlaceholder = placeholders4[currentIndex4];
-
-    if (isDeleting4) {
-        // Xóa từng ký tự
-        currentText4 = currentPlaceholder.substring(0, charIndex4 - 1);
-        charIndex4--;
-    } else {
-        // Thêm từng ký tự
-        currentText4 = currentPlaceholder.substring(0, charIndex4 + 1);
-        charIndex4++;
-    }
-
-    input4.setAttribute('placeholder', currentText4);
-
-    let typingSpeed = isDeleting4 ? 30 : 50; // Tốc độ gõ và xóa
-
-    if (!isDeleting4 && charIndex4 === currentPlaceholder.length) {
-        // Khi gõ xong, đợi 1 giây rồi bắt đầu xóa
-        typingSpeed = 1000;
-        isDeleting4 = true;
-    } else if (isDeleting4 && charIndex4 === 0) {
-        // Khi xóa xong, chuyển sang placeholder tiếp theo
-        isDeleting4 = false;
-        currentIndex4 = (currentIndex4 + 1) % placeholders4.length;
-    }
-
-    setTimeout(typeEffect, typingSpeed);
-}
-
-// Bắt đầu hiệu ứng
-typeEffect();
-
-$(document).ready(function () {
-    $('.wishlist').click(function () {
-        window.location.href = 'http://localhost:8082/guests/wishlist';
-    });
-});
-
-// code này để hiển thị số lượng wishlist
-document.addEventListener("DOMContentLoaded", function () {
-    // User ID (giả sử lấy từ hệ thống)
-    const userId = localStorage.getItem("userId");
-
-    // API URL để lấy wishlist
-    const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
-
-    // Fetch wishlist từ API
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const wishlistItemsContainer = document.getElementById("wishlist-items");
-            const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
-            // Kiểm tra nếu không có sản phẩm
-            if (!data.items || data.items.length === 0) {
-                wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
-                return;
-            }
-            // Lấy số lượng sản phẩm từ mảng items
-            const count = data.items.length;
-            // Cập nhật số lượng lên giao diện
-            wishlistCountElement.textContent = count;
-
-            // Render danh sách sản phẩm
-            data.items.forEach(item => {
-                const itemCard = document.createElement("div");
-                itemCard.classList.add("wishlist-item");
-
-                itemCard.innerHTML = `
-                    <div class="wishlist-item">
-    <img src="${item.productImage}" alt="${item.productName}">
-    <div class="item-details">
-        <h3>${item.productName}</h3>
-        <p>Color: 
-            <span class="color-name">${item.color}</span>
-            <span class="color-box" style="background-color: ${getColorCode(item.color)};"></span>
-        </p>
-        <p>Size: ${item.size}</p>
-        <p>${item.available ? "In Stock" : "Out of Stock"}</p>
-        <button class="remove-btn" data-item-id="${item.itemId}">Remove</button>
-    </div>
-</div>
-
-                `;
-
-                // Append card vào container
-                wishlistItemsContainer.appendChild(itemCard);
-            });
-
-            // Gắn sự kiện click vào nút "Remove"
-            document.querySelectorAll(".remove-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    const itemId = this.getAttribute("data-item-id");
-                    removeFromWishlist(itemId);
-                });
-            });
-        })
-        .catch(error => console.error("Error fetching wishlist:", error));
-});
-
-// Hàm xóa sản phẩm khỏi wishlist
-function removeFromWishlist(itemId) {
-    const apiUrl = `http://localhost:8082/api/wishlist/remove/${itemId}`;
-
-    fetch(apiUrl, { method: "DELETE" })
-        .then(response => {
-            if (response.ok) {
-                alert("Item removed from wishlist.");
-                location.reload(); // Reload lại trang
-            } else {
-                alert("Failed to remove item.");
-            }
-        })
-        .catch(error => console.error("Error removing item:", error));
-}
-function getColorCode(colorName) {
-    const colorMap9 = {
-        "Red": "#FF0000",       // Đỏ
-        "Blue": "#0000FF",      // Xanh dương
-        "Yellow": "#FFFF00",    // Vàng
-        "Green": "#008000",     // Xanh lá cây
-        "Orange": "#FFA500",    // Cam
-        "Purple": "#800080",    // Tím
-        "Pink": "#FFC0CB",      // Hồng
-        "Brown": "#A52A2A",     // Nâu
-        "Black": "#000000",     // Đen
-        "White": "#FFFFFF",     // Trắng
-        "Gray": "#808080",      // Xám
-        "Violet": "#EE82EE"     // Tím violet
-    };
-    return colorMap9[colorName] || "#CCCCCC"; // Mặc định màu xám nếu không tìm thấy
-}
-
-
-async function searchProducts(query) {
-    const searchResultsDiv = document.getElementById("searchResults");
-
-    if (!query.trim()) {
-        searchResultsDiv.innerHTML = "";
-        searchResultsDiv.style.display = "none";
-        return;
-    }
-
-    try {
-        const response = await fetch(`/api/products/search?name=${encodeURIComponent(query)}`);
-        const products = await response.json();
-
-        searchResultsDiv.innerHTML = "";
-        if (products.length > 0) {
-            searchResultsDiv.style.display = "block";
-            products.forEach(product => {
-                const productDiv = document.createElement("div");
-                productDiv.className = "product-item";
-
-                // Hiển thị tên sản phẩm
-                productDiv.innerText = product.name.length > 20
-                    ? product.name.substring(0, 40) + "..."
-                    : product.name;
-                productDiv.title = product.name;
-
-                // Gán productId dưới dạng thuộc tính data
-                productDiv.dataset.productId = product.id;
-
-                // Thêm sự kiện click để chuyển hướng
-                productDiv.onclick = () => {
-                    const productId = productDiv.dataset.productId;
-                    window.location.href = `/guests/detail?productId=${productId}`;
-                };
-
-                searchResultsDiv.appendChild(productDiv);
-            });
-        } else {
-            searchResultsDiv.style.display = "none";
-        }
-    } catch (error) {
-        console.error("Error fetching search results:", error);
-        searchResultsDiv.style.display = "none";
-    }
-}

@@ -166,8 +166,8 @@ function getUserProfile() {
                     });
                     // Thay đổi lại giao diện về trạng thái chưa đăng nhập
                     dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
                         `;
                     // Đặt lại hiển thị username về trạng thái mặc định
                     usernameSpan.textContent = "Thông tin";
@@ -217,7 +217,7 @@ function getCart() {
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
+                cartItemsContainer.html('<p>Your cart is empty</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
@@ -228,14 +228,14 @@ function getCart() {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${item.productPrice}.000 VND</p>
+                <p>Quantity: ${item.productQuantity}</p>
+                <p>Price: ${item.productPrice}.000 VND</p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
                 <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Delete</button>
             </div>
         </div>`;
                     cartItemsContainer.append(cartItemHTML);
@@ -245,14 +245,14 @@ function getCart() {
                 });
 
                 // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+                $('#total-quantity').text(`Total product quantity: ${totalQuantity}`);
+                $('#total-price').text(`Total money: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
             // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
-            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
+            $('#created-info').text(`Created Date: ${response.createdDate}`);
+            $('#modified-info').text(`Changed date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -305,11 +305,11 @@ function displayProducts(products, containerId) {
                     </p>
                     <!-- Cart Icon -->
                     <div class="cart-icon">
-                        <button class="add-to-cart-btn2"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+                        <button class="add-to-cart-btn2"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
                     </div>
                     <!-- Size options -->
                     <div class="size-options">
-                       <label>Kích cỡ:</label>
+                       <label>Size:</label>
                             <div class="size-buttons">
                                 ${product.sizes.map(size => `
                                 <button 
@@ -367,7 +367,7 @@ fetch(apiUrl)
             const moreProducts = products.slice(2,6);
             displayProducts(moreProducts, 'more-products');
         } else {
-            console.error('Dữ liệu trong content không phải là một mảng:', products);
+            console.error('Data in content is not an array:', products);
         }
     })
     .catch(error => {
