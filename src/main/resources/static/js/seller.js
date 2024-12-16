@@ -1,44 +1,28 @@
-// Handle the form submission for adding a new product
-document.getElementById('addProductForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const price = document.getElementById('price').value;
-    const description = document.getElementById('description').value;
-    const quantity = document.getElementById('quantity').value;
-    const brandCode = document.getElementById('brandCode').value;
-    const categoryCode = document.getElementById('categoryCode').value;
-    const colors = document.getElementById('colors').value.split(',').map(c => c.trim());
-    const sizes = document.getElementById('sizes').value.split(',').map(s => s.trim());
-    const imageUrls = document.getElementById('imageUrls').value.split(',').map(url => url.trim());
-    const statusCode = document.getElementById('statusCode').value;
 
-    const payload = {
-        name,
-        price,
-        description,
-        quantity,
-        brandCode,
-        categoryCode,
-        colors,
-        sizes,
-        imageUrls,
-        statusCode,
-    };
+// Hàm chuyển file thành Base64
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            console.log("Base64 string:", reader.result);
+            resolve(reader.result.split(',')[1]); // Chỉ lấy phần Base64 sau dấu phẩy
+        };
+        reader.onerror = error => {
+            console.error("Error reading file:", error);
+            reject(error);
+        };
+        reader.readAsDataURL(file);
+    });
+}
 
-    try {
-        const response = await axios.post('http://localhost:8082/api/products/create', payload);
-        document.getElementById('message').textContent = 'Product added successfully!';
-        document.getElementById('message').className = 'message success';
-        console.log('Response:', response.data);
-    } catch (error) {
-        document.getElementById('message').textContent = 'Error: Unable to add product!';
-        document.getElementById('message').className = 'message error';
-        console.error('Error:', error);
-    }
-});
 
-// Display the wishlist item count and manage items
+
+
+
+
+const URL1 = 'http://localhost:8082/';
+// code này để hiển thị số lượng wishlist
 document.addEventListener("DOMContentLoaded", function () {
     const userId = localStorage.getItem("userId"); // User ID fetched from localStorage
     const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
@@ -137,7 +121,7 @@ function getCart() {
     }
 
     $.ajax({
-        url: URL + `api/carts/${userId}`,
+        url: URL1 + `api/carts/${userId}`,
         type: 'GET',
         success: function (response) {
             console.log("Cart fetched successfully:", response);
@@ -188,7 +172,7 @@ function getCart() {
 function removeItem(userId, productId) {
     console.log("Removing product with ID:", productId, "from user ID:", userId);
     $.ajax({
-        url: URL + `api/carts/${userId}/remove/${productId}`,
+        url: URL1 + `api/carts/${userId}/remove/${productId}`,
         type: 'DELETE',
         success: function (response) {
             console.log(response);
@@ -207,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function getUserProfile() {
     $.ajax({
-        url: URL + 'api/users/profile',
+        url: URL1 + 'api/users/profile',
         type: 'GET',
         success: function(response) {
             if (response.code === 200 && response.data) {
@@ -360,5 +344,131 @@ async function searchProducts(query) {
         searchResultsDiv.style.display = "none";
     }
 }
+
+
+
+
+// JavaScript cho chức năng tải ảnh lên, xem trước, xem full ảnh và tích hợp với API backend
+
+document.addEventListener('DOMContentLoaded', function () {
+    const imageInput = document.getElementById('imageInput');
+    const previewImages = document.getElementById('previewImages');
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const closeModal = document.getElementById('closeModal');
+    const addProductForm = document.getElementById('addProductForm');
+    const imageBase64s = []; // Lưu trữ các ảnh dưới dạng Base64
+
+    // Khi người dùng nhấn vào nút "Choose Image"
+    document.getElementById('selectFiles').addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    // Khi chọn file ảnh
+    imageInput.addEventListener('change', function () {
+        const files = imageInput.files;
+
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Thêm ảnh Base64 vào danh sách
+                imageBase64s.push(e.target.result);
+
+                // Tạo phần tử chứa ảnh xem trước
+                const imageWrapper = document.createElement('div');
+                imageWrapper.classList.add('image-wrapper');
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+                img.classList.add('preview-image');
+
+                // Sự kiện click để xem full ảnh
+                img.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                    modalImage.src = e.target.result;
+                });
+
+                imageWrapper.appendChild(img);
+                previewImages.appendChild(imageWrapper);
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        // Reset giá trị của input file để cho phép chọn lại các ảnh cũ và mới
+        imageInput.value = '';
+    });
+
+    // Đóng modal khi nhấn vào nút "close"
+    closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Đóng modal khi nhấn ra ngoài ảnh
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Gửi dữ liệu sản phẩm đến API khi submit form
+    addProductForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+        try {
+            // Thu thập dữ liệu từ form
+            const formData = new FormData(addProductForm);
+            const colors = formData.get('colors') ? formData.get('colors').split(',').map(color => color.trim()) : [];
+            const sizes = formData.get('sizes') ? formData.get('sizes').split(',').map(size => size.trim()) : [];
+            const productData = {
+                name: formData.get('name'),
+                price: parseFloat(formData.get('price')),
+                description: formData.get('description'),
+                quantity: parseInt(formData.get('quantity')),
+                brandCode: formData.get('brandCode'),
+                categoryCode: formData.get('categoryCode'),
+                colors: colors.length > 0 ? colors : null, // Đảm bảo `colors` không phải mảng rỗng
+                sizes: sizes.length > 0 ? sizes : null,   // Đảm bảo `sizes` không phải mảng rỗng
+                imageBase64s: imageBase64s.length > 0 ? imageBase64s : null, // Kiểm tra danh sách ảnh
+                statusCode: formData.get('statusCode')
+            };
+
+            // Kiểm tra cấu trúc của productData trước khi gửi
+            console.log('Product Data:', productData);
+
+            // Gửi dữ liệu đến API backend
+            fetch('/api/products/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            })
+                .then(response => {
+                    console.log('HTTP Status:', response.status);
+
+                    if (response.status === 204) {
+                        return { status: response.status, data: null }; // Xử lý trường hợp 204 No Content
+                    }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Add your product to the shop successfully!',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                    return response.json().then(data => ({ status: response.status, data }));
+                })
+
+        } catch (error) {
+            console.error('Error in form submission:', error);
+            alert('An error occurred while preparing product data.');
+        }
+    });
+});
+
 
 

@@ -19,6 +19,7 @@ public class ProductRequest {
     private Set<String> sizes;  // Danh sách size (tên size)
     private String brandCode;   // Mã brand
     private String categoryCode; // Mã category
-    private List<String> imageUrls; // Danh sách URL ảnh
+    private List<String> imageBase64s; // Danh sách ảnh Base64
     private String statusCode;   // Mã trạng thái
 }
+

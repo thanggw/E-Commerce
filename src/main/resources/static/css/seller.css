@@ -116,29 +116,58 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
+    justify-content: center;
+    align-items: center;
+
+
+    font-family: Arial, sans-serif;
+
 }
 
 .search-bar input {
     padding: 10px;
     width: 400px;
-    border: 1px solid #dcdcdc;
+    border: 2px solid rgb(247, 67, 67);
     border-radius: 5px;
+}
+.animated-input {
+    width: 300px;
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.animated-input:focus {
+    border-color: #2980b9;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.suggestions {
+    margin-left: -20px;
+    margin-top: 5px;
+    color: #b0b0b0;
 }
 
 .search-bar button {
     position: absolute;
-    right: 5px;
+    right: 40px;
     top: 10px;
-    background-color: transparent;
+    width: 50px;
+    height: 39px;
     border: none;
     font-size: 18px;
     cursor: pointer;
 }
 
-.suggestions {
-    margin-top: 5px;
-    color: #b0b0b0;
-}
+
 
 .suggestions span {
     margin-right: 15px;
@@ -156,7 +185,7 @@ body {
 .user-info > div {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 50px;
     position: relative;
 }
 
@@ -638,6 +667,7 @@ select {
 
 
 button[type="button"] {
+    width: 15%;
     background-color: #ff5722;
     color: white;
     border: none;
@@ -867,4 +897,129 @@ footer {
 
 .product-item:hover {
     background-color: #eaeaea;
+}
+
+
+
+.product-upload-container {
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    max-width: 100%;
+    margin: 20px auto;
+}
+.image-upload-area {
+    border: 2px dashed #e0e0e0;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.image-upload-area:hover {
+    border-color: #ee4d2d;
+    background-color: #fff4f2;
+}
+.upload-icon {
+    color: #ee4d2d;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+.upload-text {
+    color: #888;
+    margin-bottom: 15px;
+}
+.upload-button {
+    background-color: #ee4d2d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.upload-button:hover {
+    background-color: #f53d2d;
+}
+.image-input {
+    display: none;
+}
+.preview-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.preview-image {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(238, 77, 45, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+.image-count {
+    color: #888;
+
+    font-size: 14px;
+}
+/* Phong cách modal xem ảnh */
+#imageModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(190, 185, 185, 0.9);
+}
+#modalImage {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#closeModal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+#closeModal:hover {
+    color: #bbb;
 }
