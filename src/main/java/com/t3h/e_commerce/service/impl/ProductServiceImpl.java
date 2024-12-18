@@ -4,10 +4,14 @@ import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.ProductRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
+import com.t3h.e_commerce.dto.responses.ColorResponse;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
+import com.t3h.e_commerce.dto.responses.SizeResponse;
 import com.t3h.e_commerce.entity.*;
 import com.t3h.e_commerce.exception.CustomExceptionHandler;
 import com.t3h.e_commerce.exception.ResourceNotFoundException;
+import com.t3h.e_commerce.mapper.BrandMapper;
+import com.t3h.e_commerce.mapper.CategoryMapper;
 import com.t3h.e_commerce.mapper.ProductMapper;
 import com.t3h.e_commerce.repository.*;
 import com.t3h.e_commerce.service.IProductService;
@@ -19,6 +23,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +46,7 @@ public class ProductServiceImpl implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final ProductStatusRepository statusRepository;
-
+    private final UserRepository userRepository;
     private final ColorRespository colorRepository;
     private final SizeRepository sizeRepository;
     @Value("${storage.root.folder.product}")
@@ -106,6 +113,12 @@ public class ProductServiceImpl implements IProductService {
 
     @Transactional
     public ProductEntity addProduct(ProductRequest request) {
+        // Lấy thông tin người dùng từ SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         // Kiểm tra hoặc tạo Brand
         BrandEntity brand = brandRepository.findByCode(request.getBrandCode())
                 .orElseGet(() -> {
@@ -166,6 +179,7 @@ public class ProductServiceImpl implements IProductService {
         product.setBrand(brand);
         product.setCategory(category);
         product.setStatus(status);
+        product.setUser(user);
 
         // Lưu ảnh từ Base64
         List<String> imagePaths = saveImagesFromBase64(request.getImageBase64s(), request.getName());
@@ -225,6 +239,46 @@ public class ProductServiceImpl implements IProductService {
             }
         }
         return imagePaths;
+    }
+    @Override
+    public List<ProductResponse> getProductsByCurrentUser() {
+        // Lấy tên người dùng hiện tại từ SecurityContextHolder
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Tìm user trong database
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Tìm sản phẩm theo userId và chuyển đổi sang DTO
+        return productRepository.findByUser_Id(user.getId()).stream()
+                .map(product -> ProductResponse.builder()
+                        .brand(BrandMapper.INSTANCE.toResponse(product.getBrand()))
+                        .category(CategoryMapper.INSTANCE.toResponse(product.getCategory()))
+                        .id(product.getId())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .description(product.getDescription())
+                        .imageUrls(product.getImages().stream()
+                                .map(ProductImage::getImageUrl)
+                                .collect(Collectors.toList()))
+                        .isSoldOut(product.getQuantity() <= 0)
+                        .quantity(product.getQuantity())
+                        .isAvailable(product.isAvailable())
+                        .createdDate(product.getCreatedDate())
+                        .createdBy(product.getCreatedBy())
+                        .lastModifiedDate(product.getLastModifiedDate())
+                        .lastModifiedBy(product.getLastModifiedBy())
+                        .deleted(product.getDeleted())
+                        .colors(product.getColors().stream()
+                                .map(color -> new ColorResponse(color.getId(), color.getName()))
+                                .collect(Collectors.toSet()))
+                        .sizes(product.getSizes().stream()
+                                .map(size -> new SizeResponse(size.getId(), size.getName()))
+                                .collect(Collectors.toSet()))
+                        .build())
+                .collect(Collectors.toList());
+
     }
 
 

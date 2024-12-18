@@ -3,6 +3,7 @@ package com.t3h.e_commerce.service.impl;
 import com.t3h.e_commerce.configuration.ApplicationConfig;
 import com.t3h.e_commerce.constant.DefaultRoles;
 import com.t3h.e_commerce.dto.Response;
+import com.t3h.e_commerce.dto.requests.BankInfoRequest;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.RoleEntity;
 import com.t3h.e_commerce.entity.UserEntity;
@@ -158,6 +159,18 @@ public class UserServiceImpl implements IUserService {
     }
 
 
+    public void updateBankInfo(Integer userId, BankInfoRequest request) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            UserEntity user = optionalUser.get();
+            user.setBankName(request.getBankName());
+            user.setBankAccount(request.getBankAccount());
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
 }
 
 

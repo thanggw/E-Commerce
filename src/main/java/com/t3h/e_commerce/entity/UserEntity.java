@@ -44,4 +44,7 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "payer", cascade = CascadeType.ALL)
     Set<PaymentEntity> payments;
+
+    private String bankName;
+    private String bankAccount;
 }

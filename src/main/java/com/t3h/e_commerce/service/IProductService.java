@@ -20,4 +20,5 @@ public interface IProductService {
     ProductResponse updateProduct(Integer id, ProductUpdateRequest request);
 
     ProductResponse getProductById(Integer id);
+    List<ProductResponse> getProductsByCurrentUser();
 }

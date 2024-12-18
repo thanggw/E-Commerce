@@ -28,17 +28,43 @@ function getUserProfile() {
                 usernameSpan.textContent = fullName;
 
                 // Xử lý sự kiện đăng xuất
-                document.getElementById('logout').addEventListener('click', function() {
-                    // Logic đăng xuất (ví dụ xóa session hoặc localStorage)
-                    alert("Bạn đã đăng xuất!");
-                    // Thay đổi lại giao diện về trạng thái chưa đăng nhập
-                    dropdownMenu.innerHTML = `
-                            <a href="#">Đăng nhập</a>
-                            <a href="#">Đăng ký</a>
-                        `;
-                    // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Thông tin";
+                document.getElementById('logout').addEventListener('click', function (event) {
+                    // Ngăn điều hướng mặc định của liên kết
+                    event.preventDefault();
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to continue to buy items!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, Log out!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Hiển thị thông báo thành công
+                            Swal.fire({
+                                title: "Logged out!",
+                                text: "Your account has been logged out.",
+                                icon: "success"
+                            }).then(() => {
+                                // Sau khi SweetAlert hoàn tất, điều hướng về trang login
+                                window.location.href = "http://localhost:8082/guests/login";
+                            });
+
+                            // Thay đổi giao diện về trạng thái chưa đăng nhập
+                            const dropdownMenu = document.querySelector('.dropdown-menu');
+                            dropdownMenu.innerHTML = `
+                <a href="#">Login</a>
+                <a href="#">Register</a>
+            `;
+
+                            const usernameSpan = document.getElementById('span1');
+                            usernameSpan.textContent = "Information";
+                        }
+                    });
                 });
+
             }
         },
         error: function(error) {

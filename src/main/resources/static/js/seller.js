@@ -209,7 +209,10 @@ function getUserProfile() {
 
                 usernameSpan.textContent = fullName;
 
-                document.getElementById('logout').addEventListener('click', function() {
+                document.getElementById('logout').addEventListener('click', function (event) {
+                    // Ngăn điều hướng mặc định của liên kết
+                    event.preventDefault();
+
                     Swal.fire({
                         title: "Are you sure?",
                         text: "You won't be able to continue to buy items!",
@@ -220,21 +223,29 @@ function getUserProfile() {
                         confirmButtonText: "Yes, Log out!"
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            // Hiển thị thông báo thành công
                             Swal.fire({
-                                title: "Log out!",
+                                title: "Logged out!",
                                 text: "Your account has been logged out.",
                                 icon: "success"
+                            }).then(() => {
+                                // Sau khi SweetAlert hoàn tất, điều hướng về trang login
+                                window.location.href = "http://localhost:8082/guests/login";
                             });
+
+                            // Thay đổi giao diện về trạng thái chưa đăng nhập
+                            const dropdownMenu = document.querySelector('.dropdown-menu');
+                            dropdownMenu.innerHTML = `
+                <a href="#">Login</a>
+                <a href="#">Register</a>
+            `;
+
+                            const usernameSpan = document.getElementById('span1');
+                            usernameSpan.textContent = "Information";
                         }
                     });
-                    // Thay đổi lại giao diện về trạng thái chưa đăng nhập
-                    dropdownMenu.innerHTML = `
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
-                        `;
-                    // Đặt lại hiển thị username về trạng thái mặc định
-                    usernameSpan.textContent = "Information";
                 });
+
             }
         },
         error: function(error) {
@@ -471,4 +482,261 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const apiUrl = 'http://localhost:8082/api/products/current-user';
+    const productTableBody = document.querySelector('#productTable tbody');
+    const editForm = document.getElementById('editForm');
+    const editProductName = document.getElementById('editProductName');
+    const editProductPrice = document.getElementById('editProductPrice');
+    const editProductId = document.getElementById('editProductId');
+    const saveEditButton = document.getElementById('saveEditButton');
+
+    // Fetch and Render Products
+    function fetchProducts() {
+        productTableBody.innerHTML = '';
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-product-id', product.id);
+
+                    row.innerHTML = `
+                                <td>${product.id}</td>
+                                <td><img src="${product.imageUrls[0]}" alt="${product.name}" class="product-image"></td>
+                                <td>${product.name}</td>
+                                <td>$${product.price.toFixed(2)}</td>
+                                <td>${product.category.description}</td>
+                                <td>
+                                    <button class="action-button edit-button" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Edit</button>
+                                    <button class="action-button delete-button" data-id="${product.id}">Delete</button>
+                                </td>
+                            `;
+                    productTableBody.appendChild(row);
+                    row.addEventListener('click', function (event) {
+                        // Nếu click vào button thì ngăn chặn sự lan truyền
+                        if (event.target.tagName === 'BUTTON') {
+                            event.stopPropagation();
+                        } else {
+                            // Lấy productId từ data-product-id và chuyển hướng
+                            const productId = row.getAttribute('data-product-id');
+                            window.location.href = `/guests/detail?productId=${productId}`;
+                        }
+                    });
+                });
+
+                attachEventListeners(); // Attach events to buttons
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }
+
+    // Attach Event Listeners for Edit and Delete
+    function attachEventListeners() {
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-id');
+                const productName = button.getAttribute('data-name');
+                const productPrice = button.getAttribute('data-price');
+
+                // Populate Edit Form
+                editProductId.value = productId;
+                editProductName.value = productName;
+                editProductPrice.value = productPrice;
+
+                // Show the Edit Form
+                editForm.style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-id');
+                handleDelete(productId);
+            });
+        });
+    }
+
+    // Handle Save Edit
+    saveEditButton.addEventListener('click', () => {
+        const productId = editProductId.value;
+        const updatedData = {
+            name: editProductName.value,
+            price: parseFloat(editProductPrice.value)
+        };
+
+        fetch(`http://localhost:8082/api/products/${productId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Sản phẩm đã được cập nhật!');
+                    editForm.style.display = 'none';
+                    fetchProducts();
+                } else {
+                    throw new Error('Failed to update product');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating product:', error);
+                alert('Có lỗi xảy ra khi cập nhật sản phẩm.');
+            });
+    });
+
+    // Handle Delete
+    function handleDelete(productId) {
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
+            fetch(`http://localhost:8082/api/products/${productId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Sản phẩm đã được xóa!');
+                        fetchProducts();
+                    } else {
+                        throw new Error('Failed to delete product');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting product:', error);
+                    alert('Có lỗi xảy ra khi xóa sản phẩm.');
+                });
+        }
+    }
+
+    // Initial Fetch
+    fetchProducts();
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const bankInfoContainer = document.getElementById('bankInfoContainer');
+    const bankSummary = document.getElementById('bankSummary');
+    const editBankButton = document.getElementById('editBankButton');
+
+    const bankForm = document.getElementById('bankForm');
+    const bankDropdown = document.getElementById('bankDropdown');
+    const bankAccountInput = document.getElementById('bankAccount');
+    const updateBankButton = document.getElementById('updateBankButton');
+    let userId = localStorage.getItem("userId");
+
+    const bankApiUrl = 'https://api.vietqr.io/v2/banks';
+    const bankInfoApiUrl = `http://localhost:8082/api/seller/bank-info?userId=${userId}`;
+    const updateBankApiUrl = `http://localhost:8082/api/seller/update-bank?userId=${userId}`;
+
+    // Fetch danh sách ngân hàng
+
+
+    function fetchBanks() {
+        fetch('http://api.vietqr.io/v2/banks')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.code === "00") {
+                    const banks = data.data;
+
+                    // Thêm từng ngân hàng vào dropdown
+                    // Thêm option mặc định trước khi thêm các ngân hàng
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+
+                    defaultOption.selected = true; // Đặt làm giá trị mặc định
+                    defaultOption.disabled = true; // Không cho phép người dùng chọn
+                    bankDropdown.appendChild(defaultOption);
+
+// Thêm các ngân hàng như trước
+                    banks.forEach(bank => {
+                        const option = document.createElement('option');
+                        option.value = bank.code;
+                        option.dataset.content = `
+        <img src="${bank.logo}" alt="${bank.shortName}" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 10px;">
+        ${bank.shortName}
+    `;
+                        bankDropdown.appendChild(option);
+                    });
+                    $('#bankDropdown').selectpicker({
+                        title: "Chọn Ngân Hàng" // Hiển thị tiêu đề mặc định
+                    });
+                    $('#bankDropdown').selectpicker('refresh');
+
+
+                } else {
+                    console.error('Không thể tải danh sách ngân hàng:', data.desc);
+                }
+            })
+            .catch(error => console.error('Lỗi khi gọi API:', error));
+    }
+
+
+    $(document).ready(function () {
+        fetchBanks(); // Gọi hàm fetchBanks khi DOM đã sẵn sàng
+    });
+
+    // Fetch thông tin ngân hàng của người dùng
+    function fetchBankInfo() {
+        fetch(bankInfoApiUrl, { credentials: 'include' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.bankName && data.bankAccount) {
+                    // Hiển thị tóm tắt thông tin ngân hàng
+                    bankSummary.textContent = `Ngân hàng: ${data.bankName} 
+                                               - Số tài khoản: ****${data.bankAccount.slice(-4)}`;
+                    bankSummary.style.display = 'block';
+                    editBankButton.style.display = 'inline-block';
+                } else {
+                    // Hiển thị form nếu chưa có thông tin
+                    bankForm.style.display = 'block';
+                    fetchBanks();
+                }
+            })
+            .catch(error => console.error('Error fetching bank info:', error));
+    }
+
+    // Hiển thị form chỉnh sửa khi click "Chỉnh sửa"
+    editBankButton.addEventListener('click', function () {
+        bankSummary.style.display = 'none';
+        editBankButton.style.display = 'none';
+        bankForm.style.display = 'block';
+        fetchBanks(); // Gọi lại danh sách ngân hàng
+    });
+
+    // Cập nhật ngân hàng và số tài khoản
+    updateBankButton.addEventListener('click', () => {
+        const selectedBank = bankDropdown.value;
+        const bankAccount = bankAccountInput.value;
+
+        if (!selectedBank || !bankAccount) {
+            alert('Vui lòng chọn ngân hàng và nhập số tài khoản.');
+            return;
+        }
+
+        fetch(updateBankApiUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bankName: selectedBank, bankAccount: bankAccount }),
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Thông tin ngân hàng đã được cập nhật thành công!');
+                    location.reload(); // Reload lại trang để cập nhật
+                } else {
+                    throw new Error('Cập nhật thất bại');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating bank information:', error);
+                alert('Có lỗi xảy ra khi cập nhật thông tin.');
+            });
+    });
+
+    // Gọi fetchBankInfo khi load trang
+    fetchBankInfo();
+});
 

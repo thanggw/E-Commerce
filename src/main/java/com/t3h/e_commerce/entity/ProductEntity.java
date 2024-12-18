@@ -37,6 +37,11 @@ public class ProductEntity extends BaseEntity{
     private Set<Size> sizes;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user;
+
+
+    @ManyToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
     BrandEntity brand;
 

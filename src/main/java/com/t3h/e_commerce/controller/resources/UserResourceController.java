@@ -5,10 +5,15 @@ import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.UseCreationRequest;
 import com.t3h.e_commerce.dto.requests.UserRequestFilter;
 import com.t3h.e_commerce.dto.responses.UserResponse;
+import com.t3h.e_commerce.entity.UserEntity;
+import com.t3h.e_commerce.repository.UserRepository;
 import com.t3h.e_commerce.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.Map;
 
 
 @RestController
@@ -34,5 +39,4 @@ public class UserResourceController {
                   return ResponseEntity.badRequest().body("Error: "+e.getMessage());
             }
     }
-
 }

@@ -22,4 +22,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
         " AND (:#{#filter.category} is null OR c.code = :#{#filter.category})" +
         " AND (:#{#filter.brand} is null OR b.code = :#{#filter.brand})")
     Page<ProductEntity> searchProductEntitiesByConditions(@Param("filter") ProductRequestFilter filter, Pageable pageable);
+    List<ProductEntity> findByUser_Id(Integer userId);
 }

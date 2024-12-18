@@ -54,6 +54,12 @@ public class ProductResourceController {
         return iProductService.searchProductsByName(name);
     }
 
+    @GetMapping("/current-user")
+    public ResponseEntity<List<ProductResponse>> getProductsByCurrentUser() {
+        List<ProductResponse> products = iProductService.getProductsByCurrentUser();
+        return ResponseEntity.ok(products);
+    }
+
 
 
     @PutMapping("/update/{id}")
