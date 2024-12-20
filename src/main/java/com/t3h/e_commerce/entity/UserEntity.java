@@ -45,6 +45,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "payer", cascade = CascadeType.ALL)
     Set<PaymentEntity> payments;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductEntity> products; // Sản phẩm mà người dùng đã đăng bán
+
     private String bankName;
     private String bankAccount;
 }

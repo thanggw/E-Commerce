@@ -341,15 +341,17 @@ function checkoutSingleProduct(productId) {
     let sizeId = parseInt(urlParams.get('size'));
     let quantity = parseInt(urlParams.get('quantity')) || 1;
 
+    let paymentMethod = $('#payment-method').val(); // Lấy giá trị paymentMethod
+
     let requestBody = {
         userId: userId,
         recipientName: $('#user-btn').val(),
         recipientPhone: $('#phone-btn').val(),
         recipientAddress: $('#address-btn').val(),
-        paymentMethod: $('#payment-method').val(),
+        paymentMethod: paymentMethod,
         voucherCode: $('#voucher-code').val(),
-        shippingCost:  $('#shipping-cost').val(),
-        expectedDeliveryDate:  $('#expected-delivery-date').val(),
+        shippingCost: $('#shipping-cost').val(),
+        expectedDeliveryDate: $('#expected-delivery-date').val(),
         trackingId: $('#tracking-id').val(),
         items: [
             {
@@ -368,7 +370,13 @@ function checkoutSingleProduct(productId) {
         data: JSON.stringify(requestBody),
         success: function (response) {
             console.log("Checkout cho sản phẩm:", response);
-            window.location.href = 'http://localhost:8082/guests/notification';
+
+            // Chuyển hướng dựa trên phương thức thanh toán
+            if (paymentMethod === 'COD') {
+                window.location.href = 'http://localhost:8082/guests/notification';
+            } else {
+                window.location.href = 'http://localhost:8082/';
+            }
         },
         error: function (error) {
             console.error("Unable to checkout the product.:", error);
@@ -377,39 +385,44 @@ function checkoutSingleProduct(productId) {
     });
 }
 
+
 function checkoutAllProduct() {
-        let orderData = {
-            userId: localStorage.getItem("userId"),
-            recipientName: $('#user-btn').val(),
-            recipientPhone: $('#phone-btn').val(),
-            recipientAddress: $('#address-btn').val(),
-            paymentMethod: $('#payment-method').val(),
-            voucherCode: $('#voucher-code').val(),
-            shippingCost:  $('#shipping-cost').val(),
-            expectedDeliveryDate:  $('#expected-delivery-date').val(),
-            trackingId: $('#tracking-id').val()
-        };
+    let paymentMethod = $('#payment-method').val(); // Lấy giá trị paymentMethod
 
-        $.ajax({
-            url: urlBase3 + "api/orders/checkout",
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(orderData),
-            success: function (response) {
-                // Sau khi đặt hàng thành công, nhận orderId từ response
-                const orderId = response.orderId;
+    let orderData = {
+        userId: localStorage.getItem("userId"),
+        recipientName: $('#user-btn').val(),
+        recipientPhone: $('#phone-btn').val(),
+        recipientAddress: $('#address-btn').val(),
+        paymentMethod: paymentMethod,
+        voucherCode: $('#voucher-code').val(),
+        shippingCost: $('#shipping-cost').val(),
+        expectedDeliveryDate: $('#expected-delivery-date').val(),
+        trackingId: $('#tracking-id').val()
+    };
 
-                // Gọi URL thông báo thành công (thông báo cho người dùng)
+    $.ajax({
+        url: urlBase3 + "api/orders/checkout",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(orderData),
+        success: function (response) {
+            console.log("Checkout all products:", response);
+
+            // Chuyển hướng dựa trên phương thức thanh toán
+            if (paymentMethod === 'COD') {
                 window.location.href = 'http://localhost:8082/guests/notification';
-
-
-            },
-            error: function (error) {
-                console.error("Checkout failed:", error);
-                alert("An error occurred while placing the order");
+            } else {
+                window.location.href = 'http://localhost:8082/';
             }
-        });
+        },
+        error: function (error) {
+            console.error("Checkout failed:", error);
+            alert("An error occurred while placing the order");
+        }
+    });
 }
+
 
 $(document).ready(function () {
     $('.wishlist').click(function () {
