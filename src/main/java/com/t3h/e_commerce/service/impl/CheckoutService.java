@@ -34,7 +34,7 @@ public class CheckoutService {
 
     public List<CheckoutResponse> processCheckout(CheckoutRequest request) {
         List<CheckoutResponse> responses = new ArrayList<>();
-
+        System.out.println("Payment method received: " + request.getPaymentMethod());
         // Tìm User
         UserEntity user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found for ID: " + request.getUserId()));
@@ -55,10 +55,18 @@ public class CheckoutService {
         recipient.setUser(user);
         recipientRepository.save(recipient);
 
-        // Xử lý thanh toán
+        // 3. Create payment entity
         PaymentEntity payment = new PaymentEntity();
-        payment.setPaymentMethod(PaymentType.valueOf(request.getPaymentMethod()));
-        payment.setPaymentStatus(true);
+        PaymentType paymentType = PaymentType.valueOf(request.getPaymentMethod());
+        payment.setPaymentMethod(paymentType);
+
+        // Set paymentStatus based on PaymentMethod
+        if (paymentType == PaymentType.COD) {
+            payment.setPaymentStatus(false);
+        } else {
+            payment.setPaymentStatus(true);
+        }
+
         payment.setPayer(user);
         payment.setPayee(recipient);
         paymentRepository.save(payment);

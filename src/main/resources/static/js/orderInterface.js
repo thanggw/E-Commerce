@@ -98,47 +98,50 @@ async function fetchAndDisplayOrders(userId) {
             orderCard.classList.add('order-card');
 
             orderCard.innerHTML = `
-                <div class="order-header">
-                    <div class="order-id">Order ID: ${order.orderId}</div>
-                    <div class="order-status">Status: ${order.orderStatus}</div>
-                </div>
-                <div class="info-section">
-                    <div class="section-title">Shipping Information</div>
-                    <div class="info-row">
-                        <div class="info-label">Recipient:</div>
-                        <div class="info-content">${order.recipientName}</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Phone:</div>
-                        <div class="info-content">${order.recipientPhone}</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Address:</div>
-                        <div class="info-content">${order.recipientAddress}</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Estimated Delivery Date:</div>
-                        <div class="info-content">${order.expectedDeliveryDate}</div>
-                    </div>
-                    <div class="tracking-info">
-                        <div class="tracking-number">Tracking ID: ${order.trackingId}</div>
-                    </div>
-                </div>
-                <div class="info-section">
-                    <div class="section-title">Payment Information</div>
-                    <div class="info-row">
-                        <div class="info-label">Total Price:</div>
-                        <div class="info-content">${order.totalPrice} VNĐ</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Method:</div>
-                        <div class="info-content">
-                            <span>${order.paymentMethod}</span>
-                            <span>${order.paymentStatus ? " (Paid)" : " (Unpaid)"}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+    <div class="order-header">
+        <div class="order-id"><i class="fas fa-receipt"></i> Order ID: ${order.orderId}</div>
+        <div class="order-status"><i class="fas fa-info-circle"></i> Status: ${order.orderStatus}</div>
+    </div>
+    <div class="info-section">
+        <div class="section-title"><i class="fas fa-shipping-fast"></i> Shipping Information</div>
+        <div class="info-row">
+            <div class="info-label"><i class="fas fa-user"></i> Recipient:</div>
+            <div class="info-content">${order.recipientName}</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label"><i class="fas fa-phone"></i> Phone:</div>
+            <div class="info-content">${order.recipientPhone}</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label"><i class="fas fa-map-marker-alt"></i> Address:</div>
+            <div class="info-content">${order.recipientAddress}</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label"><i class="fas fa-calendar-alt"></i> Estimated Delivery Date:</div>
+            <div class="info-content">${order.expectedDeliveryDate}</div>
+        </div>
+        <div class="tracking-info">
+            <div class="tracking-number"><i class="fas fa-barcode"></i> Tracking ID: ${order.trackingId}</div>
+        </div>
+    </div>
+    <div class="info-section">
+        <div class="section-title"><i class="fas fa-credit-card"></i> Payment Information</div>
+        <div class="info-row">
+            <div class="info-label"><i class="fas fa-money-bill"></i> Total Price:</div>
+            <div class="info-content">${order.totalPrice} $</div>
+        </div>
+        <div class="info-row">
+        <div class="info-label"><i class="fas fa-wallet"></i> Method:</div>
+        <div class="info-content">
+            <span>${getPaymentMethodDisplayName(order.paymentMethod)}</span>
+            <span class="status-badge ${order.paymentStatus ? 'paid' : 'unpaid'}">
+                ${order.paymentStatus ? "Paid" : "Unpaid"}
+            </span>
+        </div>
+    </div>
+    </div>
+`;
+
 
             orderList.appendChild(orderCard); // Add the card to the list
         });
@@ -147,6 +150,19 @@ async function fetchAndDisplayOrders(userId) {
         alert("An error occurred while loading order data.");
     }
 }
+function getPaymentMethodDisplayName(paymentMethod) {
+    const paymentMethodMap = {
+        "COD": "COD (CASH_ON_DELIVERY)",
+        "BANKING": "Bank Transfer",
+        "E_WALLET": "E-Wallet",
+        "CREDIT_CARD": "Credit Card",
+        "PAYPAL": "PayPal",
+        "CASH_ON_DELIVERY": "Cash on Delivery"
+    };
+
+    return paymentMethodMap[paymentMethod] || paymentMethod;
+}
+
 
 // Call the function when the page loads
 document.addEventListener("DOMContentLoaded", function () {

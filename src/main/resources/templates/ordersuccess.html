@@ -4,53 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Thanh toán thành công</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Payment Success</title>
+    <style>
+        .body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .success-icon {
+            color: #28a745;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .card {
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            border: none;
+            max-width: 500px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table td {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+        }
+        .table td:first-child {
+            font-weight: bold;
+            background-color: #f8f9fa;
+            width: 45%;
+        }
+        .btn-home {
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .order-summary {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+        .success-title {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+        .success-message {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 
 <body>
-<!-- back to top -->
-
-<!-- start body -->
-<div class="body py-5">
+<div class="body py-4">
     <div class="container">
-        <div class="w-50 m-auto">
-            <!-- Thêm lớp "my-4" để tạo ra khoảng cách trên và dưới tiêu đề trang -->
-            <h1 class="my-3 text-success text-center">Thanh toán thành công</h1>
-            <!-- Sử dụng lớp "alert" và "alert-danger" để tạo ra thông báo lỗi -->
-            <h2 class="my-2">Chi tiết đơn hàng</h2>
-            <!-- Sử dụng lớp "table" và "table-bordered" để tạo ra bảng hiển thị thông tin chi tiết đơn hàng -->
-            <table class="table table-bordered">
-                <tbody>
-                <tr>
-                    <td>Order information:</td>
-                    <td><span th:text="${orderId}">[order ID]</span></td>
-                </tr>
-                <tr>
-                    <td>Total Payment Amount:</td>
-                    <td><span th:text="${totalPrice}">[total price]</span></td>
-                </tr>
-                <tr>
-                    <td>Payment time:</td>
-                    <td><span th:text="${paymentTime}">[payment time]</span></td>
-                </tr>
-                <tr>
-                    <td>Transaction code:</td>
-                    <td><span th:text="${transactionId}">[transaction ID]</span></td>
-                </tr>
-                </tbody>
-            </table>
-            <a href="http://localhost:8082/guests/home-guest" class="btn btn-primary">Transaction code</a>
+        <div class="card p-3">
+            <div class="text-center">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h1 class="text-success success-title">Payment Successful!</h1>
+                <p class="text-muted success-message">Thank you for your purchase.</p>
+            </div>
+
+            <div class="order-summary">
+                <h2>Order Details</h2>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>Order information:</td>
+                        <td><span th:text="${orderId}">[order ID]</span></td>
+                    </tr>
+                    <tr>
+                        <td>Total Payment:</td>
+                        <td><span th:text="${totalPrice}">[total price]</span></td>
+                    </tr>
+                    <tr>
+                        <td>Payment time:</td>
+                        <td><span th:text="${paymentTime}">[payment time]</span></td>
+                    </tr>
+                    <tr>
+                        <td>Transaction code:</td>
+                        <td><span th:text="${transactionId}">[transaction ID]</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center">
+                <a href="http://localhost:8082/guests/home-guest" class="btn btn-primary btn-home">
+                    <i class="fas fa-home mr-2"></i>Return to Home
+                </a>
+            </div>
         </div>
     </div>
 </div>
-<!-- end body -->
-
-
-<!-- start footer -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

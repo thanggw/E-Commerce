@@ -40,6 +40,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public OrderResponse placeOrder(OrderRequest orderRequest) {
+        System.out.println("Payment method received: " + orderRequest.getPaymentMethod());
         // 1. Fetch user
         UserEntity user = userRepository.findById(orderRequest.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -53,11 +54,20 @@ public class OrderServiceImpl implements IOrderService {
 
         // 3. Create payment entity
         PaymentEntity payment = new PaymentEntity();
-        payment.setPaymentMethod(PaymentType.valueOf(orderRequest.getPaymentMethod()));
-        payment.setPaymentStatus(true); // Payment success (for simplicity)
+        PaymentType paymentType = PaymentType.valueOf(orderRequest.getPaymentMethod());
+        payment.setPaymentMethod(paymentType);
+
+        // Set paymentStatus based on PaymentMethod
+        if (paymentType == PaymentType.COD) {
+            payment.setPaymentStatus(false);
+        } else {
+            payment.setPaymentStatus(true);
+        }
+
         payment.setPayer(user);
         payment.setPayee(recipient);
         paymentRepository.save(payment);
+
 
         // 4. Calculate final price (apply discounts, shipping, etc.)
         BigDecimal finalPrice = calculateFinalPrice(user.getCart());

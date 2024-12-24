@@ -362,6 +362,7 @@ function checkoutSingleProduct(productId) {
             }
         ]
     };
+    console.log("Selected payment method:", paymentMethod);
 
     $.ajax({
         url: urlBase3 + "api/checkout",
@@ -400,6 +401,8 @@ function checkoutAllProduct() {
         expectedDeliveryDate: $('#expected-delivery-date').val(),
         trackingId: $('#tracking-id').val()
     };
+    console.log("Selected payment method:", paymentMethod);
+
 
     $.ajax({
         url: urlBase3 + "api/orders/checkout",
