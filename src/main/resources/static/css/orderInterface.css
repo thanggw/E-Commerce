@@ -1,9 +1,29 @@
 .fas{
     margin-right: 10px;
 }
+.order-card .fas {
+    color: #4CAF50;
+}
+
+.order-card .fa-receipt {
+    color: #2196F3;
+}
+
+.order-card .fa-info-circle {
+    color: #FFC107;
+}
+
+.order-card .fa-shipping-fast {
+    color: #FF5722;
+}
+
+.order-card .fa-credit-card,
+.order-card .fa-money-bill,
+.order-card .fa-wallet {
+    color: #FF5722;
+}
 .status-badge {
     display: inline-block;
-    padding: 5px 10px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: bold;

@@ -50,13 +50,20 @@ document.querySelectorAll('.copy-code').forEach(button => {
 //Thêm tính năng cuộn mượt khi nhấp vào liên kết menu
 document.querySelectorAll('.navigation a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetSection = document.querySelector(this.getAttribute('href'));
-        targetSection.scrollIntoView({
-            behavior: 'smooth'
-        });
+        const href = this.getAttribute('href');
+        if (href.startsWith('#') || href.startsWith('.')) {
+            // Liên kết nội bộ
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
     });
 });
+
 
 
 
