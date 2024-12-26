@@ -62,4 +62,12 @@ public class UserController {
     public String aboutus(){
         return "guest/AboutUs";
     }
+    @GetMapping("/news")
+    public String news(){
+        return "guest/news";
+    }
+    @GetMapping("/newdetail")
+    public String newdetail(){
+        return "guest/newdetail";
+    }
 }

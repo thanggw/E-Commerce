@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết đơn hàng</title>
-    <link rel="stylesheet" href="../css/orderInterface.css">
+    <link rel="stylesheet" href="../css/newdetail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Detail</title>
     <style>
         * {
             margin: 0;
@@ -14,117 +14,101 @@
             font-family: Arial, sans-serif;
         }
 
-        body {
-            background-color: #f5f5f5;
+        .breadcrumb {
+            padding: 12px 24px;
+            color: white;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
         }
 
         .container {
+            display: flex;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 40px;
         }
 
-        .order-card {
-            background: white;
-            border-radius: 3px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            padding: 20px;
+        .main-content {
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 300px;
+        }
+
+        .article-header {
             margin-bottom: 20px;
         }
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .order-status {
-            background-color: #fff5e6;
-            color: #ee4d2d;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .order-id {
-            color: #222;
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        .info-section {
-            padding: 15px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .info-section:last-child {
-            border-bottom: none;
-        }
-
-        .section-title {
-            font-size: 16px;
-            color: #222;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .info-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-
-        .info-label {
-            width: 140px;
-            color: #757575;
-            font-size: 14px;
-        }
-
-        .info-content {
-            flex: 1;
-            color: #222;
-            font-size: 14px;
-        }
-
-        .total-price {
+        .article-title {
             font-size: 24px;
-            color: #ee4d2d;
-            font-weight: 500;
+            margin-bottom: 10px;
         }
 
-        .payment-method {
-            display: inline-block;
-            background-color: #fafafa;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #222;
-            border: 1px solid #efefef;
-        }
-
-        .payment-status {
-            display: inline-block;
-            background-color: #e8f5e9;
-            color: #1b5e20;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        .tracking-info {
-            background-color: #fafafa;
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-
-        .tracking-number {
-            font-family: monospace;
+        .article-meta {
             color: #666;
             font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .article-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            color: #c41e3a;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-menu li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .news-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .news-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .news-item-content {
+            flex: 1;
+        }
+
+        .news-item-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .news-item-date {
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
@@ -138,8 +122,8 @@
             <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
         </div>
         <div class="right-section">
-            <span><a href="#">Thông Báo</a></span>
-            <span><a href="#">Hỗ Trợ</a></span>
+            <span><a href="#">Notifications</a></span>
+            <span><a href="#">Support</a></span>
             <span class="language-selector" style="width: 77px;">
                     <a href="#">English  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
@@ -182,7 +166,7 @@
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 48px;width: 160px;top: -2px;" id="span1">Profile</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 141px;top: -2px;" id="span1">Profile</span>
                 <span>Account</span>
 
                 <!-- Vùng dropdown-container -->
@@ -224,7 +208,7 @@
         <ul id="menu-list">
             <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
             <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-            <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
+            <li><a href="#">About</a></li>
             <li><a href="http://localhost:8082/guests/news">News</a></li>
             <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
             <li><a href="#">Contact</a></li>
@@ -242,9 +226,84 @@
         </div>
     </div>
 </header>
+<div class="breadcrumb">
+    <a href="http://localhost:8082/guests/home-guest">Home</a> &gt;
+    <a href="http://localhost:8082/guests/news">News</a> &gt;
+    <span>50% Off on Selected Items Every 1st Day of the Month</span>
+</div>
+
 <div class="container">
-    <h1 class="title">Your Orders</h1>
-    <div id="order-list"></div> <!-- Nơi các thẻ đơn hàng sẽ được thêm -->
+    <main class="main-content">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">50% Off on Selected Items Every 1st Day of the Month</h1>
+                <div class="article-meta">
+                    <span>Sunday, 29/12/2024</span>
+                    <span>Vu Van Thang</span>
+                </div>
+            </header>
+            <div class="article-content">
+                <p>Dola Fashion Accessories - The city's leading fashion accessories store, will offer a 50% discount on selected items on the first day of each month. This is a rare opportunity for customers to own quality fashion accessories at attractive prices.</p>
+                <p>Every first day of the month, Dola Fashion Accessories will offer a 50% discount on carefully selected items. This aims to bring variety and attraction to customers, from necklaces, chains, rings, to earrings and fashion accessories. Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, laboriosam sapiente minus velit dolorem a ipsam quo consequuntur laudantium ea optio iure, culpa nostrum eum rem quas assumenda porro eligendi!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti asperiores quia dicta magnam! Neque, et optio nulla animi libero quae quisquam odit totam illo ex voluptatibus officia in tempore ullam!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quod, asperiores praesentium sapiente iure non? Numquam dolor quia deleniti incidunt! Totam laboriosam, impedit neque dicta cumque magni dolores soluta veritatis.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis esse sunt, veniam nisi voluptatum error, quam voluptas provident est saepe soluta dolorem aperiam rerum mollitia enim, maiores ab fugit perspiciatis.
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam nostrum in corporis, nihil quas culpa maiores vitae debitis sint mollitia eveniet ullam alias reiciendis laborum asperiores fuga rerum delectus eos!
+                </p>
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, alias amet obcaecati velit deserunt quaerat unde quam laboriosam vitae saepe expedita excepturi commodi quas officiis sunt veniam possimus deleniti. Nulla.
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit reprehenderit similique laboriosam! Explicabo, vitae magni libero tempora et earum ratione illum. Sunt excepturi perspiciatis veritatis vitae perferendis laborum maxime porro.
+                </p>
+            </div>
+
+        </article>
+    </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h2 class="sidebar-title">News Categories</h2>
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+                <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="http://localhost:8082/guests/news">News</a></li>
+                <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h2 class="sidebar-title">Featured News</h2>
+            <div class="news-item">
+                <img src="../image/image-voucher1.webp" alt="News thumbnail">
+                <div class="news-item-content">
+                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
+                    <div class="news-item-date">30/06/2023</div>
+                </div>
+            </div>
+            <div class="news-item">
+                <img src="../image/image-voucher2.webp" alt="News thumbnail">
+                <div class="news-item-content">
+                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
+                    <div class="news-item-date">30/06/2023</div>
+                </div>
+            </div>
+            <div class="news-item">
+                <img src="../image/image-voucher3.webp" alt="News thumbnail">
+                <div class="news-item-content">
+                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
+                    <div class="news-item-date">30/06/2023</div>
+                </div>
+            </div>
+            <div class="news-item">
+                <img src="../image/image-voucher1.webp" alt="News thumbnail">
+                <div class="news-item-content">
+                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
+                    <div class="news-item-date">30/06/2023</div>
+                </div>
+            </div>
+        </div>
+    </aside>
 </div>
 <footer>
     <div class="footer-container">
@@ -283,8 +342,7 @@
         </div>
     </div>
 </footer>
-
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="../js/orderInterface.js"></script>
+<script src="../js/newdetail.js"></script>
 </body>
 </html>
