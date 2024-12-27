@@ -70,4 +70,12 @@ public class UserController {
     public String newdetail(){
         return "guest/newdetail";
     }
+    @GetMapping("/location")
+    public String location(){
+        return "guest/location";
+    }
+    @GetMapping("/contact")
+    public String contact(){
+        return "guest/contact";
+    }
 }

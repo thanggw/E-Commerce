@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/newdetail.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Detail</title>
+    <link rel="stylesheet" href="../css/contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Dola Fashion Accessories - Contact</title>
     <style>
         * {
             margin: 0;
@@ -15,100 +15,133 @@
         }
 
         .breadcrumb {
-            padding: 12px 24px;
+            background-color: #dc3545;
+            padding: 10px 20px;
             color: white;
         }
 
         .breadcrumb a {
-            color: white;
+            color: #ffd700;
             text-decoration: none;
-            margin: 0 8px;
         }
 
         .container {
+            max-width: 1320px;
+            margin: 20px auto;
+            padding: 0 20px;
             display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            gap: 40px;
+            gap: 20px;
         }
 
-        .main-content {
+        .contact-info {
+            flex: 1;
+            background-color: #fff5f5;
+            padding: 20px;
+            border-radius: 5px;
+            height: 730px;
+        }
+
+        .map-section {
             flex: 1;
         }
 
-        .sidebar {
-            width: 300px;
-        }
-
-        .article-header {
-            margin-bottom: 20px;
-        }
-
-        .article-title {
+        .store-title {
+            color: #dc3545;
             font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .article-meta {
-            color: #666;
-            font-size: 14px;
             margin-bottom: 20px;
         }
 
-        .article-content p {
+        .info-item {
+            display: flex;
+            align-items: center;
             margin-bottom: 15px;
-            line-height: 1.6;
         }
 
-        .sidebar-section {
-            margin-bottom: 30px;
+        .icon {
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border: 2px solid #dc3545;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            color:#dc3545;
         }
 
-        .sidebar-title {
-            color: #c41e3a;
+        .contact-form {
+            margin-top: 30px;
+        }
+
+        .form-title {
+            color: #dc3545;
             font-size: 20px;
             margin-bottom: 15px;
         }
 
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .sidebar-menu li a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .news-item {
-            display: flex;
-            gap: 10px;
+        .form-description {
             margin-bottom: 15px;
-        }
-
-        .news-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-        }
-
-        .news-item-content {
-            flex: 1;
-        }
-
-        .news-item-title {
             font-size: 14px;
-            margin-bottom: 5px;
+            color: #666;
         }
 
-        .news-item-date {
-            font-size: 12px;
-            color: #666;
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background-color: #c82333;
+        }
+
+        .map-container {
+            height: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            min-height: 600px; /* Ensure minimum height of the map */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .contact-info,
+            .map-section {
+                width: 100%;
+            }
+
+            iframe {
+                min-height: 400px;
+            }
         }
     </style>
 </head>
@@ -127,7 +160,7 @@
             <span class="language-selector" style="width: 77px;">
                     <a href="#">English  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
-                       <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                        <span class="language-option" data-lang="vi">Tiếng Việt</span>
                         <span class="language-option" data-lang="en">English</span>
                         <span class="language-option" data-lang="en">Other...</span>
                     </div>
@@ -166,7 +199,7 @@
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 141px;top: -2px;" id="span1">Profile</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
                 <span>Account</span>
 
                 <!-- Vùng dropdown-container -->
@@ -208,7 +241,7 @@
         <ul id="menu-list">
             <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
             <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
             <li><a href="http://localhost:8082/guests/news">News</a></li>
             <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
             <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
@@ -226,84 +259,66 @@
         </div>
     </div>
 </header>
-<div class="breadcrumb">
-    <a href="http://localhost:8082/guests/home-guest">Home</a> &gt;
-    <a href="http://localhost:8082/guests/news">News</a> &gt;
-    <span>50% Off on Selected Items Every 1st Day of the Month</span>
-</div>
 
 <div class="container">
-    <main class="main-content">
-        <article>
-            <header class="article-header">
-                <h1 class="article-title">50% Off on Selected Items Every 1st Day of the Month</h1>
-                <div class="article-meta">
-                    <span>Sunday, 29/12/2024</span>
-                    <span>Vu Van Thang</span>
-                </div>
-            </header>
-            <div class="article-content">
-                <p>Dola Fashion Accessories - The city's leading fashion accessories store, will offer a 50% discount on selected items on the first day of each month. This is a rare opportunity for customers to own quality fashion accessories at attractive prices.</p>
-                <p>Every first day of the month, Dola Fashion Accessories will offer a 50% discount on carefully selected items. This aims to bring variety and attraction to customers, from necklaces, chains, rings, to earrings and fashion accessories. Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, laboriosam sapiente minus velit dolorem a ipsam quo consequuntur laudantium ea optio iure, culpa nostrum eum rem quas assumenda porro eligendi!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti asperiores quia dicta magnam! Neque, et optio nulla animi libero quae quisquam odit totam illo ex voluptatibus officia in tempore ullam!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quod, asperiores praesentium sapiente iure non? Numquam dolor quia deleniti incidunt! Totam laboriosam, impedit neque dicta cumque magni dolores soluta veritatis.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis esse sunt, veniam nisi voluptatum error, quam voluptas provident est saepe soluta dolorem aperiam rerum mollitia enim, maiores ab fugit perspiciatis.
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam nostrum in corporis, nihil quas culpa maiores vitae debitis sint mollitia eveniet ullam alias reiciendis laborum asperiores fuga rerum delectus eos!
-                </p>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, alias amet obcaecati velit deserunt quaerat unde quam laboriosam vitae saepe expedita excepturi commodi quas officiis sunt veniam possimus deleniti. Nulla.
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit reprehenderit similique laboriosam! Explicabo, vitae magni libero tempora et earum ratione illum. Sunt excepturi perspiciatis veritatis vitae perferendis laborum maxime porro.
-                </p>
+    <div class="contact-info">
+        <h1 class="store-title">Dola Fashion Accessories Store</h1>
+
+        <div class="info-item">
+            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+                <strong>Address</strong><br>
+                70 Lu Gia, Ward 15, District 11, HCMC
             </div>
-
-        </article>
-    </main>
-
-    <aside class="sidebar">
-        <div class="sidebar-section">
-            <h2 class="sidebar-title">News Categories</h2>
-            <ul class="sidebar-menu">
-                <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
-                <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="http://localhost:8082/guests/news">News</a></li>
-                <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
-                <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
-            </ul>
         </div>
 
-        <div class="sidebar-section">
-            <h2 class="sidebar-title">Featured News</h2>
-            <div class="news-item">
-                <img src="../image/image-voucher1.webp" alt="News thumbnail">
-                <div class="news-item-content">
-                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
-                    <div class="news-item-date">30/06/2023</div>
-                </div>
-            </div>
-            <div class="news-item">
-                <img src="../image/image-voucher2.webp" alt="News thumbnail">
-                <div class="news-item-content">
-                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
-                    <div class="news-item-date">30/06/2023</div>
-                </div>
-            </div>
-            <div class="news-item">
-                <img src="../image/image-voucher3.webp" alt="News thumbnail">
-                <div class="news-item-content">
-                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
-                    <div class="news-item-date">30/06/2023</div>
-                </div>
-            </div>
-            <div class="news-item">
-                <img src="../image/image-voucher1.webp" alt="News thumbnail">
-                <div class="news-item-content">
-                    <h3 class="news-item-title">Tips for Finding Affordable Designer Women's Wallets</h3>
-                    <div class="news-item-date">30/06/2023</div>
-                </div>
+        <div class="info-item">
+            <div class="icon"><i class="fa-solid fa-clock"></i></div>
+            <div>
+                <strong>Working Hours</strong><br>
+                8 AM - 10 PM<br>
+                From Monday to Sunday
             </div>
         </div>
-    </aside>
+
+        <div class="info-item">
+            <div class="icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+                <strong>Hotline</strong><br>
+                1900 6750
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+                <strong>Email</strong><br>
+                support@sapo.vn
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2 class="form-title">Contact Us</h2>
+            <p class="form-description">If you have any questions, please send us your request, and we will get back to you as soon as possible.</p>
+            <form>
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Phone*" required>
+                <textarea placeholder="Message"></textarea>
+                <button type="submit" class="submit-btn">Send Information</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="map-section">
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4946681026536!2d106.65546937465353!3d10.774732989376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec3c161a3fb%3A0xef77cd47a1cc691e!2zNzAgTMawIEdpYSwgUGjGsOG7nW5nIDE1LCBRdeG6rW4gMTEsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1703686445025!5m2!1svi!2s"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
 </div>
 <footer>
     <div class="footer-container">
@@ -342,7 +357,7 @@
         </div>
     </div>
 </footer>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="../js/newdetail.js"></script>
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="../js/contact.js"></script>
 </html>

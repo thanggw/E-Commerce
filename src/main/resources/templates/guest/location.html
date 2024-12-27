@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/location.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Store System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #ff6f61;
+            color: white;
+            padding: 15px 20px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .info-cards {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: #C41E3A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .locations {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .map {
+            flex: 2;
+            min-height: 500px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .location-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            flex: 1;
+        }
+
+        .hotline {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #C41E3A;
+            border-radius: 4px;
+        }
+
+        .stores-wrapper {
+            max-height: 400px; /* Maximum height for scrolling */
+            overflow-y: auto;
+            padding-right: 10px; /* Add padding to avoid scrollbar covering content */
+        }
+
+        .stores-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .stores-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .stores-wrapper::-webkit-scrollbar-thumb {
+            background: #C41E3A;
+            border-radius: 3px;
+        }
+
+        .stores-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #A01830;
+        }
+
+        .store-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+            transition: transform 0.2s;
+        }
+
+        .store-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .store-name {
+            color: #C41E3A;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .store-address {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .store-phone {
+            color: #C41E3A;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Header section -->
+<header class="main-header">
+    <div class="top-bar">
+        <div class="left-section">
+            <span><a href="">Seller Channel</a></span>
+            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+            <span><a href="#">Download App</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+        </div>
+        <div class="right-section">
+            <span><a href="#">Notifications</a></span>
+            <span><a href="#">Support</a></span>
+            <span class="language-selector" style="width: 77px;">
+                    <a href="#">English  <i class="arrow-down"></i></a>
+                    <div class="language-dropdown">
+                        <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                        <span class="language-option" data-lang="en">English</span>
+                        <span class="language-option" data-lang="en">Other...</span>
+                    </div>
+                </span>
+        </div>
+
+    </div>
+
+    <div class="header-container">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <label>
+                <input
+                        type="text"
+                        class="animated-input"
+                        id="animatedInput"
+                        placeholder="What are you looking for?"
+                        oninput="searchProducts(this.value)" />
+            </label>
+            <div id="searchResults" class="search-results"></div>
+            <button><i class="fa fa-search"></i></button>
+            <div class="suggestions">
+                <span class="scroll-to-products">Sneaker</span>
+                <span class="scroll-to-products">Nike</span>
+                <span class="scroll-to-products">Sport Shoes</span>
+                <span class="scroll-to-products">Adidas</span>
+            </div>
+        </div>
+
+        <!-- User Info and Cart Section -->
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
+                <span>Account</span>
+
+                <!-- Vùng dropdown-container -->
+                <div class="dropdown-container">
+                    <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu">
+                        <a href="#">Login</a>
+                        <a href="#">Register</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wishlist">
+                <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61">Wishlist</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+            </div>
+
+            <div class="cart">
+
+                <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <!--cần xử lý với giỏ hàng-->
+                <span style="color: #ff6f61" id="inCart">Cart</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+
+            </div>
+        </div>
+
+        <!--           hien thi danh sach san pham cua gio hang-->
+
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation">
+        <!-- Icon hamburger cho menu -->
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+
+        <ul id="menu-list">
+            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
+            <li><a href="http://localhost:8082/guests/news">News</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+            <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="http://localhost:8082/guests/location">Store Locations</a></li>
+            <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
+            <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
+                <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
+            </a></li>
+        </ul>
+    </nav>
+    <div class="contact-icons">
+        <div class="messenger" id="messenger-icon">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </div>
+    </div>
+</header>
+
+<!-- Info cards section -->
+<div class="info-cards">
+    <div class="info-card">
+        <div class="icon"><i class="fa-solid fa-shop"></i></div>
+        <div>
+            <h3>8 Stores Nationwide</h3>
+            <p>Across the country</p>
+        </div>
+    </div>
+    <div class="info-card">
+        <div class="icon"><i class="fa-solid fa-users"></i></div>
+        <div>
+            <h3>Over 100 Employees</h3>
+            <p>To serve our customers</p>
+        </div>
+    </div>
+    <div class="info-card">
+        <div class="icon"><i class="fa-solid fa-clock"></i></div>
+        <div>
+            <h3>Open 8 AM - 10 PM</h3>
+            <p>Including Sundays & Holidays</p>
+        </div>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <div class="locations">
+        <div class="location-filters">
+            <select id="province">
+                <option value="">Select Province/City</option>
+                <option value="hanoi">Hanoi</option>
+                <option value="hcm">Ho Chi Minh City</option>
+                <option value="thaibinh">Thai Binh</option>
+                <option value="haiduong">Hai Duong</option>
+            </select>
+            <select id="district">
+                <option value="">Select District</option>
+            </select>
+        </div>
+
+        <div class="hotline">
+            Hotline: 1900 6750
+        </div>
+
+        <div class="stores-wrapper">
+            <div class="store-card" data-province="hanoi" data-district="badinh">
+                <div class="store-name">Dola Hanoi - Ba Dinh</div>
+                <div class="store-address">Address: 6th Floor - 266 Doi Can, Lieu Giai Ward, Ba Dinh District, Hanoi</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+
+            <div class="store-card" data-province="hcm" data-district="quan1">
+                <div class="store-name">Dola Saigon - District 1</div>
+                <div class="store-address">Address: 123 Nguyen Hue, Ben Nghe Ward, District 1, HCMC</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+
+            <div class="store-card" data-province="thaibinh" data-district="thanhpho">
+                <div class="store-name">Dola Thai Binh</div>
+                <div class="store-address">Address: 234 Ly Bon, Le Hong Phong Ward, Thai Binh City</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+
+            <div class="store-card" data-province="hcm" data-district="quan3">
+                <div class="store-name">Dola Saigon - District 3</div>
+                <div class="store-address">Address: 456 Vo Van Tan, Ward 5, District 3, HCMC</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+
+            <div class="store-card" data-province="hanoi" data-district="caugiay">
+                <div class="store-name">Dola Hanoi - Cau Giay</div>
+                <div class="store-address">Address: 98 Duy Tan, Dich Vong Hau Ward, Cau Giay District, Hanoi</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+
+            <div class="store-card" data-province="haiduong" data-district="thanhpho">
+                <div class="store-name">Dola Hai Duong</div>
+                <div class="store-address">Address: 567 Tran Hung Dao, Tran Phu Ward, Hai Duong City</div>
+                <div class="store-phone">Hotline: 1900 6750</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8977453149947!2d105.81684661531005!3d21.035710992925177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab145bf89bd7%3A0xd94a869b494c04b6!2zMjY2IMSQ4buZaSBD4bqlbiwgTGnhu4V1IEdpYWksIEJhIMSQw6xuaCwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1684864588829!5m2!1svi!2s"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Subscribe</h4>
+                <form>
+                    <input type="email" placeholder="Enter your email" />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MyShop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<script>
+    // District data by province/city
+    const districts = {
+        hanoi: [
+            { value: 'badinh', label: 'Ba Dinh' },
+            { value: 'caugiay', label: 'Cau Giay' },
+            { value: 'dongda', label: 'Dong Da' },
+            { value: 'hoankiem', label: 'Hoan Kiem' }
+        ],
+        hcm: [
+            { value: 'quan1', label: 'District 1' },
+            { value: 'quan3', label: 'District 3' },
+            { value: 'quan5', label: 'District 5' },
+            { value: 'quan7', label: 'District 7' }
+        ],
+        thaibinh: [
+            { value: 'thanhpho', label: 'Thai Binh City' },
+            { value: 'kienxuong', label: 'Kien Xuong' },
+            { value: 'quynhphu', label: 'Quynh Phu' }
+        ],
+        haiduong: [
+            { value: 'thanhpho', label: 'Hai Duong City' },
+            { value: 'chilinh', label: 'Chi Linh' },
+            { value: 'namthanh', label: 'Nam Thanh' }
+        ]
+    };
+
+    // Get elements
+    const provinceSelect = document.getElementById('province');
+    const districtSelect = document.getElementById('district');
+    const storeCards = document.querySelectorAll('.store-card');
+
+    // Update district list when selecting province/city
+    provinceSelect.addEventListener('change', function() {
+        const selectedProvince = this.value;
+
+        // Reset districts
+        districtSelect.innerHTML = '<option value="">Select District</option>';
+
+        if (selectedProvince && districts[selectedProvince]) {
+            districts[selectedProvince].forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.value;
+                option.textContent = district.label;
+                districtSelect.appendChild(option);
+            });
+        }
+
+        filterStores();
+    });
+
+    // Filter stores when selecting district
+    districtSelect.addEventListener('change', filterStores);
+
+    // Store filtering function
+    function filterStores() {
+        const selectedProvince = provinceSelect.value;
+        const selectedDistrict = districtSelect.value;
+
+        storeCards.forEach(card => {
+            const cardProvince = card.dataset.province;
+            const cardDistrict = card.dataset.district;
+
+            if ((!selectedProvince || cardProvince === selectedProvince) &&
+                (!selectedDistrict || cardDistrict === selectedDistrict)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="../js/location.js"></script>
+</body>
+</html>
