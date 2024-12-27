@@ -246,11 +246,36 @@
             border-radius: 4px;
             color: white;
             cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        .facebook { background: #3b5998; }
-        .twitter { background: #1da1f2; }
-        .copy-link { background: #666; }
+        .share-button.facebook {
+            background: #3b5998;
+        }
+
+        .share-button.facebook:hover {
+            background: #2d4373;
+            transform: scale(1.05);
+        }
+
+        .share-button.twitter {
+            background: #1da1f2;
+        }
+
+        .share-button.twitter:hover {
+            background: #178cd7;
+            transform: scale(1.05);
+        }
+
+        .share-button.copy-link {
+            background: #444;
+        }
+
+        .share-button.copy-link:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
 
         @media (max-width: 768px) {
             .related-grid {
@@ -575,7 +600,7 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="">Seller Channel</a></span>
+            <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
             <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
             <span><a href="#">Download App</a></span>
             <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
@@ -726,9 +751,9 @@
 
             <!-- Social Share -->
             <div class="social-share">
-                <button class="share-button facebook">Share on Facebook</button>
-                <button class="share-button twitter">Share on Twitter</button>
-                <button class="share-button copy-link">Copy link</button>
+                <button class="share-button facebook" onclick="shareOnFacebook()">Share on Facebook</button>
+                <button class="share-button twitter" onclick="shareOnTwitter()">Share on Twitter</button>
+                <button class="share-button copy-link" onclick="copyLink()">Copy link</button>
             </div>
 
             <!-- Related Posts -->

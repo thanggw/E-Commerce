@@ -1,22 +1,4 @@
-function shareOnFacebook() {
-    const url = window.location.href;
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    window.open(facebookShareUrl, '_blank');
-}
 
-function shareOnTwitter() {
-    const url = window.location.href;
-    const text = "Check out this amazing content!";
-    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-    window.open(twitterShareUrl, '_blank');
-}
-
-function copyLink() {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url) //
-        .then(() => alert("Link copied to clipboard!"))
-        .catch(err => console.error("Failed to copy link: ", err));
-}
 
 
 
@@ -237,16 +219,6 @@ typeEffect();
 $(document).ready(function () {
     $('.wishlist').click(function () {
         window.location.href = 'http://localhost:8082/guests/wishlist';
-    });
-});
-$(document).ready(function () {
-    $('.carousel-item').click(function () {
-        window.location.href = 'http://localhost:8082/guests/newdetail';
-    });
-});
-$(document).ready(function () {
-    $('.popular-post').click(function () {
-        window.location.href = 'http://localhost:8082/guests/newdetail';
     });
 });
 

@@ -114,9 +114,24 @@ $(document).ready(function () {
         window.location.href = "http://localhost:8082/guests/voucher";
     });
 });
-
-
-
+$('.news-item').on('click', function () {
+    window.location.href = 'http://localhost:8082/guests/news';
+});
+$('.instagram-item').on('click', function () {
+    window.location.href = 'https://www.instagram.com/_thawngg/';
+});
+$('.products-sale .product-sale:nth-child(1)').on('click', function () {
+    window.location.href = `/guests/detail?productId=12`;
+});
+$('.products-sale .product-sale:nth-child(2)').on('click', function () {
+    window.location.href = `/guests/detail?productId=16`;
+});
+$('.products-sale .product-sale:nth-child(3)').on('click', function () {
+    window.location.href = `/guests/detail?productId=19`;
+});
+$('.products-sale .product-sale:nth-child(4)').on('click', function () {
+    window.location.href = `/guests/detail?productId=11`;
+});
 document.addEventListener("DOMContentLoaded", function() {
     getUserProfile(); // Lấy thông tin người dùng từ backend
 });

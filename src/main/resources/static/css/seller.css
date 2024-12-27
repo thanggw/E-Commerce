@@ -151,14 +151,14 @@ body {
 }
 
 .suggestions {
-    margin-left: -20px;
+    margin-left: -280px;
     margin-top: 5px;
     color: #b0b0b0;
 }
 
 .search-bar button {
     position: absolute;
-    right: 34px;
+    right: 1px;
     top: 10px;
     width: 45px;
     height: 46px;

@@ -78,4 +78,8 @@ public class UserController {
     public String contact(){
         return "guest/contact";
     }
+    @GetMapping("/sellerchannel")
+    public String sellerchannel(){
+        return "guest/sellerchannel";
+    }
 }

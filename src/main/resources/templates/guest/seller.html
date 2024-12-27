@@ -19,7 +19,7 @@
 
 <div class="top-bar">
     <div class="left-section">
-        <span><a href="">Seller Channel</a></span>
+        <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
         <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
         <span><a href="#">Download App</a></span>
         <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
@@ -104,22 +104,22 @@
 <div id="bankInfoContainer">
     <!-- Tóm tắt thông tin ngân hàng -->
     <p id="bankSummary" style="display: none;"></p>
-    <button id="editBankButton" style="display: none;">Chỉnh sửa</button>
+    <button id="editBankButton" style="display: none;">Edit</button>
 </div>
 
 <!-- Form cập nhật thông tin ngân hàng -->
 <div id="bankForm" style="display: none;">
-    <h4>Cập Nhật Thông Tin Ngân Hàng</h4>
+    <h4>Update Bank Information</h4>
 
-    <label for="bankDropdown" style="display: block;">Chọn Ngân Hàng:</label>
+    <label for="bankDropdown" style="display: block;">Choose Bank Name:</label>
     <select id="bankDropdown" class="selectpicker" data-live-search="true">
         <!-- Options sẽ được thêm động bằng JavaScript -->
     </select>
 
-    <label for="bankAccount" style="display: block;">Số Tài Khoản:</label>
+    <label for="bankAccount" style="display: block;">Your Card Number:</label>
     <input type="text" id="bankAccount" placeholder="Nhập số tài khoản">
 
-    <button id="updateBankButton" class="btn btn-primary">Cập Nhật</button>
+    <button id="updateBankButton" class="btn btn-primary">Update</button>
 </div>
 
 
@@ -214,64 +214,7 @@
 
         <div id="message" class="message"></div>
     </div>
-<section class="dashboard" style="margin: 2rem auto;
-    width: 90%;
-    max-width: 1200px;">
-    <h3 style="font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #ff5722;
-    text-align: center;">Seller Dashboard</h3>
-    <div class="overview">
-        <div class="overview-item">
-            <h3>Total Products</h3>
-            <p>120</p>
-        </div>
-        <div class="overview-item">
-            <h3>Orders Today</h3>
-            <p>25</p>
-        </div>
-        <div class="overview-item">
-            <h3>Revenue Today</h3>
-            <p>3,500,000 VND</p>
-        </div>
-        <div class="overview-item">
-            <h3>Best Selling Product</h3>
-            <p>Men's T-shirt</p>
-        </div>
-    </div>
-</section>
 
-
-
-<section class="chart-container">
-        <h2>Monthly revenue chart</h2>
-        <div class="charts-row">
-            <div class="chart-box">
-                <canvas id="revenueChart" width="420" height="390"></canvas>
-            </div>
-            <div class="chart-box">
-                <canvas id="pieChart1" width="390" height="190"></canvas> 
-            </div>
-            <div class="chart-box">
-                <canvas id="pieChart2" width="390" height="190"></canvas>
-            </div>
-        </div>
-    </section>
-
-
-
-
-<section class="notifications">
-    <h2>Notifications</h2>
-    <div class="notification-item">
-        <p>Customer A has just placed an order for your product</p>
-        <span>2 minutes ago</span>
-    </div>
-    <div class="notification-item">
-        <p>The product "Sports Shoes" is out of stock, needs to be restocked</p>
-        <span>10 minutes ago</span>
-    </div>
-</section>
 
 <table id="productTable">
     <h3 style="color: #ff5722;
@@ -279,11 +222,11 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Hình Ảnh</th>
-        <th>Tên Sản Phẩm</th>
-        <th>Giá</th>
-        <th>Danh Mục</th>
-        <th>Thao Tác</th>
+        <th>Image</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -292,13 +235,13 @@
 </table>
 
 <div id="editForm">
-    <h3>Chỉnh Sửa Sản Phẩm</h3>
+    <h3>Edit Your Product</h3>
     <input type="hidden" id="editProductId">
-    <label for="editProductName">Tên Sản Phẩm:</label>
+    <label for="editProductName">Product Name:</label>
     <input type="text" id="editProductName">
-    <label for="editProductPrice">Giá:</label>
+    <label for="editProductPrice">Price:</label>
     <input type="number" id="editProductPrice" step="0.01">
-    <button id="saveEditButton">Lưu</button>
+    <button id="saveEditButton">Save</button>
 </div>
 
 <!-- Modal chỉnh sửa sản phẩm -->
