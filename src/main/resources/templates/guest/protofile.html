@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/protofile.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="left-section">
+                <span><a href="">Seller Channel</a></span>
+                <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+                <span><a href="#">Download App</a></span>
+                <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+            </div>
+            <div class="right-section">
+                <span><a href="#">Notifications</a></span>
+                <span><a href="#">Support</a></span>
+                <span class="language-selector" style="width: 77px;">
+                        <a href="#">English  <i class="arrow-down"></i></a>
+                        <div class="language-dropdown">
+                            <span class="language-option" data-lang="vi">Tiếng Việt</span>
+                            <span class="language-option" data-lang="en">English</span>
+                            <span class="language-option" data-lang="en">Other...</span>
+                        </div>
+                    </span>
+            </div>
+    
+        </div>
+    
+        <div class="header-container">
+            <!-- Logo Section -->
+            <div class="logo">
+                <img src="/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+            </div>
+    
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <label>
+                    <input
+                            type="text"
+                            class="animated-input"
+                            id="animatedInput"
+                            placeholder="What are you looking for?"
+                            oninput="searchProducts(this.value)" />
+                </label>
+                <div id="searchResults" class="search-results"></div>
+                <button><i class="fa fa-search"></i></button>
+                <div class="suggestions">
+                    <span class="scroll-to-products">Sneaker</span>
+                    <span class="scroll-to-products">Nike</span>
+                    <span class="scroll-to-products">Sport Shoes</span>
+                    <span class="scroll-to-products">Adidas</span>
+                </div>
+            </div>
+    
+            <!-- User Info and Cart Section -->
+            <div class="user-info">
+                <div class="user-details">
+                    <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
+                    <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
+                    <span>Account</span>
+    
+                    <!-- Vùng dropdown-container -->
+                    <div class="dropdown-container">
+                        <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu">
+                            <a href="#">Login</a>
+                            <a href="#">Register</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="wishlist">
+                    <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
+                    <span style="color: #ff6f61">Wishlist</span>
+                    <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                </div>
+    
+                <div class="cart">
+    
+                    <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                    <!--cần xử lý với giỏ hàng-->
+                    <span style="color: #ff6f61" id="inCart">Cart</span>
+                    <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+    
+                </div>
+            </div>
+    
+            <!--           hien thi danh sach san pham cua gio hang-->
+    
+        </div>
+    
+        <!-- Navigation Menu -->
+        <nav class="navigation">
+            <!-- Icon hamburger cho menu -->
+            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    
+            <ul id="menu-list">
+                <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+                <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+                <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
+                <li><a href="http://localhost:8082/guests/news">News</a></li>
+                <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+                <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="http://localhost:8082/guests/location">Store Locations</a></li>
+                <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
+                <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
+                    <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
+                </a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    <div class="scroll-icons">
+        <div class="scroll" id="scroll">
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+    </div>
+    <!-- <header>
+        <div class="container">
+                <div class="navbar">
+                    <div class="navbar__logo">
+                        <img src="./img/logo.svg" alt="website logo" />
+                    </div>
+               
+            
+                <ul class="navbar__links">
+                    <li class="navbar__link"><a href="">Work</a></li>
+                    <li class="navbar__link"><a href="">About</a></li>
+                    <li class="navbar__link">Resume<a href=""></a></li>
+                    <a href="#footer"><button class="navbar__btn">Contact</button></a>
+                </ul>
+                <div class="navbar__icons">
+                    <div class="navbar__icon"></div>
+                </div>
+            </div>
+        </div>
+    </header> -->
+    <section id="banner">
+        <div class="container">
+          <!-- img -->
+          <div class="banner__img">
+            <img src="https://product.hstatic.net/200000581855/product/giay_onitsuka_tiger_advanti_cream_white_1183b799-1016_2d6fef9c31804410ab98e6427b7297e3_grande.jpg" alt="sneaker"  />
+          </div>
+          <!-- heading -->
+          <div class="banner__heading">
+            <h1>Welcome To About Shop</h1>
+            <p>
+                Step into effortless style with our premium sneakers, crafted for both comfort and durability. Designed with a minimalist aesthetic and high-quality materials, these shoes seamlessly blend fashion and functionality. Perfect for any occasion, they elevate your look while providing the all-day support you need.
+            </p>
+            <a href="#"><button class="banner__btn">View More</button></a>
+            <div class="banner__socials">
+              <a href="#"><i class="fab fa-dribbble"></i></a>
+              <a href="#"><i class="fab fa-behance"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+      
+      <section id="works">
+        <div class="container">
+        
+      <!-- heading -->
+          <h2>Recent Works</h2>
+          <!-- img -->
+          <div class="works__img">
+            <div class="works__img--single">
+              <img src="https://static.zara.net/assets/public/38e2/24e5/f73e420fafab/f1665f0fcd91/13480330001-e1/13480330001-e1.jpg?ts=1726478107168&w=824" alt="bag" />
+            </div>
+            <div class="works__img--single">
+              <img src="https://static.zara.net/assets/public/38e2/24e5/f73e420fafab/f1665f0fcd91/13480330001-e1/13480330001-e1.jpg?ts=1726478107168&w=824" alt="plate" />
+            </div>
+            <div class="works__img--single">
+              <img src="https://static.zara.net/assets/public/38e2/24e5/f73e420fafab/f1665f0fcd91/13480330001-e1/13480330001-e1.jpg?ts=1726478107168&w=824" alt="women" />
+            </div>
+            <div class="works__img--single">
+              <img src="https://static.zara.net/assets/public/38e2/24e5/f73e420fafab/f1665f0fcd91/13480330001-e1/13480330001-e1.jpg?ts=1726478107168&w=824" alt="piggy bank" />
+            </div>
+          </div>
+          <!-- btn -->
+          <div class="works__btn">
+            <a href="#"><button>View Works</button></a>
+          </div>
+        </div>
+      </section>     
+    </section>
+
+    <section id="things">
+        <div class="things__item">
+            <div class="things__item--heading">
+              <h3 style="text-align: center;">Think About Our Items</h3>
+              <p>
+                Discover Timeless Style
+                Step into the perfect blend of comfort and elegance with our signature sneakers. Crafted with premium materials, these shoes are designed to elevate your everyday look while ensuring unparalleled durability. Whether you're dressing up or keeping it casual, our sneakers are the ultimate choice for versatile fashion.
+                
+                Why Choose Us?
+                Our designs are inspired by simplicity and functionality, ensuring that every pair delivers both aesthetic appeal and practicality. With attention to detail and a commitment to quality, we create footwear that stands the test of time.
+              </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Subscribe</h4>
+                    <form>
+                        <input type="email" placeholder="Enter your email" />
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MyShop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../js/protofile.js"></script>
+</body>
+</html>
