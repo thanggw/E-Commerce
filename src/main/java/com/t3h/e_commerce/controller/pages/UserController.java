@@ -82,4 +82,8 @@ public class UserController {
     public String sellerchannel(){
         return "guest/sellerchannel";
     }
+    @GetMapping("/faq")
+    public String faq(){
+        return "guest/faq";
+    }
 }

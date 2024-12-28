@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fashion Store</title>
+    <link rel="stylesheet" href="../css/faq.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .faq-answer {
+            background-color: #fff;
+            padding: 0;
+            border: 1px solid #ddd;
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+        }
+
+        .faq-answer.show {
+            padding: 20px;
+            max-height: 500px; /* High enough to contain the content */
+        }
+
+        .faq-question {
+            transition: background-color 0.5s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #a01830;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            display: flex;
+            gap: 30px;
+        }
+
+        .faq-container {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .faq-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #c41e3a;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background-color: #c41e3a;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:after {
+            content: '+';
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .faq-question.active:after {
+            content: '-';
+        }
+
+        .faq-answer {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        .contact-form {
+            margin-top: 30px;
+            background-color: #fff1f1;
+            padding: 20px;
+            border-radius: 4px;
+            width: 350px;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .contact-form h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 95%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .submit-btn {
+            background-color: #c41e3a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #a01830;
+        }
+
+        /* Show first answer by default */
+        #question-1 .faq-answer {
+            display: block;
+        }
+        #question-1 .faq-question:after {
+            content: '-';
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="top-bar">
+        <div class="left-section">
+            <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
+            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+            <span><a href="#">Download App</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+        </div>
+        <div class="right-section">
+            <span><a href="#">Notifications</a></span>
+            <span><a href="#">Support</a></span>
+            <span class="language-selector" style="width: 77px;">
+                    <a href="#">English  <i class="arrow-down"></i></a>
+                    <div class="language-dropdown">
+                       <span class="language-option" data-lang="vi">Vietnamese</span>
+                        <span class="language-option" data-lang="en">English</span>
+                        <span class="language-option" data-lang="en">Other...</span>
+                    </div>
+                </span>
+        </div>
+    </div>
+
+    <div class="header-container">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <label>
+                <input
+                        type="text"
+                        class="animated-input"
+                        id="animatedInput"
+                        placeholder="What are you looking for?"
+                        oninput="searchProducts(this.value)" />
+            </label>
+            <div id="searchResults" class="search-results"></div>
+            <button><i class="fa fa-search"></i></button>
+            <div class="suggestions">
+                <span class="scroll-to-products">Sneaker</span>
+                <span class="scroll-to-products">Nike</span>
+                <span class="scroll-to-products">Sport Shoes</span>
+                <span class="scroll-to-products">Adidas</span>
+            </div>
+        </div>
+
+        <!-- User Info and Cart Section -->
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 141px;top: -2px;" id="span1">Profile</span>
+                <span>Account</span>
+
+                <!-- Dropdown container -->
+                <div class="dropdown-container">
+                    <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu">
+                        <a href="#">Login</a>
+                        <a href="#">Register</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wishlist">
+                <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
+                <span style="color: #ff6f61">Wishlist</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+            </div>
+
+            <div class="cart">
+                <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
+                <span style="color: #ff6f61" id="inCart">Cart</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation">
+        <!-- Menu hamburger icon -->
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+
+        <ul id="menu-list">
+            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="http://localhost:8082/guests/news">News</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
+            <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
+            <li><a href="http://localhost:8082/guests/faq">FAQ</a></li>
+            <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
+            <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
+                <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
+            </a></li>
+        </ul>
+    </nav>
+    <div class="contact-icons">
+        <div class="messenger" id="messenger-icon">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="faq-container">
+        <!-- About account -->
+        <div class="faq-section">
+            <h2 class="section-title">Account Questions</h2>
+
+            <div class="faq-item" id="question-1">
+                <div class="faq-question">1. How do I register an account?</div>
+                <div class="faq-answer">
+                    To register an account, you need to:
+                    - Click the "Register" button at the top right corner
+                    - Fill in all personal information
+                    - Confirm your registered email
+                    - Complete the registration process
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. How do I recover my password?</div>
+                <div class="faq-answer">
+                    If you forget your password, you can:
+                    - Click on "Forgot Password?" on the login page
+                    - Enter your registered email
+                    - Follow the instructions in the recovery email
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. How do I change my personal information?</div>
+                <div class="faq-answer">
+                    To update your personal information:
+                    - Log in to your account
+                    - Go to "Account Information"
+                    - Select "Edit Information"
+                    - Update and save changes
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. How do I delete my account?</div>
+                <div class="faq-answer">
+                    To request account deletion:
+                    - Log in to your account
+                    - Go to "Account Settings"
+                    - Select "Request Account Deletion"
+                    - Confirm via email
+                    Note: This process cannot be undone and will delete all your order history.
+                </div>
+            </div>
+        </div>
+
+        <!-- About ordering -->
+        <div class="faq-section">
+            <h2 class="section-title">Ordering Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">1. How do I place an order on the website?</div>
+                <div class="faq-answer">
+                    The ordering process includes the following steps:
+                    - Select a product and add it to the cart
+                    - Check the cart and quantities
+                    - Fill in the shipping information
+                    - Choose the payment method
+                    - Confirm the order
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. How do I track my order?</div>
+                <div class="faq-answer">
+                    You can track your order by:
+                    - Logging into your account
+                    - Going to "My Orders"
+                    - Clicking on the order code to see details
+                    - Or entering the tracking code in the tracking tool
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. How do I cancel my order?</div>
+                <div class="faq-answer">
+                    To cancel an order:
+                    - Log in and go to "My Orders"
+                    - Select the order you want to cancel
+                    - Click "Cancel Order" and select a reason
+                    Note: Orders that are not processed or are preparing items can only be canceled.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. Is there a limit on order quantities?</div>
+                <div class="faq-answer">
+                    Regarding order limits:
+                    - There is no limit on the number of orders
+                    - Some products may have quantity limits per order
+                    - Bulk orders may receive special discounts
+                    - Contact customer service for advice on bulk orders
+                </div>
+            </div>
+        </div>
+
+        <!-- About payment -->
+        <div class="faq-section">
+            <h2 class="section-title">Payment Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">1. What payment methods are accepted?</div>
+                <div class="faq-answer">
+                    We accept the following payment methods:
+                    - Credit/Debit cards (Visa, Mastercard, JCB)
+                    - Bank transfers
+                    - E-wallets (Momo, ZaloPay, VNPay)
+                    - Cash on delivery (COD)
+                    - Installments through financial partners
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. How do I receive a VAT invoice?</div>
+                <div class="faq-answer">
+                    To receive a VAT invoice:
+                    - Select the "Issue VAT Invoice" option when placing an order
+                    - Fill in the company's information
+                    - The invoice will be sent via email after the order is completed
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. What is the refund policy?</div>
+                <div class="faq-answer">
+                    The refund process:
+                    - Refund within 7-14 business days
+                    - Refund to the original payment method
+                    - For COD, refund via bank transfer
+                    - Provide account information through the refund form
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. How do I apply a discount code?</div>
+                <div class="faq-answer">
+                    How to use a discount code:
+                    - Enter the code in the "Discount Code" box on the cart page
+                    - One order can only apply one code
+                    - Check the conditions for each code
+                    - Discount codes do not apply to shipping fees
+                </div>
+            </div>
+        </div>
+
+        <!-- About shipping -->
+        <div class="faq-section">
+            <h2 class="section-title">Shipping Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">1. How long does shipping take?</div>
+                <div class="faq-answer">
+                    Estimated shipping times:
+                    - Within the city: 1-2 days
+                    - Nearby provinces: 2-3 days
+                    - Distant provinces: 3-5 days
+                    - Times may vary during peak seasons
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. How is the shipping fee calculated?</div>
+                <div class="faq-answer">
+                    Shipping fees are calculated based on:
+                    - Distance of delivery
+                    - Weight of the order
+                    - Free for orders over 500,000 VND
+                    - Extra charge for express delivery
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. Is delivery available on weekends?</div>
+                <div class="faq-answer">
+                    About weekend delivery:
+                    - Delivery is available on Saturday and Sunday
+                    - Applies to urban areas
+                    - You can choose your preferred delivery time
+                    - Some areas may not support weekend delivery
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. What is the return/exchange policy?</div>
+                <div class="faq-answer">
+                    Return/exchange policy:
+                    - Free returns/exchanges within 7 days
+                    - Products must be in original tags
+                    - Must have a purchase invoice
+                    - The company covers return shipping fees if the product is faulty
+                    - Customers bear return shipping fees if the return is based on personal choice
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keep the contact form section -->
+    <div class="contact-form">
+        <h2>Send us your question</h2>
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Full name">
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="tel" placeholder="Phone">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Content" rows="4"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Information</button>
+        </form>
+    </div>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: support@example.com</p>
+                <p>Phone: 1900 6750</p>
+                <p>Address: 123 Fashion St, City, Country</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Dola Fashion Accessories. All rights reserved.</p>
+            <div class="social-media">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            answer.classList.toggle('show');
+            question.classList.toggle('active');
+        });
+    });
+
+    function searchProducts(query) {
+        // Function for searching products
+        const resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = ''; // Clear previous results
+        if (query.length > 0) {
+            // Mockup search results for demo
+            const mockResults = ['Sneaker', 'Nike', 'Sport Shoes', 'Adidas'];
+            mockResults.forEach(item => {
+                if (item.toLowerCase().includes(query.toLowerCase())) {
+                    const resultItem = document.createElement('div');
+                    resultItem.textContent = item;
+                    resultsContainer.appendChild(resultItem);
+                }
+            });
+        }
+    }
+
+    function toggleMenu() {
+        const menuList = document.getElementById('menu-list');
+        menuList.classList.toggle('show');
+    }
+
+    // Close dropdown menu when clicking outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.menu-icon')) {
+            const menuList = document.getElementById('menu-list');
+            menuList.classList.remove('show');
+        }
+    };
+</script>
+</body>
+</html>
