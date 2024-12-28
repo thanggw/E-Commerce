@@ -60,7 +60,7 @@ public class UserController {
     }
     @GetMapping("/aboutus")
     public String aboutus(){
-        return "guest/AboutUs";
+        return "guest/protofile";
     }
     @GetMapping("/news")
     public String news(){
