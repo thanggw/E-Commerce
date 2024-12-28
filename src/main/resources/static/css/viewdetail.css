@@ -1,3 +1,22 @@
+.product-description {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin-left: 181px;
+    width: 80%;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.product-description h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.product-description .description-text {
+    white-space: pre-line;
+    font-size: 1em;
+}
 
 .wishlist-icon2 {
     position: absolute;

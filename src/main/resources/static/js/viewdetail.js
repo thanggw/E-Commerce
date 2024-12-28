@@ -12,25 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Update thông tin sản phẩm
                 document.querySelector(".product-title").textContent = data.name;
                 document.querySelector(".price").textContent = `${data.price.toLocaleString()}$`;
--- chưa hiểu đoạn này lắm
-                // Cập nhật hình ảnh sản phẩm
-                // const mainImage = document.querySelector(".main-image img");
-                // const thumbnailList = document.querySelector(".thumbnail-list");
-                // mainImage.src = data.imageUrls[0];
-                // thumbnailList.innerHTML = ""; // Xóa các hình ảnh thu nhỏ cũ
-                //
-                // data.imageUrls.forEach((url, index) => {
-                //     const thumbnail = document.createElement("div");
-                //     thumbnail.classList.add("thumbnail");
-                //     thumbnail.innerHTML = `<img src="${url}" alt="Thumbnail ${index + 1}">`;
-                //     thumbnailList.appendChild(thumbnail);
-                //
-                //     // Thay đổi hình ảnh chính khi người dùng nhấn vào hình thu nhỏ
-                //     thumbnail.addEventListener("click", () => {
-                //         mainImage.src = url;
-                //     });
-                // });
 
+                //Cập nhật hình ảnh sản phẩm
+                 const mainImage = document.querySelector(".main-image img");
+                 const thumbnailList = document.querySelector(".thumbnail-list");
+                 mainImage.src = data.imageUrls[0];
+                 thumbnailList.innerHTML = ""; // Xóa các hình ảnh thu nhỏ cũ
+
+                 data.imageUrls.forEach((url, index) => {
+                     const thumbnail = document.createElement("div");
+                     thumbnail.classList.add("thumbnail");
+                     thumbnail.innerHTML = `<img src="${url}" alt="Thumbnail ${index + 1}">`;
+                     thumbnailList.appendChild(thumbnail);
+
+                     // Thay đổi hình ảnh chính khi người dùng nhấn vào hình thu nhỏ
+                     thumbnail.addEventListener("click", () => {
+                         mainImage.src = url;
+                     });
+                 });
+
+                const descriptionText = document.querySelector(".description-text");
+                descriptionText.innerHTML = data.description.replace(/\n/g, "<br>");
 
 
                 // Cập nhật các tùy chọn màu sắc

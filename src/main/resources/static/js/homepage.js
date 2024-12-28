@@ -39,6 +39,9 @@ function getProduct() {
             productContainer.empty();
 
             for (let product of productDtos) {
+                let truncatedDescription = product.description && product.description.length > 40
+                    ? product.description.substring(0, 40) + "..."
+                    : product.description || "No description available";
                 let productHTML = `
                     <div class="product" data-product-id="${product.id}">
      
@@ -60,7 +63,7 @@ function getProduct() {
                                 ></span>
                             `).join('')}
                         </div>
-                        <p class="product-description">${product.description}</p> 
+                        <p class="product-description">${truncatedDescription}</p> 
                         <div class="rating">
                             ★★★★☆ <!-- Hiển thị đánh giá, có thể thay bằng logic động -->
                         </div>
