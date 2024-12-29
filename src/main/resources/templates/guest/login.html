@@ -10,119 +10,118 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <div class="signin-signup">
-                <form th:action="@{/perform_login}" method="POST" class="sign-in-form">
-                    <h2 class="title">Đăng nhập</h2>
-                    <div class="input-field">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" name="username" id="loginUsername" placeholder="Tên đăng nhập" >
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" name="password" id="loginPassword" placeholder="Mật Khẩu" >
-                    </div>
-                    <input type="submit" value="Đăng nhập" class="btn solid">
+<div class="container">
+    <div class="form-container">
+        <div class="signin-signup">
+            <form th:action="@{/perform_login}" method="POST" class="sign-in-form">
+                <h2 class="title">Login</h2>
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="username" id="loginUsername" placeholder="Username" >
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="loginPassword" placeholder="Password" >
+                </div>
+                <input type="submit" value="Login" class="btn solid">
 
-                    <div class="alert-danger" th:if="${param.error}">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Incorrect username or password. Please try again!
-                    </div>
+                <div class="alert-danger" th:if="${param.error}">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Incorrect username or password. Please try again!
+                </div>
 
-                    <div class="alert alert-success" th:if="${param.logout}">
-                        <i class="fa-solid fa-check-circle"></i>
-                        You have successfully logged out.
-                    </div>
-                    <div class="alert alert-warning" th:if="${param.accessDenied}">
-                        <i class="fa-solid fa-lock"></i>
-                        Access denied. You don't have permission to view this page.
-                    </div>
-                    <div class="alert alert-info" th:if="${param.notAuthenticated}">
-                        <i class="fa-solid fa-user"></i>
-                        Please log in to continue.
-                    </div>
+                <div class="alert alert-success" th:if="${param.logout}">
+                    <i class="fa-solid fa-check-circle"></i>
+                    You have successfully logged out.
+                </div>
+                <div class="alert alert-warning" th:if="${param.accessDenied}">
+                    <i class="fa-solid fa-lock"></i>
+                    Access denied. You don't have permission to view this page.
+                </div>
+                <div class="alert alert-info" th:if="${param.notAuthenticated}">
+                    <i class="fa-solid fa-user"></i>
+                    Please log in to continue.
+                </div>
 
-                    <p class="social-tex">Hoặc các nền tảng xã hội để đăng nhập </p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-google"></i>
-                        </a>
-                    </div>
+                <p class="social-tex">Or use social platforms to log in </p>
+                <div class="social-media">
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                </div>
 
+            </form>
 
-                </form>
+            <form class="sign-up-form" id="sign-up" method="post" onsubmit="registerUser(event)">
+                <h2 class="title">Register</h2>
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="username" id="signUpUsername" placeholder="Username" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" id="signUpEmail" placeholder="Email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="signUpPassword" placeholder="Password" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="firstName" id="firstName" placeholder="Last Name" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="lastName" id="lastName" placeholder="First Name" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" name="phone" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <input type="text" name="address" id="address" placeholder="Address" required>
+                </div>
+                <input type="submit" value="Register" class="btn solid">
+                <p class="social-tex">Or use social platforms to register</p>
+                <div class="social-media">
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-                <form class="sign-up-form" id="sign-up" method="post" onsubmit="registerUser(event)">
-                    <h2 class="title">Đăng kí</h2>
-                    <div class="input-field">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" name="username" id="signUpUsername" placeholder="Tên đăng nhập" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" name="email" id="signUpEmail" placeholder="Email" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" name="password" id="signUpPassword" placeholder="Mật khẩu" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" name="firstName" id="firstName" placeholder="Họ" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" name="lastName" id="lastName" placeholder="Tên" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-phone"></i>
-                        <input type="tel" name="phone" id="phone" placeholder="Số điện thoại" required>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa-solid fa-map-marker-alt"></i>
-                        <input type="text" name="address" id="address" placeholder="Địa chỉ" required>
-                    </div>
-                    <input type="submit" value="Đăng kí" class="btn solid">
-                    <p class="social-tex">Hoặc các nền tảng xã hội để đăng nhập</p>
-                    <div class="social-media">
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fa-brands fa-google"></i>
-                        </a>
-                    </div>
-                </form>
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>New to the Shop?</h3>
+                <p>
+                    Register today to become a member and get the latest information about our products and services!
+                </p>
+                <button class="btn transparent" id="sign-up-btn">Register</button>
             </div>
         </div>
 
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3>Bạn mới biết đến Shop?</h3>
-                    <p>
-                        Đăng ký ngay hôm nay để trở thành thành viên và các thông tin mới nhất về sản phẩm, dịch vụ của chúng tôi!
-                    </p>
-                    <button class="btn transparent" id="sign-up-btn">Đăng kí</button>
-                </div>
-            </div>
-
-            <div class="panel right-panel">
-                <div class="content">
-                    <h3>Bạn đã có tài khoản?</h3>
-                    <p>
-                        Bằng việc đăng kí, bạn đã đồng ý với Shopee về điều khoản dịch vụ và chính sách bảo mật
-                    </p>
-                    <button class="btn transparent" id="sign-in-btn">Đăng nhập</button>
-                </div>
+        <div class="panel right-panel">
+            <div class="content">
+                <h3>Already have an account?</h3>
+                <p>
+                    By registering, you agree to the terms of service and privacy policy of Shopee.
+                </p>
+                <button class="btn transparent" id="sign-in-btn">Login</button>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/login.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/login.js"></script>
 </body>
 </html>

@@ -159,3 +159,22 @@ function typeEffect() {
 
 // Bắt đầu hiệu ứng
 typeEffect();
+
+document.querySelectorAll(".search-bar input").forEach((input) => {
+    input.addEventListener("input", function (event) {
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức kiểm tra ký tự đặc biệt
+
+        if (specialCharPattern.test(this.value)) {
+            // Hiển thị SweetAlert thông báo
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Input',
+                text: `Field "${this.name}" contains special characters! Please remove them.`,
+                confirmButtonText: 'OK',
+            }).then(() => {
+                this.value = ""; // Xóa nội dung của input
+                this.focus(); // Đưa con trỏ trở lại ô nhập liệu
+            });
+        }
+    });
+});

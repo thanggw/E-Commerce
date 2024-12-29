@@ -18,7 +18,23 @@ function toBase64(file) {
 
 
 
-
+function getColorCode(colorName) {
+    const colorMap9 = {
+        "Red": "#FF0000",       // Đỏ
+        "Blue": "#0000FF",      // Xanh dương
+        "Yellow": "#FFFF00",    // Vàng
+        "Green": "#008000",     // Xanh lá cây
+        "Orange": "#FFA500",    // Cam
+        "Purple": "#800080",    // Tím
+        "Pink": "#FFC0CB",      // Hồng
+        "Brown": "#A52A2A",     // Nâu
+        "Black": "#000000",     // Đen
+        "White": "#FFFFFF",     // Trắng
+        "Gray": "#808080",      // Xám
+        "Violet": "#EE82EE"     // Tím violet
+    };
+    return colorMap9[colorName] || "#CCCCCC"; // Mặc định màu xám nếu không tìm thấy
+}
 
 
 const URL1 = 'http://localhost:8082/';
@@ -88,23 +104,20 @@ function removeFromWishlist(itemId) {
         .catch(error => console.error("Error removing item:", error));
 }
 
-function getColorCode(colorName) {
-    const colorMap = {
-        "Red": "#FF0000",
-        "Blue": "#0000FF",
-        "Yellow": "#FFFF00",
-        "Green": "#008000",
-        "Orange": "#FFA500",
-        "Purple": "#800080",
-        "Pink": "#FFC0CB",
-        "Brown": "#A52A2A",
-        "Black": "#000000",
-        "White": "#FFFFFF",
-        "Gray": "#808080",
-        "Violet": "#EE82EE"
-    };
-    return colorMap[colorName] || "#CCCCCC";
-}
+const colorMap = {
+    "Red": "#FF0000",       // Đỏ
+    "Blue": "#0000FF",      // Xanh dương
+    "Yellow": "#FFFF00",    // Vàng
+    "Green": "#008000",     // Xanh lá cây
+    "Orange": "#FFA500",    // Cam
+    "Purple": "#800080",    // Tím
+    "Pink": "#FFC0CB",      // Hồng
+    "Brown": "#A52A2A",     // Nâu
+    "Black": "#000000",     // Đen
+    "White": "#FFFFFF",     // Trắng
+    "Gray": "#808080",      // Xám
+    "Violet": "#EE82EE"     // Tím violet
+};
 
 // Manage the shopping cart and display cart items
 $(document).ready(function () {
@@ -113,6 +126,7 @@ $(document).ready(function () {
 
 function getCart() {
     console.log("Refreshing cart...");
+    // Lấy userId từ localStorage
     let userId = localStorage.getItem("userId");
 
     if (!userId) {
@@ -120,6 +134,7 @@ function getCart() {
         return;
     }
 
+    // Gọi API giỏ hàng với userId lấy từ localStorage
     $.ajax({
         url: URL1 + `api/carts/${userId}`,
         type: 'GET',
@@ -127,41 +142,61 @@ function getCart() {
             console.log("Cart fetched successfully:", response);
             let cartItems = response.items;
             let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty();
+            cartItemsContainer.empty(); // Xóa nội dung cũ
 
             let totalQuantity = 0;
             let totalPrice = 0;
 
             if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Your cart is empty.</p>');
+                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
-                        <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-                            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-                            <div style="flex-grow: 1;">
-                                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                                <p>Quantity: ${item.productQuantity}</p>
-                                <p>Price: ${item.productPrice}.000 VND</p>
-                            </div>
-                            <div style="text-align: right;">
-                                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
-                                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Remove</button>
-                            </div>
-                        </div>`;
+        <div class="cart-item" data-product-id="${item.productId}" 
+         style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+            <!-- Hiển thị ảnh sản phẩm -->
+            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
+
+            <!-- Thông tin sản phẩm -->
+            <div style="flex-grow: 1;">
+                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
+                <p>Quantity: ${item.productQuantity}</p>
+                <p>Price: ${item.productPrice}.000 VND</p>
+                 <p>Color: <span style="display: inline-block; background-color: ${colorMap[item.color] || '#808080'}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000;" title="${item.color}"></span> ${item.color}</p>
+                <p>Size: <span style="font-weight: bold;">${item.size}</span></p>
+            </div>
+
+            <!-- Tổng tiền cho sản phẩm -->
+            <div style="text-align: right;">
+                <p>Total: ${item.productQuantity * item.productPrice}$</p>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Remove</button>
+            </div>
+        </div>`;
                     cartItemsContainer.append(cartItemHTML);
+                    $('.cart-item').on('click', function () {
+                        // Nếu click vào button thì ngăn chặn sự lan truyền
+                        if ($(event.target).is('button')) {
+                            event.stopPropagation();
+                        } else {
+                            // Nếu click vào nơi khác trong cart-item thì chuyển hướng
+                            let productId = $(this).data('product-id');
+                            window.location.href = `/guests/detail?productId=${productId}`;
+                        }
+                    });
 
                     totalQuantity += item.productQuantity;
                     totalPrice += item.productQuantity * item.productPrice;
                 });
 
-                $('#total-quantity').text(`Total items: ${totalQuantity}`);
-                $('#total-price').text(`Total cost: ${totalPrice}.000 VND`);
+                // Cập nhật thông tin tổng quan giỏ hàng
+                $('#total-quantity').text(`Total quantity of products: ${totalQuantity}`);
+                $('#total-price').text(`Total Cash: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
-            $('#created-info').text(`Created on: ${response.createdDate}`);
-            $('#modified-info').text(`Last modified: ${response.lastModifiedDate}`);
+            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
+            $('#created-info').text(`Created Date: ${response.createdDate}`);
+            $('#modified-info').text(`Modified Date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -356,6 +391,42 @@ async function searchProducts(query) {
     }
 }
 
+document.querySelectorAll(".search-bar input").forEach((input) => {
+    input.addEventListener("input", function (event) {
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức kiểm tra ký tự đặc biệt
+
+        if (specialCharPattern.test(this.value)) {
+            // Hiển thị SweetAlert thông báo
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Input',
+                text: `Field "${this.name}" contains special characters! Please remove them.`,
+                confirmButtonText: 'OK',
+            }).then(() => {
+                this.value = ""; // Xóa nội dung của input
+                this.focus(); // Đưa con trỏ trở lại ô nhập liệu
+            });
+        }
+    });
+});
+document.querySelectorAll("#addProductForm input, #addProductForm textarea").forEach((input) => {
+    input.addEventListener("input", function (event) {
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức kiểm tra ký tự đặc biệt
+
+        if (specialCharPattern.test(this.value)) {
+            // Hiển thị SweetAlert thông báo
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Input',
+                text: `Field "${this.name}" contains special characters! Please remove them.`,
+                confirmButtonText: 'OK',
+            }).then(() => {
+                this.value = ""; // Xóa nội dung của input
+                this.focus(); // Đưa con trỏ trở lại ô nhập liệu
+            });
+        }
+    });
+});
 
 
 
@@ -661,7 +732,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         bankDropdown.appendChild(option);
                     });
                     $('#bankDropdown').selectpicker({
-                        title: "Chọn Ngân Hàng" // Hiển thị tiêu đề mặc định
+                        title: "Choose bank:" // Hiển thị tiêu đề mặc định
                     });
                     $('#bankDropdown').selectpicker('refresh');
 
@@ -712,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const bankAccount = bankAccountInput.value;
 
         if (!selectedBank || !bankAccount) {
-            alert('Vui lòng chọn ngân hàng và nhập số tài khoản.');
+            alert('Please select a bank and enter the account number.');
             return;
         }
 
