@@ -177,7 +177,7 @@ function getCart() {
 
                 // Cập nhật thông tin tổng quan giỏ hàng
                 $('#total-quantity').text(`Total quantity of products: ${totalQuantity}`);
-                $('#total-price').text(`Total Cash: ${totalPrice}.000 VND`);
+                $('#total-price').text(`Total Cash: ${totalPrice}.$`);
                 $('.cart-items-count').text(totalQuantity);
             }
 

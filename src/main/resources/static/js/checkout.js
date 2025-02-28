@@ -208,7 +208,7 @@ function getCart() {
 
                 // Cập nhật thông tin tổng quan giỏ hàng
                 $('#total-quantity').text(`Total number of products: ${totalQuantity}`);
-                $('#total-price').text(`Total cash: ${totalPrice}.000 VND`);
+                $('#total-price').text(`Total cash: ${totalPrice}$`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
@@ -336,7 +336,7 @@ function fetchProductDetails(productId) {
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng: ${(response.price * quantity)}.000 VND</p>
+                <p>Tổng: ${(response.price * quantity)}$</p>
             </div>
         </div>`;
 

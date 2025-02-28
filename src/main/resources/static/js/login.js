@@ -72,3 +72,46 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.getElementById("signUpPassword").addEventListener("input", function() {
+    const password = this.value;
+    const passwordHelp = document.getElementById("passwordHelp");
+
+    // Regular expressions for password strength
+    const minLength = /.{8,}/; // At least 8 characters
+    const upperCase = /[A-Z]/; // At least one uppercase letter
+    const lowerCase = /[a-z]/; // At least one lowercase letter
+    const number = /[0-9]/; // At least one number
+    const specialChar = /[!@#$%^&*(),.?":{}|<>]/; // At least one special character
+
+    let message = "Password should include: ";
+    let isValid = true;
+
+    if (!minLength.test(password)) {
+        message += "at least 8 characters, ";
+        isValid = false;
+    }
+    if (!upperCase.test(password)) {
+        message += "at least one uppercase letter, ";
+        isValid = false;
+    }
+    if (!lowerCase.test(password)) {
+        message += "at least one lowercase letter, ";
+        isValid = false;
+    }
+    if (!number.test(password)) {
+        message += "at least one number, ";
+        isValid = false;
+    }
+    if (!specialChar.test(password)) {
+        message += "at least one special character.";
+        isValid = false;
+    }
+
+    // Display suggestions or hide help text
+    if (!isValid) {
+        passwordHelp.style.display = "block";
+        passwordHelp.textContent = message.trim().replace(/,$/, "");
+    } else {
+        passwordHelp.style.display = "none";
+    }
+});
