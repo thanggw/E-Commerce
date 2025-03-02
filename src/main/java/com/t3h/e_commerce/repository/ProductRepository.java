@@ -15,12 +15,15 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
     List<ProductEntity> findByNameContainingIgnoreCase(String name);
 
-    @Query(value = "select p from ProductEntity p left join p.brand b left join p.category c" +
-        " WHERE (:#{#filter.name} is null OR LOWER(p.name) LIKE LOWER(CONCAT('%', :#{#filter.name}, '%')))" +
-        " AND (:#{#filter.minPrice} is null OR p.price >= :#{#filter.minPrice})" +
-        " AND (:#{#filter.maxPrice} is null OR p.price <= :#{#filter.maxPrice})" +
-        " AND (:#{#filter.category} is null OR c.code = :#{#filter.category})" +
-        " AND (:#{#filter.brand} is null OR b.code = :#{#filter.brand})")
+    @Query(value = "SELECT p FROM ProductEntity p " +
+            "LEFT JOIN p.brand b " +
+            "LEFT JOIN p.category c " +
+            "WHERE (:#{#filter.name} IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :#{#filter.name}, '%'))) " +
+            "AND (:#{#filter.minPrice} IS NULL OR p.price >= COALESCE(:#{#filter.minPrice}, p.price)) " +
+            "AND (:#{#filter.maxPrice} IS NULL OR p.price <= COALESCE(:#{#filter.maxPrice}, p.price)) " +
+            "AND (:#{#filter.category} IS NULL OR c.code = :#{#filter.category}) " +
+            "AND (:#{#filter.brand} IS NULL OR b.code = :#{#filter.brand})")
+
     Page<ProductEntity> searchProductEntitiesByConditions(@Param("filter") ProductRequestFilter filter, Pageable pageable);
     List<ProductEntity> findByUser_Id(Integer userId);
 }
