@@ -13,12 +13,6 @@ public interface UserMapper2 {
 
 
       UserResponse toDTO(UserEntity userEntity);
-      @Mapping(source = "id", target = "id")
-      @Mapping(source = "username", target = "username")
-      @Mapping(source = "email", target = "email")
-      @Mapping(source = "firstName", target = "firstName")
-      @Mapping(source = "lastName", target = "lastName")
-      @Mapping(source = "phone", target = "phone")
-      @Mapping(source = "address", target = "address")
+
       UserEntity toEntity(UserResponse userResponse);
 }
