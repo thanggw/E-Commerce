@@ -3,7 +3,7 @@ name: Deploy Spring Boot Application
 on:
   push:
     branches:
-      - clean-branch
+      - new-code
 
 jobs:
   build:
