@@ -147,16 +147,16 @@ function getCart() {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Quantity: ${item.productQuantity}</p>
-                <p>Price: ${item.productPrice}.000 VND</p>
-                 <p>Color: <span style="display: inline-block; background-color: ${colorMap[item.color] || '#808080'}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000;" title="${item.color}"></span> ${item.color}</p>
-                <p>Size: <span style="font-weight: bold;">${item.size}</span></p>
+                <p>Số lượng: ${item.productQuantity}</p>
+                <p>Giá: ${item.productPrice}.000 VND</p>
+                 <p>Topping: ${item.color}</p>
+                <p>Kích cỡ: <span style="font-weight: bold;">${item.size}</span></p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Total: ${item.productQuantity * item.productPrice}$</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Remove</button>
+                <p>Tổng tiền: ${item.productQuantity * item.productPrice}.000đ</p>
+                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
             </div>
         </div>`;
                     cartItemsContainer.append(cartItemHTML);
@@ -176,14 +176,14 @@ function getCart() {
                 });
 
                 // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Total quantity of products: ${totalQuantity}`);
-                $('#total-price').text(`Total Cash: ${totalPrice}.$`);
+                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
+                $('#total-price').text(`Tổng tiền: ${totalPrice}.000đ`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
             // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Created Date: ${response.createdDate}`);
-            $('#modified-info').text(`Modified Date: ${response.lastModifiedDate}`);
+            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
+            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
         },
         error: function (error) {
             console.error('Error fetching cart:', error);
@@ -223,14 +223,14 @@ $('.scroll-to-products').on('click', function () {
 
 const input2 = document.getElementById('animatedInput');
 const placeholders2 = [
-    'What are you looking for?',
-    'Adidas Superstar',
-    'Nike Air Force 1',
-    'Converse Chuck Taylor',
-    'Vans Old Skool',
-    'Puma Suede',
-    'New Balance 574',
-    'Reebok Classic Leather'
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
 ];
 
 let currentIndex2 = 0;
@@ -311,11 +311,10 @@ document.addEventListener("DOMContentLoaded", function () {
     <img src="${item.productImage}" alt="${item.productName}">
     <div class="item-details">
         <h3>${item.productName}</h3>
-        <p>Color: 
+        <p>Topping: 
             <span class="color-name">${item.color}</span>
-            <span class="color-box" style="background-color: ${getColorCode(item.color)};"></span>
         </p>
-        <p>Size: ${item.size}</p>
+        <p>Kích cỡ: ${item.size}</p>
         <p>${item.available ? "In Stock" : "Out of Stock"}</p>
         <button class="remove-btn" data-item-id="${item.itemId}">Remove</button>
     </div>

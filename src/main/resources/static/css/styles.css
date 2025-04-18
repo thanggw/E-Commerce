@@ -1,5 +1,96 @@
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 100px;
+    width: 320px;
+    height: 400px;
+    background: white;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
+    z-index: 1000;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0084FF;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+.chat-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.chat-header button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#chat-box {
+    height: 290px;
+    overflow-y: auto;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+}
+
+#message-input {
+    width: calc(100% - 60px);
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin: 0 5px 5px 5px;
+    background-color: #f0f0f0;
+    outline: none;
+}
+
+button[onclick="sendMessage()"] {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    color: #0084FF;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0;
+    position: relative;
+}
+
+button[onclick="sendMessage()"]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230084FF'%3E%3Cpath d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
 .wishlist-icon2 {
     position: absolute;
+    margin-top:60px;
     cursor: pointer;
     font-size: 20px;
     color: #db2424;
@@ -405,7 +496,7 @@ html {
 }
 
 .logo img {
-    max-width: 150px;
+    max-width: 100px;
 }
 
 .search-bar {
@@ -447,7 +538,7 @@ html {
 }
 
 .suggestions {
-    margin-left: -100px;
+    margin-left: -161px;
     margin-top: 5px;
     color: #b0b0b0;
 }
@@ -876,16 +967,26 @@ html {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.product-image {
+    width: 290px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .product-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover; /* Giữ tỷ lệ ảnh và lấp đầy khung hình */
     transition: transform 0.3s ease;
 }
 
 .product-image img:hover {
     transform: scale(1.05);
 }
+
 
 .product-colors {
     margin-top: 10px;
@@ -1152,11 +1253,37 @@ html {
     font-size: 12px;
 }
 
-.product-sale img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
+
+
+
+/* Ảnh trong phần sản phẩm bán chạy */
+.product-sales .product-image {
+    width: 325px; /* Đặt kích thước cố định cho ảnh sản phẩm */
+    height: 200px;
+    overflow: hidden; /* Đảm bảo ảnh không bị tràn ra ngoài */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px; /* Làm mềm góc ảnh */
 }
+
+.product-sales .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh không bị méo và lấp đầy khung */
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+}
+
+.product-sales .product-image img:hover {
+    transform: scale(1.05);
+}
+
+
+
+
+
+
 
 .product-sale h3 {
     font-size: 14px;
@@ -1291,7 +1418,7 @@ html {
 
 .product-sale img {
     width: 100%;
-    height: auto;
+    height: 200px;
     margin-bottom: 10px;
 }
 
@@ -2013,7 +2140,6 @@ footer {
 }
 #inCart{
     margin-top: 5px;
-    margin-right: 34px;
 }
 
 

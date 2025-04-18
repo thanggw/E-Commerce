@@ -4,9 +4,12 @@ import com.t3h.e_commerce.dto.ResponsePage;
 import com.t3h.e_commerce.dto.requests.ProductRequest;
 import com.t3h.e_commerce.dto.requests.ProductRequestFilter;
 import com.t3h.e_commerce.dto.requests.ProductUpdateRequest;
+import com.t3h.e_commerce.dto.requests.ReviewDTO;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
 import com.t3h.e_commerce.entity.ProductEntity;
+import com.t3h.e_commerce.entity.ReviewEntity;
 import com.t3h.e_commerce.service.IProductService;
+import com.t3h.e_commerce.service.impl.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductResourceController {
     private final IProductService iProductService;
+    private final ReviewService reviewService;
 
     @PostMapping("/create")
     public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductRequest request) {
@@ -61,7 +65,6 @@ public class ProductResourceController {
     }
 
 
-
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id,@RequestBody ProductUpdateRequest request){
         ProductResponse productResponse = iProductService.updateProduct(id, request);
@@ -72,5 +75,15 @@ public class ProductResourceController {
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Integer id) {
         ProductResponse productResponse = iProductService.getProductById(id);
         return ResponseEntity.ok(productResponse);
+    }
+
+    @GetMapping("/review/{productId}")
+    public List<ReviewDTO> getReviewsByProduct(@PathVariable Integer productId) {
+        return reviewService.getReviewsByProduct(productId);
+    }
+
+    @PostMapping(consumes = "application/json")
+    public ReviewDTO addReview(@RequestBody ReviewDTO reviewDTO) {
+        return reviewService.addReview(reviewDTO);
     }
 }

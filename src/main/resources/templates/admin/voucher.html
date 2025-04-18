@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <title>Admin Voucher Management</title>
+    <style>
+        :root {
+            --primary: #1976d2;
+            --primary-dark: #0d47a1;
+            --primary-light: #bbdefb;
+            --secondary: #f5f5f5;
+            --text-dark: #333;
+            --text-light: #fff;
+            --danger: #f44336;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --border-radius: 4px;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: var(--text-dark);
+        }
+
+        .main-content {
+            margin-left: 20px;
+            margin-right: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 1130px;
+            margin-top: 74px;
+            margin-left: 310px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #388e3c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: rgba(187, 222, 251, 0.2);
+        }
+
+        .status {
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .status-active {
+            background-color: #e8f5e9;
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: #ffebee;
+            color: var(--danger);
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .check-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .check-section input {
+            flex: 1;
+        }
+
+        .check-section button {
+            width: auto;
+        }
+
+        #checkResult {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .result-valid {
+            background-color: #e8f5e9;
+            color: var(--success);
+        }
+
+        .result-invalid {
+            background-color: #ffebee;
+            color: var(--danger);
+        }
+
+        /* Form styling */
+        #createVoucherForm {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        #createVoucherForm button {
+            margin-top: 10px;
+            width: auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+
+<div class="container">
+    <h2>Trang chủ / Quản lý voucher</h2>
+
+    <h3><i class="fas fa-plus-circle"></i> Tạo Voucher Mới</h3>
+    <form id="createVoucherForm">
+        <div class="form-row">
+            <div class="form-col">
+                <label for="code">Mã Voucher:</label>
+                <input type="text" id="code" required placeholder="Nhập mã voucher">
+            </div>
+            <div class="form-col">
+                <label for="discount">Giảm giá (%):</label>
+                <input type="number" id="discount" required min="1" max="100" placeholder="Nhập % giảm giá">
+            </div>
+            <div class="form-col">
+                <label for="expiryDate">Ngày hết hạn:</label>
+                <input type="date" id="expiryDate" required>
+            </div>
+        </div>
+        <button type="submit"><i class="fas fa-plus"></i> Tạo Voucher</button>
+    </form>
+
+    <h3><i class="fas fa-list"></i> Tất Cả Voucher</h3>
+    <table id="voucherTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Giảm giá</th>
+            <th>Ngày hết hạn</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3><i class="fas fa-search"></i> Kiểm Tra Mã Voucher</h3>
+    <div class="check-section">
+        <input type="text" id="checkCodeInput" placeholder="Nhập mã để kiểm tra">
+        <button onclick="checkVoucher()"><i class="fas fa-check-circle"></i> Xác Nhận</button>
+    </div>
+    <p id="checkResult"></p>
+</div>
+
+<script src="../js/admin-chat.js"></script>
+<script>
+    // Địa chỉ API dựa trên controller
+    const API_BASE = "/api/vouchers";
+
+    // Format date to display in a more readable format
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN');
+    }
+
+    // Load all vouchers
+    async function loadVouchers() {
+        try {
+            const res = await fetch(API_BASE);
+            const vouchers = await res.json();
+
+            const tbody = document.querySelector("#voucherTable tbody");
+            tbody.innerHTML = "";
+
+            vouchers.forEach(voucher => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${voucher.id}</td>
+                    <td><strong>${voucher.code}</strong></td>
+                    <td>${voucher.discountAmount}%</td>
+                    <td>${formatDate(voucher.expirationDate)}</td>
+                    <td><span class="status ${voucher.active ? 'status-active' : 'status-inactive'}">
+                        ${voucher.active ? 'Hoạt động' : 'Không hoạt động'}
+                    </span></td>
+                    <td class="actions">
+                        <button class="btn-sm ${voucher.active ? 'btn-danger' : 'btn-success'}"
+                                onclick="toggleVoucher(${voucher.id}, ${!voucher.active})">
+                            ${voucher.active ? '<i class="fas fa-ban"></i> Vô hiệu hóa' : '<i class="fas fa-check"></i> Kích hoạt'}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error("Lỗi khi tải danh sách voucher:", error);
+        }
+    }
+
+    // Create voucher
+    document.getElementById("createVoucherForm").addEventListener("submit", async e => {
+        e.preventDefault();
+        const code = document.getElementById("code").value;
+        const discount = document.getElementById("discount").value;
+        const expiryDate = document.getElementById("expiryDate").value + "T00:00:00";
+
+        try {
+            const response = await fetch(`${API_BASE}/create`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    code,
+                    discountAmount: discount,
+                    expirationDate: expiryDate
+                })
+            });
+
+            if (response.ok) {
+                e.target.reset();
+                loadVouchers();
+                const date = new Date();
+                date.setDate(date.getDate() + 30);
+                document.getElementById('expiryDate').valueAsDate = date;
+                alert("Tạo voucher thành công!");
+            } else {
+                const error = await response.json();
+                alert(`Lỗi khi tạo voucher: ${error.message || 'Lỗi không xác định'}`);
+            }
+        } catch (error) {
+            console.error("Lỗi khi tạo voucher:", error);
+            alert("Không thể tạo voucher. Vui lòng thử lại.");
+        }
+    });
+
+
+    // Activate / Deactivate voucher
+    async function toggleVoucher(id, status) {
+        try {
+            const endpoint = status ? "activate" : "deactivate";
+            const response = await fetch(`${API_BASE}/${endpoint}/${id}`, { method: "PUT" });
+
+            if (response.ok) {
+                loadVouchers();
+                alert(status ? "Kích hoạt voucher thành công!" : "Vô hiệu hóa voucher thành công!");
+            } else {
+                alert("Không thể cập nhật trạng thái voucher. Vui lòng thử lại.");
+            }
+        } catch (error) {
+            console.error("Lỗi khi cập nhật trạng thái voucher:", error);
+            alert("Lỗi khi cập nhật trạng thái voucher. Vui lòng thử lại.");
+        }
+    }
+
+    // Check voucher validity
+    async function checkVoucher() {
+        const code = document.getElementById("checkCodeInput").value;
+        if (!code) {
+            document.getElementById("checkResult").innerText = "Vui lòng nhập mã voucher";
+            document.getElementById("checkResult").className = "";
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/check/${code}`);
+            const isValid = await res.json();
+
+            const resultElement = document.getElementById("checkResult");
+            resultElement.innerText = isValid
+                ? "✅ Mã voucher hợp lệ và có thể sử dụng!"
+                : "❌ Mã voucher không hợp lệ hoặc đã hết hạn.";
+            resultElement.className = isValid ? "result-valid" : "result-invalid";
+        } catch (error) {
+            console.error("Lỗi khi kiểm tra voucher:", error);
+            document.getElementById("checkResult").innerText = "Lỗi khi kiểm tra mã voucher. Vui lòng thử lại.";
+            document.getElementById("checkResult").className = "";
+        }
+    }
+
+    // Set default expiry date to 30 days from now
+    document.addEventListener('DOMContentLoaded', function() {
+        const expiryDateInput = document.getElementById('expiryDate');
+        const date = new Date();
+        date.setDate(date.getDate() + 30);
+        expiryDateInput.valueAsDate = date;
+
+        // Initial load
+        loadVouchers();
+    });
+</script>
+</body>
+</html>

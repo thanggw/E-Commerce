@@ -19,4 +19,6 @@ public class OrderResponse {
     private String orderStatus;
     private String expectedDeliveryDate;
     private String message;
+    private String voucherCode;
+    private BigDecimal discount;
 }

@@ -1,3 +1,41 @@
+.hidden {
+    display: none;
+}
+
+.order-items {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+}
+
+.order-item {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.toggle-items-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #e42c2c;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.toggle-items-btn:hover {
+    background-color: #a93131;
+}
+
+
+
+
 .fas{
     margin-right: 10px;
 }
@@ -1040,8 +1078,36 @@ footer {
 
 .order-status {
     font-size: 14px;
-    color: #388e3c; /* Màu xanh nếu trạng thái thành công */
     font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Màu sắc cho từng trạng thái */
+.order-status.pending {
+    color: #ff9800;
+    background-color: #fff3e0;
+}
+
+.order-status.processing {
+    color: #2196f3;
+    background-color: #e3f2fd;
+}
+
+.order-status.shipped {
+    color: #673ab7;
+    background-color: #ede7f6;
+}
+
+.order-status.delivered {
+    color: #388e3c;
+    background-color: #e8f5e9;
+}
+
+.order-status.canceled {
+    color: #f44336;
+    background-color: #ffebee;
 }
 
 /* Các section */

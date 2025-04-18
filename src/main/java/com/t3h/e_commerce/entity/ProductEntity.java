@@ -53,7 +53,7 @@ public class ProductEntity extends BaseEntity{
     boolean isSoldOut;
 
     @Column(name = "is_available", nullable = false)
-    boolean isAvailable = true;
+    boolean isAvailable ;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<ProductImage> images;

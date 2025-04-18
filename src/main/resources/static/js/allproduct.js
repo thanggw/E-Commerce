@@ -82,17 +82,7 @@ function getAllProducts(page) {
                             <img src="${product.imageUrls[0]}" alt="${product.name}" id="main-image-${product.id}">
                         </div>
                         <h3 id="product_name">${product.name}</h3>
-                        <p id="product_price">$${product.price}</p>
-                        <div class="product-colors">
-                            ${product.colors.map((color, index) => `
-                                <span 
-                                    class="color-dot" 
-                                    style="background-color: ${colorMap4[color.name] || 'gray'};"
-                                    data-image="${product.imageUrls[index] || product.imageUrl}"
-                                    onmouseover="changeImage(${product.id}, '${product.imageUrls[index] || product.imageUrl}')"
-                                ></span>
-                            `).join('')}
-                        </div>
+                        <p id="product_price">${product.price}.000 VND</p>
                         <div class="rating">
                             ★★★★☆
                         </div>
@@ -118,9 +108,7 @@ function getAllProducts(page) {
     });
 }
 
-function changeImage(productId, imageUrl) {
-    $(`#main-image-${productId}`).attr('src', imageUrl);
-}
+
 
 document.addEventListener("DOMContentLoaded", function() {
     getUserProfile(); // Fetch user information from backend

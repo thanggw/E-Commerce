@@ -12,20 +12,18 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
-            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
-            <span><a href="#">Download App</a></span>
-            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+            <span><a href="#">Tải Ứng Dụng</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Kết Nối</a></span>
         </div>
         <div class="right-section">
-            <span><a href="#">Notifications</a></span>
-            <span><a href="#">Support</a></span>
+            <span><a href="#">Thông Báo</a></span>
+            <span><a href="#">Hỗ Trợ</a></span>
             <span class="language-selector" style="width: 77px;">
-                    <a href="#">English  <i class="arrow-down"></i></a>
+                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
                         <span class="language-option" data-lang="vi">Tiếng Việt</span>
-                        <span class="language-option" data-lang="en">English</span>
-                        <span class="language-option" data-lang="en">Other...</span>
+                        <span class="language-option" data-lang="en">Tiếng Anh</span>
+                        <span class="language-option" data-lang="en">Khác...</span>
                     </div>
                 </span>
         </div>
@@ -33,84 +31,73 @@
     </div>
 
     <div class="header-container">
-        <!-- Logo Section -->
         <div class="logo">
-            <img src="../image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+            <img src="http://localhost:8082/file/avatar/image_logo_ISD.jpg" alt="Tên Thương Hiệu Đồ Ăn">
         </div>
 
-        <!-- Search Bar -->
         <div class="search-bar">
             <label>
                 <input
                         type="text"
                         class="animated-input"
                         id="animatedInput"
-                        placeholder="What are you looking for?"
+                        placeholder="Bạn đang tìm gì?"
                         oninput="searchProducts(this.value)" />
             </label>
             <div id="searchResults" class="search-results"></div>
             <button><i class="fa fa-search"></i></button>
             <div class="suggestions">
-                <span class="scroll-to-products">Sneaker</span>
-                <span class="scroll-to-products">Nike</span>
-                <span class="scroll-to-products">Sport Shoes</span>
-                <span class="scroll-to-products">Adidas</span>
-            </div>
-        </div>
-        <div class="contact-icons">
-            <div class="messenger">
-                <i class="fa-brands fa-facebook-messenger"></i>
+                <span class="scroll-to-products">Pizza</span>
+                <span class="scroll-to-products">Sushi</span>
+                <span class="scroll-to-products">Mì Ý</span>
+                <span class="scroll-to-products">Gà Rán</span>
             </div>
         </div>
 
-        <!-- User Info and Cart Section -->
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
-                <span>Account</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Hồ Sơ</span>
+                <span>Tài Khoản</span>
 
-                <!-- Vùng dropdown-container -->
                 <div class="dropdown-container">
                     <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
-                    <!-- Dropdown menu -->
                     <div class="dropdown-menu">
-                        <a href="#">Login</a>
-                        <a href="#">Register</a>
+                        <a href="#">Đăng Nhập</a>
+                        <a href="#">Đăng Ký</a>
                     </div>
                 </div>
             </div>
 
-            <div class="wishlist" >
+            <div class="wishlist">
                 <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61">Favorites</span>
-                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61">Yêu Thích</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
             </div>
 
             <div class="cart">
+
                 <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
-                <!--cần xử lý với giỏ hàng-->
-                <span style="color: #ff6f61 ; margin-top: 5px;" id="inCart">Cart</span>
-                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61" id="inCart">Giỏ Hàng</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
+
             </div>
         </div>
 
-        <!--           hien thi danh sach san pham cua gio hang-->
-
     </div>
 
-    <!-- Navigation Menu -->
     <nav class="navigation">
 
+
         <ul id="menu-list">
-            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
-            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-            <li><a href=" http://localhost:8082/guests/aboutus">About</a></li>
-            <li><a href="http://localhost:8082/guests/news">News</a></li>
-            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
-            <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
+            <li><a href="http://localhost:8082/guests/home-guest">Trang Chủ</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Thực Đơn</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">Về Chúng Tôi</a></li>
+            <li><a href="http://localhost:8082/guests/news">Tin Tức</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Khuyến Mãi</a></li>
+            <li><a href="http://localhost:8082/guests/contact">Liên Hệ</a></li>
             <li><a href="http://localhost:8082/guests/faq">FAQ</a></li>
-            <li><a href="http://localhost:8082/guests/location">Store Locations</a></li>
+            <li><a href="http://localhost:8082/guests/location">Địa Điểm</a></li>
             <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
             <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
                 <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
@@ -118,10 +105,15 @@
         </ul>
     </nav>
 
+    <div class="contact-icons" onclick="openChatPopup()">
+        <div class="messenger" id="messenger-icon">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </div>
+    </div>
 </header>
 
 <section id="all-products-section">
-    <h2>All Products</h2>
+    <h2>Tất cả sản phẩm</h2>
     <div id="all-products-container" class="products">
         <!-- Các sản phẩm sẽ được thêm vào đây từ JavaScript -->
     </div>
@@ -139,20 +131,22 @@
     <div class="footer-container">
         <div class="footer-top">
             <div class="footer-section">
-                <h4>About Us</h4>
-                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+                <h4>Về Chúng Tôi</h4>
+                <p>Chúng tôi là nền tảng thương mại điện tử hàng đầu chuyên cung cấp các món ăn tươi ngon và dịch vụ khách hàng tuyệt vời.</p>
+                <p>Chúng tôi cam kết mang đến trải nghiệm ẩm thực tốt nhất cho khách hàng thông qua việc lựa chọn nguyên liệu kỹ lưỡng và chế biến chuyên nghiệp.</p>
             </div>
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>Liên Kết Nhanh</h4>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Thực đơn</a></li>
+                    <li><a href="#">Về chúng tôi</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Khuyến mãi</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Follow Us</h4>
+                <h4>Theo Dõi Chúng Tôi</h4>
                 <div class="social-links">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -160,11 +154,12 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h4>Subscribe</h4>
+                <h4>Đăng Ký Nhận Tin</h4>
                 <form>
-                    <input type="email" placeholder="Enter your email" />
-                    <button type="submit">Subscribe</button>
+                    <input type="email" placeholder="Nhập email của bạn" />
+                    <button type="submit">Đăng ký</button>
                 </form>
+                <p>Nhận thông tin khuyến mãi và cập nhật thực đơn mới nhất từ chúng tôi.</p>
             </div>
         </div>
         <div class="footer-bottom">

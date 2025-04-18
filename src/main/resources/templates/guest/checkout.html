@@ -12,8 +12,7 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
-            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
+
             <span><a href="#">Download App</a></span>
             <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
         </div>
@@ -35,7 +34,7 @@
     <div class="header-container">
         <!-- Logo Section -->
         <div class="logo">
-            <img src="../image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+            <img src="http://localhost:8082/file/avatar/image_logo_ISD.jpg" alt="Tên Thương Hiệu Đồ Ăn">
         </div>
 
         <!-- Search Bar -->
@@ -121,7 +120,7 @@
 
 </header>
 <div id="checkout-page">
-    <h2>Payment</h2>
+    <h2>Thanh toán</h2>
 
     <!-- Danh sách sản phẩm trong giỏ hàng -->
     <div id="checkout-items"></div>
@@ -129,45 +128,46 @@
 
 
     <!-- Thông tin tổng tiền -->
-    <p id="total-quantity">Total number of products: 0</p>
-    <p id="total-price">Total cash: 0 VND</p>
+    <p id="total-quantity">Tổng số sản phẩm: 0</p>
+    <p id="total-price">Tổng tiền: 0 VND</p>
 
     <div>
-        <h4>Recipient Name</h4>
-        <input type="text" id="user-btn">
+        <h4>Tên người nhận</h4>
+        <input type="text" id="user-btn" class="validate-input">
+        <div id="name-error" class="error-message" style="display: block;"></div>
     </div>
     <div>
-        <h4>Phone Number</h4>
-        <input type="tel" id="phone-btn">
+        <h4>Số điện thoại người nhận</h4>
+        <input type="tel" id="phone-btn" class="validate-input">
+        <div id="phone-error" class="error-message"style="display: block;"></div>
     </div>
     <div>
-        <h4>Address</h4>
-        <input type="text" id="address-btn" >
+        <h4>Địa chỉ người nhận</h4>
+        <input type="text" id="address-btn" class="validate-input">
+        <div id="address-error" class="error-message" style="display: block;"></div>
     </div>
-    <!-- Phương thức thanh toán -->
     <div>
-        <h4>Payment Method</h4>
-        <select id="payment-method">
+        <h4>Phương thức thanh toán</h4>
+        <select id="payment-method" class="validate-input">
+            <option value="">-- Chọn phương thức thanh toán --</option>
             <option value="CREDIT_CARD">Credit Card</option>
             <option value="PAYPAL">PayPal</option>
-            <option value="COD">Cash On Delivery(COD)</option>
+            <option value="COD">Thanh toán khi nhận hàng(COD)</option>
         </select>
-    </div>
-
-    <!-- Mã giảm giá -->
-    <div>
-        <h4>Voucher</h4>
-        <input type="text" id="voucher-code" placeholder="Enter your voucher">
+        <div id="payment-error" class="error-message"style="display: block;"></div>
     </div>
     <div>
-        <h4>Shipping Cost</h4>
-        <input type="number" id="shipping-cost" value="30">
+        <h4>Mã khuyến mãi (Không bắt buộc)</h4>
+        <input type="text" id="voucher-code" placeholder="Nhập mã thanh toán" class="validate-input">
+        <div id="voucher-error" class="error-message" style="color: red; display: none;"></div>
     </div>
-
-
-
-    <!-- Nút Đặt hàng -->
-    <button id="place-order-btn" class="place-order-btn">Order</button>
+    <div>
+        <h4>Phí giao hàng</h4>
+        <input type="number" id="shipping-cost" value="10" class="validate-input" style="display: none;" disabled>
+        <span id="shipping-cost-display" style="display: inline-block;">10.000 VND</span>
+        <div id="shipping-error" class="error-message" style="display: block;"></div>
+    </div>
+    <button id="place-order-btn" class="place-order-btn" style="display: block;">Đặt hàng</button>
 </div>
 <footer>
     <div class="footer-container">
@@ -209,6 +209,13 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="../js/checkout.js"></script>
+<script>
+    const shippingCostInput = document.getElementById('shipping-cost');
+    const shippingCostDisplay = document.getElementById('shipping-cost-display');
+
+    // Cập nhật hiển thị ban đầu
+    shippingCostDisplay.textContent = `${parseInt(shippingCostInput.value).toLocaleString('vi-VN')} VND`;
+</script>
 </body>
 </html>
 

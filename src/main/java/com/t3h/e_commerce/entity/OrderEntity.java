@@ -53,4 +53,8 @@ public class OrderEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     RecipientEntity recipient;
+
+    @ManyToOne
+    @JoinColumn(name = "voucher_id")
+    private VoucherEntity voucher;
 }

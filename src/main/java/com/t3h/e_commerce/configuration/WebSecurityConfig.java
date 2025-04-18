@@ -32,37 +32,41 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(csrf -> csrf.disable());
 
         http.authorizeHttpRequests((request) -> request
-                        .requestMatchers("/home-guest/**", "/").permitAll() // Cho phép truy cập homepage
-                        .requestMatchers("/css/**", "/image/**", "/js/**").permitAll() // Static resources
-                        .requestMatchers("/login/**").permitAll() // Trang login
+                        .requestMatchers("/home-guest/**", "/").permitAll()
+                        .requestMatchers("/css/**", "/image/**", "/js/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/orders/order", "/carts/add").authenticated() // Bắt buộc phải login
-                        .requestMatchers(Endpoints.Admin_Endpoints).hasRole("ADMIN") // Chỉ admin mới truy cập
-                        .anyRequest().authenticated()) // Mọi request khác phải login
+                        .requestMatchers("/ws/**").permitAll() // Cho phép truy cập WebSocket
+                        .requestMatchers("/orders/order", "/carts/add").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .formLogin((form) -> form
-                        .loginPage("/guests/login") // URL của trang đăng nhập
-                        .loginProcessingUrl("/perform_login") // Xử lý đăng nhập
-                        .defaultSuccessUrl("/guests/process-after-login", true) // Sau khi đăng nhập thành công
-                        .failureUrl("/guests/login?error=true") // URL khi đăng nhập thất bại
+                        .loginPage("/guests/login")
+                        .loginProcessingUrl("/perform_login")
+                        .defaultSuccessUrl("/guests/process-after-login", true)
+                        .failureUrl("/guests/login?error=true")
                         .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/guests/login?logout=true") // Sau khi đăng xuất thành công
-                        .deleteCookies("JSESSIONID") // Xóa cookie session
+                        .logoutSuccessUrl("/guests/login?logout=true")
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
-                );
+                )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())); // Cách mới để vô hiệu hóa frameOptions
 
-        // Bỏ xử lý lỗi cho URL được permitAll
         http.exceptionHandling(exception -> {
             exception.accessDeniedHandler(new CustomAccessDeniedHandler());
-            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // Định nghĩa rõ URL chuyển hướng
+            exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         });
 
         return http.build();
     }
+
+
 
 
     public static void main(String[] args) {

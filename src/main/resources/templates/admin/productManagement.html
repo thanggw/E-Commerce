@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Product View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1070px;
+            margin-left: 277px;
+            margin-top: 45px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-name {
+            max-width: 700px;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow: hidden;
+        }
+
+        .product-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .product-image img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product-details {
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .product-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .sold-out {
+            background-color: red;
+            color: white;
+        }
+
+        .available {
+            background-color: green;
+            color: white;
+        }
+
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .pagination #nextPageBtn{
+            margin-left: 810px;
+        }
+        .pagination #prevPageBtn{
+            margin-left: 0px;
+        }
+
+
+        #quantityModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            margin-top: 10px;
+        }
+
+        .modal-buttons button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #updateQuantityBtn {
+            background-color: green;
+            color: white;
+        }
+
+        #cancelQuantityBtn {
+            background-color: red;
+            color: white;
+        }
+
+        .blurred {
+            filter: blur(3px);
+        }
+        button.disabled {
+            background-color: #e0e0e0;
+            cursor: not-allowed;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<div class="container">
+    <h3>Trang chủ / Tất cả sản phẩm</h3>
+    <div id="all-products-container" class="product-list"></div>
+    <div class="pagination">
+        <button id="prevPageBtn">Previous Page</button>
+        <button id="nextPageBtn">Next Page</button>
+    </div>
+</div>
+<div id="quantityModal" class="modal">
+    <div class="modal-content">
+        <h2>Nhập số lượng sản phẩm</h2>
+        <input type="number" id="quantityInput" min="1" placeholder="Nhập số lượng">
+        <div class="modal-buttons">
+            <button id="updateQuantityBtn">Update</button>
+            <button id="cancelQuantityBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+<script src="../js/admin-chat.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#quantityModal').hide(); // Ẩn modal khi trang được tải
+
+        let selectedProductId = null;
+        let selectedProductRow = null;
+
+        const URL = 'http://localhost:8082/';
+        let currentPage = 0;
+        const pageSize = 12;
+
+        getAllProducts(currentPage);
+
+        $('#nextPageBtn').on('click', function () {
+            currentPage++;
+            getAllProducts(currentPage);
+        });
+
+        $('#prevPageBtn').on('click', function () {
+            if (currentPage > 0) {
+                currentPage--;
+                getAllProducts(currentPage);
+            }
+        });
+
+        function getAllProducts(page) {
+            $.ajax({
+                url: `${URL}api/products/all-products?page=${page}&size=${pageSize}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    let productDtos = response.content;
+                    let productContainer = $('#all-products-container');
+                    productContainer.empty();
+
+                    if (!productDtos || productDtos.length === 0) {
+                        productContainer.html('<p>No more products found.</p>');
+                        return;
+                    }
+
+                    productDtos.forEach(product => {
+                        let statusClass = product.status.code === "SOLD_OUT" ? "sold-out" : "available";
+                        let statusText = product.status.code === "SOLD_OUT" ? "Sản phẩm đã bán hết" : `Sản phẩm vẫn còn: ${product.quantity} món`;
+
+                        let productHTML = `
+                    <div class="product-row" data-product-id="${product.id}" data-quantity="${product.quantity}">
+                        <div class="product-image">
+                            <img src="${product.imageUrls[0]}" alt="${product.name}">
+                        </div>
+                        <div class="product-details">
+                            <div class="product-name">
+                                <h3>${product.name}</h3>
+                                <p class="price">${product.price}.000đ</p>
+                                <p class="status-text">${statusText}</p>
+                            </div>
+                        </div>
+                        <div class="product-buttons">
+                            <button class="sold-out ${statusClass === 'sold-out' ? 'disabled' : ''}">Sold Out</button>
+                            <button class="available ${statusClass === 'available' ? 'disabled' : ''}">Available</button>
+                        </div>
+                    </div>`;
+
+                        productContainer.append(productHTML);
+                    });
+
+                    // Gắn sự kiện cho các nút
+                    $('.sold-out').on('click', function () {
+                        let productRow = $(this).closest('.product-row');
+                        let productId = productRow.data('product-id');
+                        updateProductStatus(productId, 2, productRow);
+                    });
+
+                    $('.available').on('click', function () {
+                        let productRow = $(this).closest('.product-row');
+                        selectedProductId = productRow.data('product-id');
+                        selectedProductRow = productRow;
+
+                        // Chỉ mở modal khi người dùng thực sự nhấn vào nút Available
+                        if (selectedProductId) {
+                            openQuantityModal();
+                        }
+                    });
+
+                },
+                error: function (error) {
+                    console.error('Error fetching products:', error);
+                }
+            });
+        }
+
+        function updateProductStatus(productId, statusId, productRow) {
+            $.ajax({
+                url: `${URL}api/admin/users/update-status`,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ productId, statusId }),
+                success: function () {
+                    let quantity = productRow.data('quantity');
+
+                    if (statusId === 2 ) {// Nếu sản phẩm hết hàng
+                        updateProductQuantity(productId,0);
+                        productRow.find('.status-text').text('Sản phẩm đã bán hết');
+                        productRow.find('.sold-out').addClass('disabled').prop('disabled', true);  // Vô hiệu hóa nút Sold Out
+                        productRow.find('.available').removeClass('disabled').prop('disabled', false);  // Cho phép nhấn Available
+                    } else { // Nếu sản phẩm còn hàng
+
+                        productRow.find('.available').addClass('disabled').prop('disabled', true); // Vô hiệu hóa Available
+                        productRow.find('.sold-out').removeClass('disabled').prop('disabled', false); // Cho phép nhấn Sold Out
+                    }
+                },
+                error: function (error) {
+                    console.error('Lỗi cập nhật trạng thái:', error);
+                }
+            });
+        }
+
+        function updateProductQuantity(productId, quantity) {
+            console.log("Gọi API cập nhật số lượng...");
+            $.ajax({
+                url: `${URL}api/admin/users/${productId}/quantity?quantity=${quantity}`,
+                type: 'PUT',
+                success: function () {
+                    // Cập nhật giá trị mới vào data-quantity
+                    selectedProductRow.attr('data-quantity', quantity);
+
+                    // Cập nhật dòng status
+                    selectedProductRow.find('.status-text').text(`Sản phẩm vẫn còn: ${quantity} món `);
+
+                    // Đóng modal
+                    closeQuantityModal();
+
+                    // Cập nhật trạng thái sản phẩm (nếu cần)
+                    updateProductStatus(productId, 1, selectedProductRow);
+                },
+                error: function (error) {
+                    console.error('Lỗi cập nhật số lượng:', error);
+                }
+            });
+        }
+
+        function openQuantityModal() {
+            $('#quantityModal').show();
+            $('.container').addClass('blurred');
+        }
+
+        function closeQuantityModal() {
+            $('#quantityModal').hide();
+            $('.container').removeClass('blurred');
+            $('#quantityInput').val('');
+        }
+
+        $('#updateQuantityBtn').on('click', function () {
+            let quantity = $('#quantityInput').val();
+            if (quantity && quantity > 0) {
+                updateProductQuantity(selectedProductId, quantity);
+            } else {
+                alert("Vui lòng nhập số lượng hợp lệ!");
+            }
+        });
+
+        $('#cancelQuantityBtn').on('click', function () {
+            closeQuantityModal();
+        });
+    });
+
+</script>
+</body>
+</html>

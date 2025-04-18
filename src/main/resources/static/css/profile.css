@@ -1,3 +1,10 @@
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
+
 /* General Styling */
 * {
     box-sizing: border-box;
@@ -267,7 +274,7 @@ html {
 }
 
 .logo img {
-    max-width: 150px;
+    max-width: 100px;
 }
 
 .search-bar {

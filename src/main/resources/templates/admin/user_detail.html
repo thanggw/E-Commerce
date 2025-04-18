@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1140px;
+            margin-left: 290px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .order-table th, .order-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .order-table th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<div class="container">
+    <h3>Trang chủ / Tổng hợp đơn hàng</h3>
+    <div id="userDetails"></div>
+
+    <h2>Lịch sử đơn hàng</h2>
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>Mã đơn hàng</th>
+            <th>Tổng giá</th>
+            <th>Trạng thái</th>
+            <th>Ngày giao hàng</th>
+            <th>Mã đơn hàng</th>
+            <th>Phương thức thanh toán</th>
+        </tr>
+        </thead>
+        <tbody id="orderDetails">
+        <tr><td colspan="6">Loading...</td></tr>
+        </tbody>
+    </table>
+
+    <a href="http://localhost:8082/adminScreen/activate">Danh sách khách hàng</a>
+</div>
+<script src="../js/admin-chat.js"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+
+    if (userId) {
+        // Lấy thông tin người dùng
+        fetch(`http://localhost:8082/api/admin/users/${userId}/details`)
+            .then(response => response.json())
+            .then(user => {
+                document.getElementById('userDetails').innerHTML = `
+                    <div class="info"><strong>ID:</strong> ${user.id}</div>
+                    <div class="info"><strong>Username:</strong> ${user.username}</div>
+                    <div class="info"><strong>Email:</strong> ${user.email}</div>
+                    <div class="info"><strong>Phone:</strong> ${user.phone}</div>
+                    <div class="info"><strong>Address:</strong> ${user.address}</div>
+                    <div class="info"><strong>Status:</strong> ${user.status}</div>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('userDetails').innerHTML = `<p class="error">Error loading user details</p>`;
+            });
+
+        // Lấy danh sách đơn hàng của người dùng
+        fetch(`http://localhost:8082/api/orders/${userId}`)
+            .then(response => response.json())
+            .then(orders => {
+                let orderHTML = '';
+                if (orders.length > 0) {
+                    orders.forEach(order => {
+                        orderHTML += `
+                            <tr>
+                                <td>${order.orderId}</td>
+                                <td>$${order.totalPrice}</td>
+                                <td>${order.orderStatus}</td>
+                                <td>${order.expectedDeliveryDate || "N/A"}</td>
+                                <td>${order.trackingId || "N/A"}</td>
+                                <td>${order.paymentMethod} (${order.paymentStatus ? "Paid" : "Unpaid"})</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    orderHTML = `<tr><td colspan="6">No orders found</td></tr>`;
+                }
+                document.getElementById('orderDetails').innerHTML = orderHTML;
+            })
+            .catch(error => {
+                document.getElementById('orderDetails').innerHTML = `<tr><td colspan="6" class="error">No orders have been placed yet.</td></tr>`;
+            });
+
+    } else {
+        document.getElementById('userDetails').innerHTML = `<p class="error">Invalid user ID</p>`;
+    }
+</script>
+</body>
+</html>

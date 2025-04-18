@@ -1,3 +1,13 @@
+.error-message {
+    color: red;
+    font-size: 0.85rem;
+    display: none;
+}
+input.input-error, select.input-error {
+    border: 1px solid red;
+}
+
+
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
@@ -282,7 +292,7 @@ html {
 }
 
 .logo img {
-    max-width: 150px;
+    max-width: 100px;
 }
 
 .search-bar {
@@ -324,7 +334,7 @@ html {
 }
 
 .suggestions {
-    margin-left: -20px;
+    margin-left: -103px;
     margin-top: 5px;
     color: #b0b0b0;
 }

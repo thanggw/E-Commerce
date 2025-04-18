@@ -3,6 +3,7 @@ package com.t3h.e_commerce.service.impl;
 import com.t3h.e_commerce.configuration.ApplicationConfig;
 import com.t3h.e_commerce.constant.DefaultRoles;
 import com.t3h.e_commerce.dto.Response;
+import com.t3h.e_commerce.dto.RoleDTO;
 import com.t3h.e_commerce.dto.requests.BankInfoRequest;
 import com.t3h.e_commerce.dto.responses.UserResponse;
 import com.t3h.e_commerce.entity.RoleEntity;
@@ -26,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,21 +51,37 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResponse getUserByUsername(String username) {
         Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+        System.out.println("Fetched UserEntity: " + userEntityOptional);
 
         if (userEntityOptional.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
         UserEntity userEntity = userEntityOptional.get();
-        UserResponse UserResponse = userMapper.toDTO(userEntity);
 
-        // Nếu user chưa có avatar lưu trong db, sẽ lấy avatar mặc định
-        if (StringUtils.isEmpty(UserResponse.getPathAvatar())) {
-            UserResponse.setPathAvatar(avatarRelativePath + FileServiceImpl.DEFAULT_FILE_NAME);
+        // Tạo UserResponse trực tiếp từ UserEntity
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(userEntity.getId());
+        userResponse.setUsername(userEntity.getUsername());
+        userResponse.setEmail(userEntity.getEmail());
+        userResponse.setPhone(userEntity.getPhone());
+        userResponse.setAddress(userEntity.getAddress());
+        userResponse.setFirstName(userEntity.getFirstName());
+        userResponse.setLastName(userEntity.getLastName());
+        userResponse.setPathAvatar(userEntity.getPathAvatar());
+        userResponse.setStatus(userEntity.getStatus());
+        userResponse.setRoles(userEntity.getRoles().stream()
+                .map(role -> new RoleDTO(role.getCode(), role.getDescription()))
+                .collect(Collectors.toSet()));
+
+        // Nếu user chưa có avatar, đặt avatar mặc định
+        if (StringUtils.isEmpty(userResponse.getPathAvatar())) {
+            userResponse.setPathAvatar(avatarRelativePath + FileServiceImpl.DEFAULT_FILE_NAME);
         }
 
-        return UserResponse;
+        return userResponse;
     }
+
 
     @Override
     public Response<UserResponse> getProfileUser() {

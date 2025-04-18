@@ -52,17 +52,8 @@ function getProduct() {
                            <i class="fa fa-heart" id="add-to-wishlist2"></i>
                          </div>
                         <h3 id="product_name">${product.name}</h3>
-                        <p id="product_price">$${product.price}</p>
-                        <div class="product-colors">
-                            ${product.colors.map((color, index) => `
-                                <span 
-                                    class="color-dot" 
-                                    style="background-color: ${colorMap2[color.name] || 'gray'};"
-                                    data-image="${product.imageUrls[index] || product.imageUrls[0]}" 
-                                    onmouseover="changeImage(${product.id}, '${product.imageUrls[index] || product.imageUrls[0]}')"
-                                ></span>
-                            `).join('')}
-                        </div>
+                        <p id="product_price">${product.price}.000 VND</p>
+                        
                         <p class="product-description">${truncatedDescription}</p> 
                         <div class="rating">
                             ★★★★☆ <!-- Hiển thị đánh giá, có thể thay bằng logic động -->
@@ -145,26 +136,43 @@ function getUserProfile() {
         type: 'GET',
         success: function(response) {
             if (response.code === 200 && response.data) {
+                console.log(response);
+
+                // Kiểm tra trạng thái tài khoản
+                if (response.data.status === 'INACTIVE' || response.data.status === 'LOCKED') {
+                    let message = response.data.status === 'INACTIVE'
+                        ? "Your account has been deactivated by admin with some seasons.\nContact admin: 1234567 for more information"
+                        : "Your account has been locked by admin with some seasons .\nContact admin: 1234567 for more information";
+
+                    Swal.fire({
+                        title: "Account Status",
+                        text: message,
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.href = "http://localhost:8082/guests/login";
+                    });
+
+                    return; // Dừng tiếp tục hiển thị thông tin tài khoản
+                }
+
+                // Hiển thị menu dropdown nếu tài khoản hoạt động bình thường
                 const dropdownMenu = document.querySelector('.dropdown-menu');
-
-                // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Profile</a>
-                        <a href="http://localhost:8082/guests/order" >Order</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Log out</a>   
-                    `;
+                    <a href="http://localhost:8082/guests/profile">Profile</a>
+                    <a href="http://localhost:8082/guests/order">Order</a>
+                    <a href="http://localhost:8082/guests/login" id="logout">Log out</a>   
+                `;
 
-                // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
+                // Hiển thị tên người dùng
                 const usernameSpan = document.getElementById('span1');
                 const fullName = (response.data.firstName && response.data.lastName)
                     ? `${response.data.firstName} ${response.data.lastName}`
                     : response.data.username;
-
                 usernameSpan.textContent = fullName;
 
                 // Xử lý sự kiện đăng xuất
-                document.getElementById('logout').addEventListener('click', function (event) {
-                    // Ngăn điều hướng mặc định của liên kết
+                document.getElementById('logout').addEventListener('click', function(event) {
                     event.preventDefault();
 
                     Swal.fire({
@@ -177,24 +185,21 @@ function getUserProfile() {
                         confirmButtonText: "Yes, Log out!"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Hiển thị thông báo thành công
                             Swal.fire({
                                 title: "Logged out!",
                                 text: "Your account has been logged out.",
                                 icon: "success"
                             }).then(() => {
-                                // Sau khi SweetAlert hoàn tất, điều hướng về trang login
                                 window.location.href = "http://localhost:8082/guests/login";
                             });
 
-                            // Thay đổi giao diện về trạng thái chưa đăng nhập
+                            // Cập nhật giao diện về trạng thái chưa đăng nhập
                             const dropdownMenu = document.querySelector('.dropdown-menu');
                             dropdownMenu.innerHTML = `
-                <a href="#">Login</a>
-                <a href="#">Register</a>
-            `;
+                                <a href="#">Login</a>
+                                <a href="#">Register</a>
+                            `;
 
-                            const usernameSpan = document.getElementById('span1');
                             usernameSpan.textContent = "Information";
                         }
                     });
@@ -207,6 +212,7 @@ function getUserProfile() {
         }
     });
 }
+
 
 
 
@@ -328,8 +334,8 @@ function displayProducts(products, containerId) {
                          </div>
                     <h3>${product.name}</h3>
                     <p class="price">
-                        <span class="sale-price">${product.price}đ</span>
-                        <span class="original-price">550$</span>
+                        <span class="sale-price">${product.price}.000đ</span>
+                        <span class="original-price">55.000đ</span>
                     </p>
                     <!-- Cart Icon -->
                     <div class="cart-icon">
@@ -351,17 +357,7 @@ function displayProducts(products, containerId) {
                             </div>
                     </div>
 
-                    <!-- Color options -->
-                    <div class="product-colors">
-                            ${product.colors.map((color, index) => `
-                                <span 
-                                    class="color-dot" 
-                                    style="background-color: ${colorMap2[color.name] || 'gray'};"
-                                    data-image="${product.imageUrls[index] || product.imageUrls[0]}" 
-                                    onmouseover="changeImage2(${product.id}, '${product.imageUrls[index] || product.imageUrls[0]}')"
-                                ></span>
-                            `).join('')}
-                    </div>
+                   
                 </div>
             `;
         container.innerHTML += productElement;

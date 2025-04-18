@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            margin-left: 270px;
+            margin-top: 20px;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: white;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile {
+            max-width: 500px;
+            margin: auto;
+        }
+        .profile img {
+            display: block;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+        .profile p {
+            margin: 10px 0;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div class="content">
+        <h2>Thông Tin</h2>
+        <div class="profile">
+            <img id="avatar" src="" alt="Avatar" width="150">
+            <input type="file" id="avatarInput" accept="image/*">
+            <p><strong>Username:</strong> <span id="username"></span></p>
+            <p><strong>Email:</strong> <input type="email" id="email"></p>
+            <p><strong>First Name:</strong> <input type="text" id="firstName"></p>
+            <p><strong>Last Name:</strong> <input type="text" id="lastName"></p>
+            <p><strong>Address:</strong> <input type="text" id="address"></p>
+            <button id="updateProfile">Update</button>
+        </div>
+    </div>
+</div>
+<script src="../js/admin-chat.js"></script>
+<script>
+    $(document).ready(function () {
+        let base64Image = "";
+        let currentAvatar = "";
+
+        $("#avatarInput").change(function(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = function () {
+                base64Image = reader.result.split(",")[1];
+                $("#avatar").attr("src", reader.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        $.ajax({
+            url: "/api/users/profile",
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                if (response.code === 200) {
+                    const data = response.data;
+                    $("#username").text(data.username);
+                    $("#email").val(data.email);
+                    $("#firstName").val(data.firstName);
+                    $("#lastName").val(data.lastName);
+                    $("#address").val(data.address);
+                    $("#avatar").attr("src", data.pathAvatar);
+                    currentAvatar = data.pathAvatar;
+                }
+            },
+            error: function (xhr) {
+                console.error("Error fetching admin profile", xhr);
+            }
+        });
+
+        $("#updateProfile").click(function () {
+            let updatedData = {
+                email: $("#email").val(),
+                firstName: $("#firstName").val(),
+                lastName: $("#lastName").val(),
+                address: $("#address").val(),
+                avatar: base64Image !== "" ? base64Image : currentAvatar
+            };
+
+            $.ajax({
+                url: "/api/users/update",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(updatedData),
+                success: function (response) {
+                    alert("Profile updated successfully!");
+                },
+                error: function (xhr) {
+                    alert("Failed to update profile");
+                    console.error(xhr);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

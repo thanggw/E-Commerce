@@ -11,20 +11,18 @@
 <header class="main-header">
     <div class="top-bar">
         <div class="left-section">
-            <span><a href="http://localhost:8082/guests/sellerchannel">Seller Channel</a></span>
-            <span><a href="http://localhost:8082/guests/seller">Become a Seller</a></span>
-            <span><a href="#">Download App</a></span>
-            <span><a href="https://www.instagram.com/_thawngg/">Connect</a></span>
+            <span><a href="#">Tải Ứng Dụng</a></span>
+            <span><a href="https://www.instagram.com/_thawngg/">Kết Nối</a></span>
         </div>
         <div class="right-section">
-            <span><a href="#">Notifications</a></span>
-            <span><a href="#">Support</a></span>
+            <span><a href="#">Thông Báo</a></span>
+            <span><a href="#">Hỗ Trợ</a></span>
             <span class="language-selector" style="width: 77px;">
-                    <a href="#">English  <i class="arrow-down"></i></a>
+                    <a href="#">Tiếng Việt  <i class="arrow-down"></i></a>
                     <div class="language-dropdown">
                         <span class="language-option" data-lang="vi">Tiếng Việt</span>
-                        <span class="language-option" data-lang="en">English</span>
-                        <span class="language-option" data-lang="en">Other...</span>
+                        <span class="language-option" data-lang="en">Tiếng Anh</span>
+                        <span class="language-option" data-lang="en">Khác...</span>
                     </div>
                 </span>
         </div>
@@ -32,83 +30,73 @@
     </div>
 
     <div class="header-container">
-        <!-- Logo Section -->
         <div class="logo">
-            <img src="/image/logo-thoi-trang.webp" alt="Dola Fashion Accessories">
+            <img src="http://localhost:8082/file/avatar/image_logo_ISD.jpg" alt="Tên Thương Hiệu Đồ Ăn">
         </div>
 
-        <!-- Search Bar -->
         <div class="search-bar">
             <label>
                 <input
                         type="text"
                         class="animated-input"
                         id="animatedInput"
-                        placeholder="What are you looking for?"
+                        placeholder="Bạn đang tìm gì?"
                         oninput="searchProducts(this.value)" />
             </label>
             <div id="searchResults" class="search-results"></div>
             <button><i class="fa fa-search"></i></button>
             <div class="suggestions">
-                <span class="scroll-to-products">Sneaker</span>
-                <span class="scroll-to-products">Nike</span>
-                <span class="scroll-to-products">Sport Shoes</span>
-                <span class="scroll-to-products">Adidas</span>
+                <span class="scroll-to-products">Pizza</span>
+                <span class="scroll-to-products">Sushi</span>
+                <span class="scroll-to-products">Mì Ý</span>
+                <span class="scroll-to-products">Gà Rán</span>
             </div>
         </div>
 
-        <!-- User Info and Cart Section -->
         <div class="user-info">
             <div class="user-details">
                 <i class="fa fa-user user-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Profile</span>
-                <span>Account</span>
+                <span style="color: #ff6f61;margin-top: 9px;position: absolute;left: 50px;width: 160px;top: -2px;" id="span1">Hồ Sơ</span>
+                <span>Tài Khoản</span>
 
-                <!-- Vùng dropdown-container -->
                 <div class="dropdown-container">
                     <i class="fa fa-caret-down" style="color: black;background-color: white;width: 25px;height: 20px;margin-top: 25px;font-size: 15px;margin-left: 5px;"></i>
-                    <!-- Dropdown menu -->
                     <div class="dropdown-menu">
-                        <a href="#">Login</a>
-                        <a href="#">Register</a>
+                        <a href="#">Đăng Nhập</a>
+                        <a href="#">Đăng Ký</a>
                     </div>
                 </div>
             </div>
 
             <div class="wishlist">
                 <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61">Wishlist</span>
-                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61">Yêu Thích</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
             </div>
 
             <div class="cart">
 
                 <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
-                <!--cần xử lý với giỏ hàng-->
-                <span style="color: #ff6f61" id="inCart">Cart</span>
-                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61" id="inCart">Giỏ Hàng</span>
+                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
 
             </div>
         </div>
 
-        <!--           hien thi danh sach san pham cua gio hang-->
-
     </div>
 
-    <!-- Navigation Menu -->
     <nav class="navigation">
-        <!-- Icon hamburger cho menu -->
         <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
 
         <ul id="menu-list">
-            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
-            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-            <li><a href="http://localhost:8082/guests/aboutus">About</a></li>
-            <li><a href="http://localhost:8082/guests/news">News</a></li>
-            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
-            <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
+            <li><a href="http://localhost:8082/guests/home-guest">Trang Chủ</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Thực Đơn</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">Về Chúng Tôi</a></li>
+            <li><a href="http://localhost:8082/guests/news">Tin Tức</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Khuyến Mãi</a></li>
+            <li><a href="http://localhost:8082/guests/contact">Liên Hệ</a></li>
             <li><a href="http://localhost:8082/guests/faq">FAQ</a></li>
-            <li><a href="http://localhost:8082/guests/location">Store Locations</a></li>
+            <li><a href="http://localhost:8082/guests/location">Địa Điểm</a></li>
             <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
             <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
                 <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
@@ -137,39 +125,50 @@
 
     <!-- Phần chương trình khuyến mãi hot bên phải -->
     <section class="promotion">
-        <h2>Hot Promotion Programs</h2>
+        <h2>Chương Trình Khuyến Mãi Hot</h2>
         <ul>
             <li>
-                <img src="/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
-                50% Discount Voucher for First Order
+                <img src="/image/image-voucher1.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Voucher Giảm 50% cho Đơn Hàng Đầu Tiên
             </li>
             <li>
-                <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Free Shipping for Orders Over 500k
+                <img src="/image/image-voucher2.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Miễn Phí Giao Hàng cho Đơn Hàng Trên 500k
             </li>
             <li>
-                <img src="/image/image-voucher3.webp" alt="Voucher Icon" class="voucher-icon">
-                Receive 100k for Orders Over 1 Million
+                <img src="/image/image-voucher3.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Tặng 100k cho Đơn Hàng Trên 1 Triệu
             </li>
             <li>
-                <img src="/image/image-voucher1.webp" alt="Voucher Icon" class="voucher-icon">
-                50% Discount Voucher for First Order
+                <img src="/image/image-voucher1.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Giảm Giá 20% Cho Các Món Ăn Đặc Biệt
             </li>
             <li>
-                <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Free Shipping for Orders Over 500k
+                <img src="/image/image-voucher2.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Mua 1 Tặng 1 Các Loại Đồ Uống
             </li>
             <li>
-                <img src="/image/image-voucher2.webp" alt="Voucher Icon" class="voucher-icon">
-                Free Shipping for Orders Over 500k
+                <img src="/image/image-voucher3.webp" alt="Biểu tượng Voucher" class="voucher-icon">
+                Combo Gia Đình Tiết Kiệm Đến 30%
             </li>
         </ul>
-        <button class="view-all-voucher">View All</button>
+        <button class="view-all-voucher">Xem Tất Cả</button>
     </section>
 
-    <div class="contact-icons">
+    <div class="contact-icons" onclick="openChatPopup()">
         <div class="messenger" id="messenger-icon">
             <i class="fa-brands fa-facebook-messenger"></i>
+        </div>
+    </div>
+    <div id="chat-popup" class="chat-popup">
+        <div class="chat-header">
+            <span>Chat với Admin</span>
+            <button onclick="closeChatPopup()">✕</button>
+        </div>
+        <div id="chat-box"></div>
+        <div style="display: flex; align-items: center; padding: 0 5px;">
+            <input type="text" id="message-input" placeholder="Nhập tin nhắn...">
+            <button onclick="sendMessage()">Gửi</button>
         </div>
     </div>
 
@@ -178,7 +177,7 @@
 
 <!-- Product List Section -->
 <section id="product-list" class="product-list">
-    <h2>Featured Products</h2>
+    <h2>Các sản phẩm nổi bật</h2>
     <div class="products" id="products-container">
         <!-- Sản phẩm sẽ được thêm vào đây từ JavaScript -->
     </div>
@@ -209,87 +208,87 @@
     <div class="products-sale">
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="http://localhost:8082/file/images-product/Anh12(2).webp" alt="Kính thời trang">
-            <h3>Gs Durant Men's Ultra-Light Carbon Sole Running Shoes </h3>
-            <p class="price">495$ <span class="original-price">550$</span></p>
-            <p>Sold 30</p>
+            <img src="http://localhost:8082/file/images-product/Anh3(1).webp" alt="Kính thời trang">
+            <h3>Bánh mì thập cẩm, Bánh mì trứng, bánh mì xúc xích, bánh mì chay </h3>
+            <p class="price">30.000 <span class="original-price">35.000</span></p>
+            <p>Đã bán 30</p>
             <div class="progress-bar"></div>
-            <button class="option-button">View Details</button>
+            <button class="option-button">Xem chi tiết</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="http://localhost:8082/file/images-product/Anh16(2).webp" alt="Ví thời trang">
-            <h3>Double Air Cushion Shoes Cushioning Flyweave Mesh Sneakers</h3>
-            <p class="price">555$ <span class="original-price">700$</span></p>
-            <p>Sold 45</p>
+            <img src="http://localhost:8082/file/images-product/Anh1(1).webp" alt="Ví thời trang">
+            <h3>Mỳ sốt chanh, mỳ sốt chua ngọt, mỳ sốt indomie, sốt chua cay</h3>
+            <p class="price">35.000 <span class="original-price">45.000</span></p>
+            <p>Đã bán 45</p>
             <div class="progress-bar"></div>
-            <button class="option-button">View Details</button>
+            <button class="option-button">Xem chi tiết</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
-            <img src="http://localhost:8082/file/images-product/Anh19(2).webp" alt="Túi thời trang">
-            <h3>Low Top Skate Shoes - Non Slip Comfy Soft Sole Sneakers</h3>
-            <p class="price">795$ <span class="original-price">850$</span></p>
-            <p>Sold 34</p>
+            <img src="http://localhost:8082/file/images-product/Anh2(1).webp" alt="Túi thời trang">
+            <h3>Toping rau củ, toping viên chiên, toping đậu hũ phô mai, toping thập cẩm</h3>
+            <p class="price">10.000 <span class="original-price">15.000</span></p>
+            <p>Đã bán 34</p>
             <div class="progress-bar"></div>
-            <button class="option-button">View Details</button>
+            <button class="option-button">Xem chi tiết</button>
         </div>
 
         <div class="product-sale">
             <div class="sale-tag">Sale</div>
             <img src="http://localhost:8082/file/images-product/Anh11(3).webp" alt="Giày thời trang">
-            <h3>RY Lightweight Wide Toe Box Walking Sneaker</h3>
-            <p class="price">699$</p>
-            <p>Sold 100</p>
+            <h3>Cá viên rau củ chiên, viên rau củ sốt chua cay, viên rau củ hấp,sốt mayonaise</h3>
+            <p class="price">20.000 <span class="original-price">25.000</span></p>
+            <p>Đã bán 100</p>
             <div class="progress-bar"></div>
-            <button class="option-button">View Details</button>
+            <button class="option-button">Xem chi tiết</button>
         </div>
     </div>
     <div>
-        <button class="view-all">View All</button>
+        <button class="view-all">Xem chi tiết</button>
     </div>
 
     <div class="vouchers">
         <div class="voucher">
             <div class="voucher-header">
-                <p>10$ Discount</p>
-                <p>Applied to orders from 100$ and up</p>
+                <p>Giảm giá 5.000</p>
+                <p>Áp dụng cho đơn hàng từ 30.000 trở lên</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA50</span>
-                <button class="copy-code">Copy</button>
+                <button class="copy-code">Sao chép</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
-                <p>Miễn ship</p>
-                <p>Applied to orders from 50$ and up</p>
+                <p>Miễn phí vận chuyển</p>
+                <p>Áp dụng cho đơn hàng từ 50.000 trở lên</p>
             </div>
             <div class="voucher-footer">
                 <span>FREESHIP</span>
-                <button class="copy-code">Copy</button>
+                <button class="copy-code">Sao chép</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
-                <p>10$ Discount</p>
-                <p>Applied to orders from 100$ and up</p>
+                <p>Giảm giá 10.000</p>
+                <p>Áp dụng cho đơn hàng từ 20.000 trở lên</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA20</span>
-                <button class="copy-code">Copy</button>
+                <button class="copy-code">Sao chép</button>
             </div>
         </div>
         <div class="voucher">
             <div class="voucher-header">
-                <p>5$ Discount</p>
-                <p>Applied to orders from 30$ and up</p>
+                <p>Giảm giá 5.000</p>
+                <p>Áp dụng cho đơn hàng từ 30.000 trở lên</p>
             </div>
             <div class="voucher-footer">
                 <span>DOLA50K</span>
-                <button class="copy-code">Copy</button>
+                <button class="copy-code">Sao chép</button>
             </div>
         </div>
     </div>
@@ -298,7 +297,7 @@
 
 <div class="featured-products">
     <h2 style="text-align: center; color: #f74c3c; font-size: 26px; margin-bottom: 36px; margin-top: -5px;">
-        Best selling products
+        Các sản phẩm bán chạy
     </h2>
 
     <!-- Row 1: Banner + 2 Products -->
@@ -320,56 +319,52 @@
 
 
 <div class="news-section">
-    <h2 id="news_h2">Latest News</h2>
+    <h2 id="news_h2">Các tin tức mới nhất</h2>
     <div class="news-items">
-        <!-- News Item 1 -->
         <div class="news-item">
             <img src="/image/image-voucher1.webp" alt="Tin tức 1" />
             <div class="news-content">
                 <span class="news-date">30/11/2024</span>
-                <h3 id="news_h3">Experience hunting for cheap branded shoes</h3>
-                <p>Experience hunting for cheap branded shoes... </p>
-                <a href="#" class="read-more">Read more</a>
+                <h3>Bí quyết săn lùng món ngon giá rẻ</h3>
+                <p>Chia sẻ kinh nghiệm tìm kiếm những món ăn ngon với giá cả phải chăng...</p>
+                <a href="#" class="read-more">Đọc thêm</a>
             </div>
         </div>
 
-        <!-- News Item 2 -->
         <div class="news-item">
             <img src="/image/image-voucher2.webp" alt="Tin tức 2" />
             <div class="news-content">
                 <span class="news-date">01/12/2024</span>
-                <h3 id="news_h3">List of women's shoe models that girls should own</h3>
-                <p>List of women's shoe models that girls should own...</p>
-                <a href="#" class="read-more">Read more</a>
+                <h3>Danh sách các món ăn nhất định phải thử năm nay</h3>
+                <p>Tổng hợp những món ăn đang được yêu thích và nên thử trong năm 2024...</p>
+                <a href="#" class="read-more">Đọc thêm</a>
             </div>
         </div>
 
-        <!-- News Item 3 -->
         <div class="news-item">
             <img src="/image/image-voucher3.webp" alt="Tin tức 3" />
             <div class="news-content">
                 <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Random mixes from 2024 sneakers that teenagers should own</h3>
-                <p>Random mixes from 2024 sneakers that teenagers should own...</p>
-                <a href="#" class="read-more">Read more</a>
+                <h3>Gợi ý thực đơn ăn vặt hấp dẫn cho giới trẻ</h3>
+                <p>Những món ăn vặt ngon miệng, dễ làm và phù hợp với khẩu vị của giới trẻ...</p>
+                <a href="#" class="read-more">Đọc thêm</a>
             </div>
         </div>
 
-        <!-- News Item 4 -->
         <div class="news-item">
             <img src="/image/image-voucher1.webp" alt="Tin tức 4" />
             <div class="news-content">
                 <span class="news-date">30/06/2023</span>
-                <h3 id="news_h3">Shoe selection tips you should know about the fashionable shoes</h3>
-                <p>Shoe selection tips you should know about the fashionable shoes...</p>
-                <a href="#" class="read-more">Read More</a>
+                <h3>Mẹo chọn nguyên liệu tươi ngon cho bữa ăn hoàn hảo</h3>
+                <p>Những lưu ý quan trọng khi lựa chọn nguyên liệu để đảm bảo chất lượng món ăn...</p>
+                <a href="#" class="read-more">Đọc thêm</a>
             </div>
         </div>
     </div>
 </div>
 
 <div class="instagram-section">
-    <h3 id="h3-new">Follow Instagram</h3>
+    <h3 id="h3-new">Liên hệ chúng tôi để thêm thông tin</h3>
     <p><a href="https://www.instagram.com/_thawngg/" target="_blank">@thang_sieu_dep_traiii</a></p>
     <div class="instagram-items">
         <div class="instagram-item">
@@ -405,32 +400,32 @@
     <a href="http://localhost:8082/guests/voucher">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_1.png?1705899054230" alt="Miễn phí vận chuyển">
-            <p>FreeShip</p>
-            <span>Free shipping applies to all orders from 100$ and up. </span>
+            <p>Miễn phí giao hàng</p>
+            <span>Miễn phí giao hàng cho tất cả đơn hàng từ 250.000 VNĐ trở lên.</span>
         </div>
     </a>
 
     <a href="http://localhost:8082/guests/news">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_2.png?1705899054230" alt="Đổi trả dễ dàng">
-            <p>Easy returns</p>
-            <span>7-day return policy for any reason and free shipping </span>
+            <p>Đổi trả dễ dàng</p>
+            <span>Chính sách đổi trả trong 7 ngày với mọi lý do và miễn phí vận chuyển.</span>
         </div>
     </a>
 
     <a href="http://localhost:8082/guests/contact">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_3.png?1705899054230" alt="Hỗ trợ nhanh chóng">
-            <p>Fast support</p>
-            <span>Call Hotline: 19006750 for immediate support and 24/7 service</span>
+            <p>Hỗ trợ nhanh chóng</p>
+            <span>Gọi Hotline: 19006750 để được hỗ trợ ngay lập tức và phục vụ 24/7.</span>
         </div>
     </a>
 
     <a href="http://localhost:8082/guests/allproducts">
         <div class="service-item">
             <img width="40" height="40" class="lazyload loaded" src="//bizweb.dktcdn.net/100/489/042/themes/914351/assets/chinhsach_4.png?1705899054230" alt="Thanh toán đa dạng">
-            <p>Diverse payment</p>
-            <span>Cash on delivery, Napas, Visa, Bank Transfer, Easy for payment.</span>
+            <p>Thanh toán đa dạng</p>
+            <span>Thanh toán khi nhận hàng, Napas, Visa, Chuyển khoản ngân hàng, Thanh toán dễ dàng.</span>
         </div>
     </a>
 </div>
@@ -443,20 +438,22 @@
     <div class="footer-container">
         <div class="footer-top">
             <div class="footer-section">
-                <h4>About Us</h4>
-                <p>We are a leading e-commerce platform providing high-quality products and excellent customer service.</p>
+                <h4>Về Chúng Tôi</h4>
+                <p>Chúng tôi là nền tảng thương mại điện tử hàng đầu chuyên cung cấp các món ăn tươi ngon và dịch vụ khách hàng tuyệt vời.</p>
+                <p>Chúng tôi cam kết mang đến trải nghiệm ẩm thực tốt nhất cho khách hàng thông qua việc lựa chọn nguyên liệu kỹ lưỡng và chế biến chuyên nghiệp.</p>
             </div>
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>Liên Kết Nhanh</h4>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Thực đơn</a></li>
+                    <li><a href="#">Về chúng tôi</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                    <li><a href="#">Khuyến mãi</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Follow Us</h4>
+                <h4>Theo Dõi Chúng Tôi</h4>
                 <div class="social-links">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -464,11 +461,12 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h4>Subscribe</h4>
+                <h4>Đăng Ký Nhận Tin</h4>
                 <form>
-                    <input type="email" placeholder="Enter your email" />
-                    <button type="submit">Subscribe</button>
+                    <input type="email" placeholder="Nhập email của bạn" />
+                    <button type="submit">Đăng ký</button>
                 </form>
+                <p>Nhận thông tin khuyến mãi và cập nhật thực đơn mới nhất từ chúng tôi.</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -482,9 +480,54 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/script.js"></script>
-
 <script src="../js/homepage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 
+<script>
+    let stompClient = null;
+    const role = "customer";
+    const userId = "User-" + Math.floor(Math.random() * 1000); // Định danh khách hàng ngẫu nhiên
+
+    function connect() {
+        let socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function () {
+            stompClient.subscribe('/topic/messages', function (message) {
+                showMessage(JSON.parse(message.body));
+            });
+        });
+    }
+
+    function sendMessage() {
+        let content = document.getElementById("message-input").value;
+        if (!content.trim()) return;
+
+        let chatMessage = { sender: userId, content, role };
+        stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
+        document.getElementById("message-input").value = "";
+    }
+
+    function showMessage(message) {
+        let chatBox = document.getElementById("chat-box");
+        let msgDiv = document.createElement("div");
+        msgDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
+        chatBox.appendChild(msgDiv);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+
+
+    function openChatPopup() {
+        document.getElementById("chat-popup").style.display = "block";
+        connect();
+    }
+
+    function closeChatPopup() {
+        document.getElementById("chat-popup").style.display = "none";
+    }
+</script>
 
 
 </html>

@@ -21,6 +21,7 @@ public class UserMapperDecorator implements UserMapper2 {
     @Override
     public UserResponse toDTO(UserEntity userEntity) {
         UserResponse userResponse = delegate.toDTO(userEntity);
+        System.out.println("User Roles: " + userEntity.getRoles());
         userResponse.setRoles(roleMapper.toRoleDTOSet(userEntity.getRoles()));
         return userResponse;
     }

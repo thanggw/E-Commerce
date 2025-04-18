@@ -13,5 +13,8 @@ public interface BrandMapper {
     BrandEntity toEntity(BrandCreationRequest brandCreationRequest);
 
 
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "code", target = "code")
+    @Mapping(source = "description", target = "description")
     BrandResponse toResponse(BrandEntity brandEntity);
 }

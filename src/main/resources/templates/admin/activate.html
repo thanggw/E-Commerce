@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            width: 100%;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            margin-left: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: rgb(135,206,250);
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn-deactivate { background-color: #dc3545; }
+        .btn-activate { background-color: #28a745; }
+        .btn-lock { background-color: #ffc107; }
+        .btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+    <h3>Trang chủ / Quản lý người dùng</h3>
+    <table id="userTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<script src="../js/admin-chat.js"></script>
+<script>
+    fetch('http://localhost:8082/api/admin/users')
+        .then(response => response.json())
+        .then(users => {
+            const userTableBody = document.querySelector('#userTable tbody');
+            userTableBody.innerHTML = '';
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.dataset.userId = user.id;
+                row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone}</td>
+                        <td>${user.address}</td>
+                        <td class="status">${user.status}</td>
+                        <td class="actions">${getActionButtons(user.id, user.status)}</td>
+                    `;
+                row.addEventListener('click', (event) => {
+                    if (!event.target.classList.contains('btn')) {
+                        window.location.href = `http://localhost:8082/adminScreen/user_detail?userId=${user.id}`;
+                    }
+                });
+                userTableBody.appendChild(row);
+            });
+        });
+
+    function getActionButtons(userId, status) {
+        if (status === 'ACTIVE') {
+            return `
+                    <button class="btn btn-deactivate" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'DEACTIVATED')">Deactivate</button>
+                    <button class="btn btn-lock" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'LOCKED')">Lock</button>
+                `;
+        } else if (status === 'DEACTIVATED') {
+            return `
+                    <button class="btn btn-activate" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'ACTIVE')">Activate</button>
+                    <button class="btn btn-lock" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'LOCKED')">Lock</button>
+                `;
+        } else if (status === 'LOCKED') {
+            return `
+                    <button class="btn btn-deactivate" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'DEACTIVATED')">Deactivate</button>
+                    <button class="btn btn-activate" onclick="event.stopPropagation(); changeUserStatus(${userId}, 'ACTIVE')">Activate</button>
+                `;
+        }
+        return '';
+    }
+
+    function changeUserStatus(userId, newStatus) {
+        let endpoint = `http://localhost:8082/api/admin/users/${userId}/`;
+        endpoint += newStatus.toLowerCase();
+        fetch(endpoint, { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    updateUserRow(userId, newStatus);
+                } else {
+                    alert('Failed to update user status');
+                }
+            });
+    }
+
+    function updateUserRow(userId, newStatus) {
+        const userRow = document.querySelector(`#userTable tbody tr[data-user-id="${userId}"]`);
+        if (userRow) {
+            userRow.querySelector('.status').innerText = newStatus;
+            userRow.querySelector('.actions').innerHTML = getActionButtons(userId, newStatus);
+        }
+    }
+</script>
+</body>
+</html>

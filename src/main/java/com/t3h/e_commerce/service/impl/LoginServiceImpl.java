@@ -82,7 +82,7 @@ public class LoginServiceImpl implements ILoginService {
     public String processAfterLogin() {
        Set<String> roleCode = SecurityUtils.getRolesCurrentUser();
        if (roleCode.contains("ROLE_ADMIN")){
-           return "redirect:/guests/home-guest"; // redirect sang trang admin
+           return "redirect:/guests/sellerchannel"; // redirect sang trang admin
        }
         return "redirect:/guests/home-guest"; // redirect sang trang user
     }

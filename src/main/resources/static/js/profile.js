@@ -16,6 +16,27 @@ document.querySelectorAll(".search-bar input").forEach((input) => {
         }
     });
 });
+$('#email').on('input', function () {
+    const email = $(this).val();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        $('#email-error').text('Email không hợp lệ.');
+    } else {
+        $('#email-error').text('');
+    }
+});
+
+$('#phone').on('input', function () {
+    const phone = $(this).val();
+    const phoneRegex = /^(0|\+84)[0-9]{9}$/;
+    if (!phoneRegex.test(phone)) {
+        $('#phone-error').text('Số điện thoại không hợp lệ.');
+    } else {
+        $('#phone-error').text('');
+    }
+});
+
+
 
 const urlBase12 = "http://localhost:8082/";
 $(document).ready(function () {
@@ -194,6 +215,10 @@ function setUserToView(user) {
 async function updateUserInfo(e) {
     e.preventDefault();
 
+    if (!validateInputs()) {
+        return; // Nếu có lỗi, không gửi request
+    }
+
     let obj = {
         file: await toBase64($('#upload')[0].files[0]),
         username: $('#username').val(),
@@ -211,13 +236,40 @@ async function updateUserInfo(e) {
         contentType: 'application/json',
         data: JSON.stringify(obj),
         success: function(response) {
-            alert('Profile updated successfully');
+            alert('Cập nhật thông tin thành công');
         },
         error: function(error) {
-            alert('An error occurred: ' + error.responseText);
+            alert('Lỗi xảy ra: ' + error.responseText);
         }
     });
 }
+
+
+function validateInputs() {
+    let isValid = true;
+
+    // Xóa lỗi cũ
+    $('.error-message').text('');
+
+    // Email check
+    const email = $('#email').val();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        $('#email-error').text('Email không hợp lệ. Vui lòng nhập đúng định dạng.');
+        isValid = false;
+    }
+
+    // Phone check
+    const phone = $('#phone').val();
+    const phoneRegex = /^(0|\+84)[0-9]{9}$/; // Ví dụ: 0901234567 hoặc +84901234567
+    if (!phoneRegex.test(phone)) {
+        $('#phone-error').text('Số điện thoại không hợp lệ. Ví dụ: 0901234567');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
 
 /**
  Promise : được sử dụng để lý bất đồng bổ
@@ -333,14 +385,14 @@ $('.scroll-to-products').on('click', function () {
 
 const input5 = document.getElementById('animatedInput');
 const placeholders5 = [
-    'What are you looking for?',
-    'Adidas Superstar',
-    'Nike Air Force 1',
-    'Converse Chuck Taylor',
-    'Vans Old Skool',
-    'Puma Suede',
-    'New Balance 574',
-    'Reebok Classic Leather'
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
 ];
 
 let currentIndex5 = 0;

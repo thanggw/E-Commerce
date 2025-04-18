@@ -1,0 +1,46 @@
+<!-- src/main/resources/templates/fragments/navbar.html -->
+<div th:fragment="navbar">
+    <div class="navbar">
+        <div class="menu">
+            <i class="fas fa-bars"></i>
+            <a href="#">Trang chủ</a>
+            <a href="#">Liên lạc</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-comment" onclick="openAdminChat()">
+                <span id="customer-count" class="notification-badge">0</span>
+            </i>
+            <i class="fa-solid fa-bell"></i>
+            <i class="fa-solid fa-user" id="profile-icon"></i>
+        </div>
+
+        <div id="admin-chat-popup" class="chat-popup">
+            <div class="chat-header">
+                <span>Danh sách khách hàng</span>
+                <button onclick="closeAdminChat()">✕</button>
+            </div>
+            <div id="customer-list"></div>
+        </div>
+
+        <div id="admin-chat-box" class="chat-popup" style="display: none;">
+            <div class="chat-header">
+                <span id="chat-with"></span>
+                <button onclick="closeChatBox()">✕</button>
+            </div>
+            <div id="admin-chat-messages"></div>
+            <div style="display: flex; align-items: center; padding: 0 5px;">
+                <input type="text" id="admin-message-input" placeholder="Nhập tin nhắn...">
+                <button onclick="sendAdminMessage()">Gửi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

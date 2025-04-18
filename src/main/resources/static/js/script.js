@@ -112,14 +112,14 @@ setInterval(showNextSlide, 3000);
 
 const input15 = document.getElementById('animatedInput');
 const placeholders15 = [
-    'What are you looking for?',
-    'Adidas Superstar',
-    'Nike Air Force 1',
-    'Converse Chuck Taylor',
-    'Vans Old Skool',
-    'Puma Suede',
-    'New Balance 574',
-    'Reebok Classic Leather'
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
 ];
 
 let currentIndex15 = 0;

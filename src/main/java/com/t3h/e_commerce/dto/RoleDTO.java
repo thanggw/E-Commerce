@@ -1,8 +1,15 @@
 package com.t3h.e_commerce.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoleDTO {
       private String code;
-      private String name;
+      private String description;
 
     public String getCode() {
         return code;
@@ -12,11 +19,5 @@ public class RoleDTO {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }

@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.dto.responses;
 
 import com.t3h.e_commerce.dto.RoleDTO;
+import com.t3h.e_commerce.enums.UserStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -30,4 +31,5 @@ public class UserResponse {
     Boolean deleted;
     String file;
     private String pathAvatar;
+    private UserStatus status;
 }

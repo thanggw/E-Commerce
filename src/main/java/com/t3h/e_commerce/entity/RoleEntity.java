@@ -1,5 +1,6 @@
 package com.t3h.e_commerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,7 @@ public class RoleEntity extends BaseEntity{
     String description;
 
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonBackReference
     Set<UserEntity> users;
 
     public RoleEntity(String code, String description) {

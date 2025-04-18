@@ -119,24 +119,26 @@ async function fetchAndDisplayOrders(userId) {
             orderCard.innerHTML = `
     <div class="order-header">
         <div class="order-id"><i class="fas fa-receipt"></i> Order ID: ${order.orderId}</div>
-        <div class="order-status"><i class="fas fa-info-circle"></i> Status: ${order.orderStatus}</div>
+        <div class="order-status ${order.orderStatus.toLowerCase()}">
+             <i class="fas fa-info-circle"></i> Status: ${order.orderStatus}
+    </div>
     </div>
     <div class="info-section">
-        <div class="section-title"><i class="fas fa-shipping-fast"></i> Shipping Information</div>
+        <div class="section-title"><i class="fas fa-shipping-fast"></i> Thông tin giao hàng</div>
         <div class="info-row">
-            <div class="info-label"><i class="fas fa-user"></i> Recipient:</div>
+            <div class="info-label"><i class="fas fa-user"></i> Người nhận:</div>
             <div class="info-content">${order.recipientName}</div>
         </div>
         <div class="info-row">
-            <div class="info-label"><i class="fas fa-phone"></i> Phone:</div>
+            <div class="info-label"><i class="fas fa-phone"></i> Số điện thoại:</div>
             <div class="info-content">${order.recipientPhone}</div>
         </div>
         <div class="info-row">
-            <div class="info-label"><i class="fas fa-map-marker-alt"></i> Address:</div>
+            <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa chỉ:</div>
             <div class="info-content">${order.recipientAddress}</div>
         </div>
         <div class="info-row">
-            <div class="info-label"><i class="fas fa-calendar-alt"></i> Estimated Delivery Date:</div>
+            <div class="info-label"><i class="fas fa-calendar-alt"></i> Ngày giao hàng ước tính:</div>
             <div class="info-content">${order.expectedDeliveryDate}</div>
         </div>
         <div class="tracking-info">
@@ -144,25 +146,44 @@ async function fetchAndDisplayOrders(userId) {
         </div>
     </div>
     <div class="info-section">
-        <div class="section-title"><i class="fas fa-credit-card"></i> Payment Information</div>
+        <div class="section-title"><i class="fas fa-credit-card"></i> Thông tin thanh toán</div>
         <div class="info-row">
-            <div class="info-label"><i class="fas fa-money-bill"></i> Total Price:</div>
-            <div class="info-content">${order.totalPrice} $</div>
+            <div class="info-label"><i class="fas fa-money-bill"></i> Tổng tiền:</div>
+            <div class="info-content">${order.totalPrice}.000 VND</div>
         </div>
         <div class="info-row">
-        <div class="info-label"><i class="fas fa-wallet"></i> Method:</div>
+        <div class="info-label"><i class="fas fa-wallet"></i> Phương thức thanh toán:</div>
         <div class="info-content">
             <span>${getPaymentMethodDisplayName(order.paymentMethod)}</span>
             <span class="status-badge ${order.paymentStatus ? 'paid' : 'unpaid'}">
-                ${order.paymentStatus ? "Paid" : "Unpaid"}
+                ${order.paymentStatus ? "Đã thanh toán" : "Chưa thanh toán"}
             </span>
         </div>
     </div>
+    <button class="toggle-items-btn">Xem sản phẩm</button>
+                <div class="order-items hidden">
+                    ${order.orderItems.map(item => `
+                        <div class="order-item">
+                            <p><strong>${item.productName}</strong></p>
+                            <p>Số lượng: ${item.quantity}</p>
+                            <p>Giá tiền mỗi sản phẩm: ${item.pricePerUnit}.000 VND</p>
+                            <p>Tiền ship: 5.000 VND</p>
+                            <p>Total: (${item.totalPrice} +5).000 VND</p>
+                        </div>
+                    `).join('')}
     </div>
 `;
+            // Thêm sự kiện ẩn/hiện danh sách orderItems
+            const toggleBtn = orderCard.querySelector(".toggle-items-btn");
+            const orderItemsDiv = orderCard.querySelector(".order-items");
+
+            toggleBtn.addEventListener("click", () => {
+                orderItemsDiv.classList.toggle("hidden");
+                toggleBtn.textContent = orderItemsDiv.classList.contains("hidden") ? "View Items" : "Hide Items";
+            });
 
 
-            orderList.appendChild(orderCard); // Add the card to the list
+            orderList.appendChild(orderCard);
         });
     } catch (error) {
         console.error("Error fetching orders:", error);
@@ -265,4 +286,81 @@ $(document).ready(function () {
     $('.cart').click(function () {
         window.location.href = 'http://localhost:8082/guests/cart';
     });
+});
+
+
+const input15 = document.getElementById('animatedInput');
+const placeholders15 = [
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
+];
+
+let currentIndex25 = 0;
+let isDeleting25 = false;
+let currentText25 = '';
+let charIndex25 = 0;
+
+function typeEffect() {
+    const currentPlaceholder = placeholders15[currentIndex25];
+
+    if (isDeleting25) {
+        // Xóa từng ký tự
+        currentText25 = currentPlaceholder.substring(0, charIndex25 - 1);
+        charIndex25--;
+    } else {
+        // Thêm từng ký tự
+        currentText25 = currentPlaceholder.substring(0, charIndex25 + 1);
+        charIndex25++;
+    }
+
+    input15.setAttribute('placeholder', currentText25);
+
+    let typingSpeed = isDeleting25 ? 30 : 50; // Tốc độ gõ và xóa
+
+    if (!isDeleting25 && charIndex25 === currentPlaceholder.length) {
+        // Khi gõ xong, đợi 1 giây rồi bắt đầu xóa
+        typingSpeed = 1000;
+        isDeleting25 = true;
+    } else if (isDeleting25 && charIndex25 === 0) {
+        // Khi xóa xong, chuyển sang placeholder tiếp theo
+        isDeleting25 = false;
+        currentIndex25 = (currentIndex25 + 1) % placeholders15.length;
+    }
+
+    setTimeout(typeEffect, typingSpeed);
+}
+
+// Bắt đầu hiệu ứng
+typeEffect();
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // User ID (giả sử lấy từ hệ thống)
+    const userId = localStorage.getItem("userId");
+
+    // API URL để lấy wishlist
+    const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
+
+    // Fetch wishlist từ API
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const wishlistItemsContainer = document.getElementById("wishlist-items");
+            const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
+            // Kiểm tra nếu không có sản phẩm
+            if (!data.items || data.items.length === 0) {
+                wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+                return;
+            }
+            // Lấy số lượng sản phẩm từ mảng items
+            const count = data.items.length;
+            // Cập nhật số lượng lên giao diện
+            wishlistCountElement.textContent = count;
+        })
 });

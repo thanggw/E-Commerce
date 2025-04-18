@@ -34,6 +34,8 @@ import java.time.LocalDateTime;
             response.setExpectedDeliveryDate(
                     order.getExpectedDeliveryDate() != null ? order.getExpectedDeliveryDate().toString() : "N/A"
             );
+            response.setVoucherCode(order.getVoucher() != null ? order.getVoucher().getCode() : null);
+            response.setDiscount(order.getDiscount());
             response.setMessage("Order placed successfully");
             return response;
         }

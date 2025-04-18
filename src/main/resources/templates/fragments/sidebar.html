@@ -1,0 +1,87 @@
+<!--css của side bar nằm ở trong file navbar.css-->
+<div th:fragment="sidebar">
+    <div class="sidebar">
+        <div class="profile">
+            <img src="/image/LionelMessi1.jpg" alt="User">
+            <h3>Vũ Hoàng Phương Anh</h3>
+        </div>
+        <ul>
+            <li id="dashboard" >
+                <i class="fas fa-tachometer-alt"></i>
+                <a href="http://localhost:8082/guests/sellerchannel">Trang chủ</a>
+            </li>
+            <li id="customers">
+                <i class="fas fa-users"></i>
+                <a href="http://localhost:8082/adminScreen/activate">Quản lý người dùng</a>
+            </li>
+            <li id="statistics">
+                <i class="fas fa-chart-bar"></i>
+                <a href="/statistics">Thống kê</a>
+            </li>
+            <li class="has-submenu">
+                <i class="fas fa-box"></i>
+                <a href="http://localhost:8082/adminScreen/productManagement">Quản lý sản phẩm</a>
+                <ul class="submenu">
+                    <li><a href="#">Add Product</a></li>
+                    <li><a href="#">Edit Product</a></li>
+                </ul>
+            </li>
+            <li id="orders">
+                <i class="fas fa-shopping-cart"></i>
+                <a href="http://localhost:8082/adminScreen/all_order">Đơn hàng</a>
+            </li>
+            <li id="business-hours">
+                <i class="fas fa-clock"></i>
+                <a href="#" onclick="openBusinessHoursModal()">Giờ hoạt động</a>
+            </li>
+            <li id="voucher">
+                <i class="fa-solid fa-receipt"></i>
+                <a href="http://localhost:8082/adminScreen/voucher">Voucher</a>
+            <li id="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <a href="#">Đăng xuất</a>
+            </li>
+            <!-- Modal Business Hours -->
+            <div id="businessHoursModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeBusinessHoursModal()">&times;</span>
+                    <h2>Set Business Hours</h2>
+                    <label for="opening-time">Opening Time:</label>
+                    <input type="time" id="opening-time">
+
+                    <label for="closing-time">Closing Time:</label>
+                    <input type="time" id="closing-time">
+
+                    <button onclick="saveBusinessHours()">Save</button>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+
+<!-- Thêm đoạn script để lưu trạng thái active -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let sidebarLinks = document.querySelectorAll(".sidebar ul li");
+
+        // Lấy id của mục đã chọn từ localStorage
+        let activeId = localStorage.getItem("activeSidebarItem");
+
+        if (activeId) {
+            document.getElementById(activeId)?.classList.add("active");
+        }
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener("click", function () {
+                // Xóa class 'active' khỏi tất cả các mục
+                sidebarLinks.forEach(item => item.classList.remove("active"));
+
+                // Thêm class 'active' vào mục được click
+                this.classList.add("active");
+
+                // Lưu id của mục đã click vào LocalStorage
+                localStorage.setItem("activeSidebarItem", this.id);
+            });
+        });
+    });
+</script>

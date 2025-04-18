@@ -1,3 +1,24 @@
+.product-image {
+    width: 290px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giữ tỷ lệ ảnh và lấp đầy khung hình */
+    transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+    transform: scale(1.05);
+}
+
+
 #nextPageBtn {
     background-color: #F15A24; /* Màu cam đặc trưng của Shopee */
     color: white;
@@ -171,7 +192,7 @@ html {
 }
 
 .logo img {
-    max-width: 150px;
+    max-width: 100px;
 }
 
 .search-bar {
@@ -213,7 +234,7 @@ html {
 }
 
 .suggestions {
-    margin-left: -20px;
+    margin-left: -162px;
     margin-top: 5px;
     color: #b0b0b0;
 }

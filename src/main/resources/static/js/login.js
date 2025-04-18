@@ -49,7 +49,11 @@ else console.error("One or more elements not found");
 
         if (response.ok) {
             const data = await response.json();
-            alert(data.message);
+            Swal.fire({
+                title: "Chúc mừng!",
+                text: "Bạn đã đăng ký thành công!",
+                icon: "success"
+            });
             console.log(response);
             window.location.href = 'http://localhost:8082/guests/login'; // Chuyển hướng đến trang đăng nhập
         } else {

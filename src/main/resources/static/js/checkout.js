@@ -17,23 +17,122 @@ document.querySelectorAll(".search-bar input").forEach((input) => {
     });
 });
 document.querySelectorAll("#checkout-page input").forEach((input) => {
-    input.addEventListener("input", function (event) {
-        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức kiểm tra ký tự đặc biệt
+    input.addEventListener("input", function () {
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
 
         if (specialCharPattern.test(this.value)) {
-            // Hiển thị SweetAlert thông báo
             Swal.fire({
                 icon: 'error',
                 title: 'Invalid Input',
-                text: `Field "${this.name}" contains special characters! Please remove them.`,
+                text: `Trường "${this.name}" chứa ký tự đặc biệt!`,
                 confirmButtonText: 'OK',
             }).then(() => {
-                this.value = ""; // Xóa nội dung của input
-                this.focus(); // Đưa con trỏ trở lại ô nhập liệu
+                this.value = "";
+                this.focus();
             });
         }
     });
 });
+let debounceTimer;
+
+$('#voucher-code').on('input', function () {
+    clearTimeout(debounceTimer); // Hủy timer cũ nếu user tiếp tục gõ
+
+    debounceTimer = setTimeout(function () {
+        let voucherCode = $('#voucher-code').val().trim();
+
+        if (voucherCode === "") {
+            $('#voucher-error').hide().text('');
+            return;
+        }
+
+        // Gọi API check voucher
+        $.ajax({
+            url: urlBase3 + "api/vouchers/check/" + voucherCode,
+            type: 'GET',
+            success: function (isValid) {
+                if (isValid) {
+                    $('#voucher-error').hide().text('');
+                    console.log("Voucher hợp lệ");
+
+                    // Gọi API tạm tính tổng giá (nếu có backend hỗ trợ), hoặc bạn có thể tự tính ở FE
+                    // Hoặc chỉ hiển thị thông báo voucher hợp lệ
+                } else {
+                    $('#voucher-error').show().text('Voucher không tồn tại.');
+                }
+            },
+            error: function () {
+                $('#voucher-error').show().text('Có lỗi xảy ra khi kiểm tra voucher.');
+            }
+        });
+    }, 2000); // 2000ms = 2 giây
+});
+
+function validateInputFields() {
+    let isValid = true;
+
+    // Tên người nhận
+    const nameInput = document.getElementById("user-btn");
+    const nameError = document.getElementById("name-error");
+    if (nameInput.value.trim() === "") {
+        nameError.textContent = "Vui lòng nhập tên người nhận";
+        nameError.style.display = "block";
+        nameInput.classList.add("input-error");
+        isValid = false;
+    } else {
+        nameError.textContent = "";
+        nameError.style.display = "none";
+        nameInput.classList.remove("input-error");
+    }
+
+    // Số điện thoại
+    const phoneInput = document.getElementById("phone-btn");
+    const phoneError = document.getElementById("phone-error");
+    const phonePattern = /^[0-9]{9,11}$/;
+    if (!phonePattern.test(phoneInput.value.trim())) {
+        phoneError.textContent = "Số điện thoại không hợp lệ (9-11 chữ số)";
+        phoneError.style.display = "block";
+        phoneInput.classList.add("input-error");
+        isValid = false;
+    } else {
+        phoneError.textContent = "";
+        phoneError.style.display = "none";
+        phoneInput.classList.remove("input-error");
+    }
+
+    // Địa chỉ
+    const addressInput = document.getElementById("address-btn");
+    const addressError = document.getElementById("address-error");
+    if (addressInput.value.trim() === "") {
+        addressError.textContent = "Vui lòng nhập địa chỉ";
+        addressError.style.display = "block";
+        addressInput.classList.add("input-error");
+        isValid = false;
+    } else {
+        addressError.textContent = "";
+        addressError.style.display = "none";
+        addressInput.classList.remove("input-error");
+    }
+
+    // Phương thức thanh toán
+    const paymentInput = document.getElementById("payment-method");
+    const paymentError = document.getElementById("payment-error");
+    if (paymentInput.value === "") {
+        paymentError.textContent = "Vui lòng chọn phương thức thanh toán";
+        paymentError.style.display = "block";
+        paymentInput.classList.add("input-error");
+        isValid = false;
+    } else {
+        paymentError.textContent = "";
+        paymentError.style.display = "none";
+        paymentInput.classList.remove("input-error");
+    }
+
+    return isValid;
+}
+
+
+
 
 
 
@@ -129,14 +228,45 @@ $(document).ready(function () {
         //$(document).ready($('#place-order-btn').click(checkoutAllProduct(productId)));
     }
 
-    $('#place-order-btn').on('click', function () {
-        if (productId) {
-            checkoutSingleProduct(productId);
-        } else {
-            checkoutAllProduct();
+    $('#place-order-btn').on('click', async function () {
+        if (!validateInputFields()) {
+            return; // Nếu có lỗi thì không tiếp tục xử lý
+        }
+
+        try {
+            const response = await fetch('/api/admin/users/check-opening-hours');
+            if (!response.ok) throw new Error(`Lỗi máy chủ: ${response.status}`);
+            const data = await response.json();
+
+            if (data.message || !data.isOpen) {
+                Swal.fire({
+                    title: 'Xin lỗi bạn🥲',
+                    text: data.message || `Cửa hàng đã đóng.`,
+                    icon: 'warning',
+                });
+                return;
+            }
+
+            const productId = new URLSearchParams(window.location.search).get('productId');
+            if (productId) {
+                await checkoutSingleProduct(productId);
+            } else {
+                await checkoutAllProduct();
+            }
+
+        } catch (error) {
+            console.error('Lỗi khi kiểm tra giờ mở cửa:', error);
         }
     });
+
+
 });
+document.querySelectorAll(".validate-input").forEach(input => {
+    input.addEventListener("input", () => {
+        validateInputFields(); // Gọi lại mỗi khi có thay đổi để ẩn lỗi nếu sửa đúng
+    });
+});
+
 
 const colorMap3 = {
     "Red": "#FF0000",       // Đỏ
@@ -187,15 +317,15 @@ function getCart() {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Quantity: ${item.productQuantity}</p>
-                <p>Price: ${item.productPrice}.$</p>
-                 <p>Color: <span style="display: inline-block; background-color: ${colorMap3[item.color] || '#808080'}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000;" title="${item.color}"></span> ${item.color}</p>
+                <p>Số lượng: ${item.productQuantity}</p>
+                <p>Gía tiền: ${item.productPrice}.000 VND</p>
+                 <p>Topping: ${item.color}</p>
                 <p>Size: <span style="font-weight: bold;">${item.size}</span></p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Total: ${item.productQuantity * item.productPrice}$</p>
+                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
                
             </div>
         </div>`;
@@ -204,11 +334,11 @@ function getCart() {
                     totalQuantity += item.productQuantity;
                     totalPrice += item.productQuantity * item.productPrice;
                 });
-                totalPrice+=30;
+                totalPrice+=10;
 
                 // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Total number of products: ${totalQuantity}`);
-                $('#total-price').text(`Total cash: ${totalPrice}$`);
+                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
+                $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
                 $('.cart-items-count').text(totalQuantity);
             }
 
@@ -238,14 +368,14 @@ $('.cart').on('click', function () {
 
 const input3 = document.getElementById('animatedInput');
 const placeholders3 = [
-    'What are you looking for?',
-    'Adidas Superstar',
-    'Nike Air Force 1',
-    'Converse Chuck Taylor',
-    'Vans Old Skool',
-    'Puma Suede',
-    'New Balance 574',
-    'Reebok Classic Leather'
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
 ];
 
 let currentIndex3 = 0;
@@ -328,24 +458,24 @@ function fetchProductDetails(productId) {
             <!-- Thông tin sản phẩm -->
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 7px 0;">${response.name}</h4>
-                <p>Quantity: ${quantity}</p>
-                <p>Price: ${response.price}.000 VND</p>
-                <p>Color: <span style="display: inline-block; background-color: ${selectedColor.name || '#fff'}; width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000;" title="${selectedColor.name}"></span> ${selectedColor.name}</p>
+                <p>Số lượng: ${quantity}</p>
+                <p>Giá tiền: ${response.price}.000 VND</p>
+                <p>Topping:  ${selectedColor.name}</p>
                 <p>Size: <span style="font-weight: bold;">${selectedSize.name}</span></p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng: ${(response.price * quantity)}$</p>
+                <p>Tổng: ${(response.price * quantity)}.000 VND</p>
             </div>
         </div>`;
 
             cartItemsContainer.append(cartItemHTML);
 
             // Cập nhật thông tin tổng quan
-            let totalPrice = response.price * quantity + 30; // Thêm phí vận chuyển (30)
-            $('#total-quantity').text(`Total number of products: ${quantity}`);
-            $('#total-price').text(`Total cash: ${totalPrice}.000 VND`);
+            let totalPrice = response.price * quantity + 10; // Thêm phí vận chuyển (30)
+            $('#total-quantity').text(`Tổng số lượng sản phẩm: ${quantity}`);
+            $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
 
             // Cập nhật thông tin ngày tạo/chỉnh sửa nếu cần
             $('#created-info').text(`Created Date: ${response.createdDate || 'N/A'}`);
@@ -360,6 +490,9 @@ function fetchProductDetails(productId) {
 }
 
 
+function showVoucherError(message) {
+    $('#voucher-error').show().text(message);
+}
 
 // Gọi API http://localhost:8082/api/checkout cho 1 sản phẩm
 function checkoutSingleProduct(productId) {
@@ -375,7 +508,7 @@ function checkoutSingleProduct(productId) {
     let sizeId = parseInt(urlParams.get('size'));
     let quantity = parseInt(urlParams.get('quantity')) || 1;
 
-    let paymentMethod = $('#payment-method').val(); // Lấy giá trị paymentMethod
+    let paymentMethod = $('#payment-method').val();
 
     let requestBody = {
         userId: userId,
@@ -396,7 +529,6 @@ function checkoutSingleProduct(productId) {
             }
         ]
     };
-    console.log("Selected payment method:", paymentMethod);
 
     $.ajax({
         url: urlBase3 + "api/checkout",
@@ -404,25 +536,31 @@ function checkoutSingleProduct(productId) {
         contentType: 'application/json',
         data: JSON.stringify(requestBody),
         success: function (response) {
-            console.log("Checkout cho sản phẩm:", response);
+            $('#voucher-error').hide().text('');
 
-            // Chuyển hướng dựa trên phương thức thanh toán
             if (paymentMethod === 'COD') {
                 window.location.href = 'http://localhost:8082/guests/notification';
             } else {
                 window.location.href = 'http://localhost:8082/';
             }
         },
-        error: function (error) {
-            console.error("Unable to checkout the product.:", error);
-            $('#checkout-items').html('<p>Unable to calculate product information.</p>');
+        error: function (xhr) {
+            const errorMsg = xhr.responseJSON?.error || "Có lỗi xảy ra khi đặt hàng";
+
+            if (xhr.status === 400 && errorMsg.includes("voucher")) {
+                showVoucherError(errorMsg);
+            } else {
+                $('#checkout-items').html('<p>Không thể tính toán thông tin sản phẩm.</p>');
+                alert(errorMsg);
+            }
         }
     });
 }
 
 
+
 function checkoutAllProduct() {
-    let paymentMethod = $('#payment-method').val(); // Lấy giá trị paymentMethod
+    let paymentMethod = $('#payment-method').val();
 
     let orderData = {
         userId: localStorage.getItem("userId"),
@@ -435,8 +573,6 @@ function checkoutAllProduct() {
         expectedDeliveryDate: $('#expected-delivery-date').val(),
         trackingId: $('#tracking-id').val()
     };
-    console.log("Selected payment method:", paymentMethod);
-
 
     $.ajax({
         url: urlBase3 + "api/orders/checkout",
@@ -444,21 +580,26 @@ function checkoutAllProduct() {
         contentType: 'application/json',
         data: JSON.stringify(orderData),
         success: function (response) {
-            console.log("Checkout all products:", response);
+            $('#voucher-error').hide().text('');
 
-            // Chuyển hướng dựa trên phương thức thanh toán
             if (paymentMethod === 'COD') {
                 window.location.href = 'http://localhost:8082/guests/notification';
             } else {
                 window.location.href = 'http://localhost:8082/';
             }
         },
-        error: function (error) {
-            console.error("Checkout failed:", error);
-            alert("An error occurred while placing the order");
+        error: function (xhr) {
+            const errorMsg = xhr.responseJSON?.error || "Có lỗi xảy ra khi đặt hàng";
+
+            if (xhr.status === 400 && errorMsg.includes("voucher")) {
+                showVoucherError(errorMsg);
+            } else {
+                alert(errorMsg);
+            }
         }
     });
 }
+
 
 
 $(document).ready(function () {
