@@ -103,11 +103,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const increaseBtn = document.querySelector(".quantity-controls button:last-child");
 
                 let quantity = parseInt(quantityInput.value) || 1; // Giá trị mặc định là 1
-
-                // Giới hạn số lượng sản phẩm
                 const maxQuantity = data.quantity;
 
-                // Xử lý giảm số lượng
+// Xử lý giảm số lượng
                 decreaseBtn.addEventListener("click", () => {
                     if (quantity > 1) {
                         quantity--;
@@ -120,8 +118,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (quantity < maxQuantity) {
                         quantity++;
                         quantityInput.value = quantity;
+                    } else {
+                        showOutOfStockAlert();
                     }
                 });
+
+                // Xử lý khi người dùng nhập số lượng thủ công
+                quantityInput.addEventListener("change", () => {
+                    let newQuantity = parseInt(quantityInput.value) || 1;
+
+                    if (newQuantity > maxQuantity) {
+                        showOutOfStockAlert();
+                    } else {
+                        quantity = newQuantity;
+                    }
+                });
+
+                // Hàm hiển thị thông báo và reset số lượng
+                function showOutOfStockAlert() {
+                    Swal.fire({
+                        title: 'Thông báo',
+                        text: 'Xin lỗi, hôm nay cửa hàng không đủ số lượng bạn cần, bạn hãy quay lại vào ngày mai',
+                        icon: 'warning',
+                        confirmButtonText: 'Đã hiểu'
+                    });
+
+                    quantity = 1;
+                    quantityInput.value = quantity;
+                }
 
                 // Xử lý khi người dùng nhập số lượng trực tiếp
                 quantityInput.addEventListener("input", () => {
@@ -129,7 +153,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (isNaN(inputVal) || inputVal < 1) {
                         quantity = 1; // Nếu nhập không hợp lệ, đặt về 1
                     } else if (inputVal > maxQuantity) {
-                        quantity = maxQuantity; // Nếu vượt quá số lượng tối đa
+                        Swal.fire({
+                            title: 'Thông báo',
+                            text: 'Xin lỗi, hôm nay cửa hàng không đủ số lượng bạn cần, bạn hãy quay lại vào ngày mai',
+                            icon: 'warning',
+                            confirmButtonText: 'Đã hiểu'
+                        });
+
+                        quantity = 1;
                     } else {
                         quantity = inputVal;
                     }

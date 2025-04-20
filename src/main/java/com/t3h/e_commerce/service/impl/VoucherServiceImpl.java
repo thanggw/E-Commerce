@@ -34,7 +34,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Optional<VoucherEntity> findByCode(String code) {
-        return voucherRepository.findByCodeAndActiveIsTrue(code);
+        return voucherRepository.findByCodeIgnoreCaseAndActiveIsTrue(code);
     }
 
     @Override

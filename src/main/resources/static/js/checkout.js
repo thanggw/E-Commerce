@@ -53,7 +53,6 @@ $('#voucher-code').on('input', function () {
             success: function (isValid) {
                 if (isValid) {
                     $('#voucher-error').hide().text('');
-                    console.log("Voucher hợp lệ");
 
                     // Gọi API tạm tính tổng giá (nếu có backend hỗ trợ), hoặc bạn có thể tự tính ở FE
                     // Hoặc chỉ hiển thị thông báo voucher hợp lệ
@@ -293,6 +292,38 @@ function getCart() {
     }
 
     // Gọi API giỏ hàng với userId lấy từ localStorage
+    function updateTotalPrices(totalPrice) {
+        let voucherCode = $('#voucher-code').val().trim();
+        if (voucherCode) {
+            $.ajax({
+                url: urlBase3 + "api/vouchers/info/" + voucherCode,
+                type: 'GET',
+                success: function (voucherInfo) {
+                    let discountAmount = voucherInfo.discountAmount;
+                    let totalAfter = totalPrice - discountAmount;
+                    if (totalAfter < 0) totalAfter = 0;
+
+                    // Cập nhật thông tin khuyến mãi
+                    $('#discount-info').text(`Tiền khuyến mãi: ${discountAmount}.000 VND`);
+                    $('#total-price2').text(`Tổng tiền sau giảm: ${totalAfter}.000 VND`);
+                    $('#voucher-error').hide();
+                },
+                error: function (err) {
+                    console.error("Voucher info fetch failed", err);
+                    $('#voucher-error').text("Không thể lấy thông tin giảm giá.").show();
+                    $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
+                    // Khi có lỗi, coi như không có mã khuyến mãi
+                    $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+                }
+            });
+        } else {
+            $('#voucher-error').hide();
+            $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
+            // Khi không có mã
+            $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+        }
+    }
+
     $.ajax({
         url: urlBase3 + `api/carts/${userId}`,
         type: 'GET',
@@ -310,39 +341,35 @@ function getCart() {
             } else {
                 cartItems.forEach(item => {
                     let cartItemHTML = `
-        <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <!-- Hiển thị ảnh sản phẩm -->
-            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-
-            <!-- Thông tin sản phẩm -->
-            <div style="flex-grow: 1;">
-                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Gía tiền: ${item.productPrice}.000 VND</p>
-                 <p>Topping: ${item.color}</p>
-                <p>Size: <span style="font-weight: bold;">${item.size}</span></p>
-            </div>
-
-            <!-- Tổng tiền cho sản phẩm -->
-            <div style="text-align: right;">
-                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
-               
-            </div>
-        </div>`;
+    <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
+        <div style="flex-grow: 1;">
+            <h4 style="margin-bottom: -10px;">${item.productName}</h4>
+            <p style="margin-top: 13px;">Số lượng: ${item.productQuantity}</p>
+            <p style="margin-top: -10px;">Giá tiền: ${item.productPrice}.000 VND</p>
+            <p style="margin-top: -10px;">Topping: ${item.color}</p>
+            <p style="margin-top: -10px;">Size: <span style="font-weight: bold;">${item.size}</span></p>
+        </div>
+        <div style="text-align: right;">
+            <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
+        </div>
+    </div>`;
                     cartItemsContainer.append(cartItemHTML);
 
                     totalQuantity += item.productQuantity;
                     totalPrice += item.productQuantity * item.productPrice;
                 });
-                totalPrice+=10;
 
-                // Cập nhật thông tin tổng quan giỏ hàng
+                totalPrice += 10; // phí ship
+
                 $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
                 $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+
+                updateTotalPrices(totalPrice);
+
                 $('.cart-items-count').text(totalQuantity);
             }
 
-            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
             $('#created-info').text(`Created Date: ${response.createdDate}`);
             $('#modified-info').text(`Modified date: ${response.lastModifiedDate}`);
         },
@@ -350,6 +377,32 @@ function getCart() {
             console.error('Error fetching cart:', error);
         }
     });
+
+    // Cập nhật lại tổng tiền sau giảm khi người dùng nhập voucher
+    let voucherTimer=null;
+    function applyVoucherWithLatestPrice() {
+        let priceText = $('#total-price').text(); // "Tổng tiền: 120.000 VND"
+        let raw = priceText.match(/\d+/g); // Lấy [120, 000]
+        let totalPrice = parseInt(raw[0]);
+        updateTotalPrices(totalPrice);
+    }
+
+// Bắt sự kiện nhập vào ô mã giảm giá
+    $('#voucher-code').on('input', function () {
+        clearTimeout(voucherTimer);
+        voucherTimer = setTimeout(() => {
+            applyVoucherWithLatestPrice();
+        }, 2000); // 2 giây sau khi ngừng gõ
+    });
+
+// Áp dụng ngay khi nhấn Enter
+    $('#voucher-code').on('keypress', function (e) {
+        if (e.which === 13) {
+            clearTimeout(voucherTimer); // hủy delay cũ
+            applyVoucherWithLatestPrice(); // áp dụng luôn
+        }
+    });
+
 }
 
 
@@ -420,6 +473,38 @@ typeEffect();
 
 
 function fetchProductDetails(productId) {
+    // Gọi API giỏ hàng với userId lấy từ localStorage
+    function updateTotalPrices(totalPrice) {
+        let voucherCode = $('#voucher-code').val().trim();
+        if (voucherCode) {
+            $.ajax({
+                url: urlBase3 + "api/vouchers/info/" + voucherCode,
+                type: 'GET',
+                success: function (voucherInfo) {
+                    let discountAmount = voucherInfo.discountAmount;
+                    let totalAfter = totalPrice - discountAmount;
+                    if (totalAfter < 0) totalAfter = 0;
+
+                    // Cập nhật thông tin khuyến mãi
+                    $('#discount-info').text(`Tiền khuyến mãi: ${discountAmount}.000 VND`);
+                    $('#total-price2').text(`Tổng tiền sau giảm: ${totalAfter}.000 VND`);
+                    $('#voucher-error').hide();
+                },
+                error: function (err) {
+                    console.error("Voucher info fetch failed", err);
+                    $('#voucher-error').text("Không thể lấy thông tin giảm giá.").show();
+                    $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
+                    // Khi có lỗi, coi như không có mã khuyến mãi
+                    $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+                }
+            });
+        } else {
+            $('#voucher-error').hide();
+            $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
+            // Khi không có mã
+            $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+        }
+    }
     $.ajax({
         url: `${urlBase3}api/products/${productId}`, // API lấy chi tiết sản phẩm
         type: 'GET',
@@ -476,6 +561,7 @@ function fetchProductDetails(productId) {
             let totalPrice = response.price * quantity + 10; // Thêm phí vận chuyển (30)
             $('#total-quantity').text(`Tổng số lượng sản phẩm: ${quantity}`);
             $('#total-price').text(`Tổng tiền: ${totalPrice}.000 VND`);
+            updateTotalPrices(totalPrice);
 
             // Cập nhật thông tin ngày tạo/chỉnh sửa nếu cần
             $('#created-info').text(`Created Date: ${response.createdDate || 'N/A'}`);
@@ -485,6 +571,30 @@ function fetchProductDetails(productId) {
         error: function (error) {
             console.error("Can not get the information about product:", error);
             $('#checkout-items').html('<p>Can not get the information about product</p>');
+        }
+    });
+    // Cập nhật lại tổng tiền sau giảm khi người dùng nhập voucher
+    let voucherTimer=null;
+    function applyVoucherWithLatestPrice() {
+        let priceText = $('#total-price').text(); // "Tổng tiền: 120.000 VND"
+        let raw = priceText.match(/\d+/g); // Lấy [120, 000]
+        let totalPrice = parseInt(raw[0]);
+        updateTotalPrices(totalPrice);
+    }
+
+// Bắt sự kiện nhập vào ô mã giảm giá
+    $('#voucher-code').on('input', function () {
+        clearTimeout(voucherTimer);
+        voucherTimer = setTimeout(() => {
+            applyVoucherWithLatestPrice();
+        }, 2000); // 2 giây sau khi ngừng gõ
+    });
+
+// Áp dụng ngay khi nhấn Enter
+    $('#voucher-code').on('keypress', function (e) {
+        if (e.which === 13) {
+            clearTimeout(voucherTimer); // hủy delay cũ
+            applyVoucherWithLatestPrice(); // áp dụng luôn
         }
     });
 }
