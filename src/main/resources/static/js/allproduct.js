@@ -124,9 +124,9 @@ function getUserProfile() {
 
                 // Change dropdown menu content to "Profile" and "Logout"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Profile</a>
-                        <a href="http://localhost:8082/guests/order">Orders</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Logout</a>
+                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                        <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>  
                     `;
 
                 // Display user information (prefer full name if available, otherwise display username)

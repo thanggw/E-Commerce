@@ -120,17 +120,15 @@
                 <form th:action="@{/submitOrder}" method="post">
                     <div class="amount-display">
                         <div class="amount-label">Số tiền thanh toán</div>
-                        <div class="amount-value">$299,999</div>
+                        <div class="amount-value" id="final-amount-display">$0</div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="amount">Số tiền:</label>
-                        <input type="number" class="form-control" id="amount" name="amount" required value="0">
-                    </div>
+                    <!-- Thêm input hidden để gửi giá trị -->
+                    <input type="hidden" id="finalAmount" name="amount" value="0">
 
                     <div class="form-group">
                         <label for="orderInfo">Thông tin đơn hàng:</label>
-                        <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Order Payment: 2923">
+                        <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Order Payment: 2923" readonly>
                     </div>
 
                     <button type="submit" class="btn btn-payment">Thanh toán ngay</button>
@@ -145,7 +143,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
-    // Hàm format số tiền theo định dạng Việt Nam
+    // Hàm format số tiền
     function formatCurrency(amount) {
         return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -155,18 +153,18 @@
         }).format(amount);
     }
 
-    // Lấy các elements
-    const amountInput = document.getElementById('amount');
-    const amountDisplay = document.querySelector('.amount-value');
+    // Lấy giá trị từ URL parameter hoặc localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+        // Giả sử bạn lưu giá trị vào localStorage trước khi chuyển trang
+        const finalAmount = localStorage.getItem('finalAmount') || 0;
 
-    // Cập nhật giá trị hiển thị khi input thay đổi
-    amountInput.addEventListener('input', function() {
-        const amount = this.value || 0;
-        amountDisplay.textContent = formatCurrency(amount);
+        // Cập nhật hiển thị
+        document.getElementById('final-amount-display').textContent = formatCurrency(finalAmount);
+        document.getElementById('finalAmount').value = finalAmount;
+
+        // Xóa giá trị đã lưu (nếu dùng localStorage)
+        localStorage.removeItem('finalAmount');
     });
-
-    // Format giá trị ban đầu
-    amountDisplay.textContent = formatCurrency(amountInput.value);
 </script>
 </body>
 </html>

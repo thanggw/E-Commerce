@@ -150,9 +150,9 @@ function getUserProfile() {
 
                 // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Profile</a>
-                        <a href="http://localhost:8082/guests/order" >Order</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Log out</a>
+                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                        <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
                     `;
 
                 // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
@@ -298,7 +298,7 @@ function getCart() {
             $.ajax({
                 url: urlBase3 + "api/vouchers/info/" + voucherCode,
                 type: 'GET',
-                success: function (voucherInfo) {
+                success: function(voucherInfo) {
                     let discountAmount = voucherInfo.discountAmount;
                     let totalAfter = totalPrice - discountAmount;
                     if (totalAfter < 0) totalAfter = 0;
@@ -307,20 +307,27 @@ function getCart() {
                     $('#discount-info').text(`Tiền khuyến mãi: ${discountAmount}.000 VND`);
                     $('#total-price2').text(`Tổng tiền sau giảm: ${totalAfter}.000 VND`);
                     $('#voucher-error').hide();
+
+                    // Lưu giá trị cuối cùng
+                    localStorage.setItem('finalAmount', totalAfter * 1000); // Nhân 1000 vì bạn hiển thị .000 VND
                 },
-                error: function (err) {
+                error: function(err) {
                     console.error("Voucher info fetch failed", err);
                     $('#voucher-error').text("Không thể lấy thông tin giảm giá.").show();
                     $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
-                    // Khi có lỗi, coi như không có mã khuyến mãi
                     $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+
+                    // Lưu giá trị gốc
+                    localStorage.setItem('finalAmount', totalPrice * 1000);
                 }
             });
         } else {
             $('#voucher-error').hide();
             $('#total-price2').text(`Tổng tiền sau giảm: ${totalPrice}.000 VND`);
-            // Khi không có mã
             $('#discount-info').text("Tiền khuyến mãi: Chưa có mã khuyến mãi");
+
+            // Lưu giá trị gốc
+            localStorage.setItem('finalAmount', totalPrice * 1000);
         }
     }
 

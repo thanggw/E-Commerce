@@ -233,9 +233,9 @@ function getUserProfile() {
                 const dropdownMenu = document.querySelector('.dropdown-menu');
 
                 dropdownMenu.innerHTML = `
-                    <a href="http://localhost:8082/guests/profile">Profile</a>
-                    <a href="http://localhost:8082/guests/order">Order</a>
-                    <a href="http://localhost:8082/guests/login" id="logout">Log out</a>`;
+                    <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                    <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                    <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>`;
 
                 const usernameSpan = document.getElementById('span1');
                 const fullName = (response.data.firstName && response.data.lastName)

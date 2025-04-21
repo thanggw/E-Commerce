@@ -1782,6 +1782,8 @@ html {
 }
 
 .instagram-item {
+    margin-left: 33px;
+    width: 300px;
     position: relative;
     overflow: hidden;
     border-radius: 10px;

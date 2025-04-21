@@ -141,9 +141,9 @@ function getUserProfile() {
 
                 // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Profile</a>
-                        <a href="http://localhost:8082/guests/order" >Order</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Log out</a>
+                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                        <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
                     `;
 
                 // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)

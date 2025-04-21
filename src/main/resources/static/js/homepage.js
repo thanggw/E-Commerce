@@ -159,9 +159,9 @@ function getUserProfile() {
                 // Hiển thị menu dropdown nếu tài khoản hoạt động bình thường
                 const dropdownMenu = document.querySelector('.dropdown-menu');
                 dropdownMenu.innerHTML = `
-                    <a href="http://localhost:8082/guests/profile">Profile</a>
-                    <a href="http://localhost:8082/guests/order">Order</a>
-                    <a href="http://localhost:8082/guests/login" id="logout">Log out</a>   
+                    <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                    <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                    <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>   
                 `;
 
                 // Hiển thị tên người dùng

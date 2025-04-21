@@ -31,9 +31,9 @@ function getUserProfile() {
 
                 // Thay đổi nội dung dropdown menu thành "Thông tin" và "Đăng xuất"
                 dropdownMenu.innerHTML = `
-                        <a href="http://localhost:8082/guests/profile">Profile</a>
-                        <a href="http://localhost:8082/guests/order" >Order</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Log out</a>
+                        <a href="http://localhost:8082/guests/profile">Thông tin</a>
+                        <a href="http://localhost:8082/guests/order">Đơn hàng</a>
+                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
                     `;
 
                 // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
@@ -111,6 +111,11 @@ const colorMap = {
     "Gray": "#808080",      // Xám
     "Violet": "#EE82EE"     // Tím violet
 };
+// Thêm hàm format tiền tệ
+function formatCurrency(amount) {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ".000 VND";
+}
+
 function getCart() {
     console.log("Refreshing cart...");
     // Lấy userId từ localStorage
@@ -138,6 +143,7 @@ function getCart() {
                 cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
             } else {
                 cartItems.forEach(item => {
+                    let itemTotal = item.productQuantity * item.productPrice;
                     let cartItemHTML = `
         <div class="cart-item" data-product-id="${item.productId}" 
          style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
@@ -148,14 +154,14 @@ function getCart() {
             <div style="flex-grow: 1;">
                 <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
                 <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${item.productPrice}.000 VND</p>
+                <p>Giá: ${formatCurrency(item.productPrice)}</p>
                  <p>Topping: ${item.color}</p>
                 <p>Kích cỡ: <span style="font-weight: bold;">${item.size}</span></p>
             </div>
 
             <!-- Tổng tiền cho sản phẩm -->
             <div style="text-align: right;">
-                <p>Tổng tiền: ${item.productQuantity * item.productPrice}.000đ</p>
+                <p>Tổng tiền: ${formatCurrency(itemTotal)}</p>
                 <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
             </div>
         </div>`;
@@ -172,12 +178,12 @@ function getCart() {
                     });
 
                     totalQuantity += item.productQuantity;
-                    totalPrice += item.productQuantity * item.productPrice;
+                    totalPrice += itemTotal;
                 });
 
                 // Cập nhật thông tin tổng quan giỏ hàng
                 $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${totalPrice}.000đ`);
+                $('#total-price').text(`Tổng tiền: ${formatCurrency(totalPrice)}`);
                 $('.cart-items-count').text(totalQuantity);
             }
 

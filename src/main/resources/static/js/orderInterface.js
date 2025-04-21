@@ -101,8 +101,11 @@ async function fetchAndDisplayOrders(userId) {
         if (!response.ok) {
             throw new Error("Unable to fetch order information");
         }
-
         const orders = await response.json();
+
+        // Sắp xếp orders theo thứ tự mới nhất lên đầu
+        // Giả sử orderId lớn hơn là đơn hàng mới hơn
+        orders.sort((a, b) => b.orderId - a.orderId);
 
         const orderList = document.getElementById('order-list');
         orderList.innerHTML = ''; // Clear old content
