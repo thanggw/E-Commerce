@@ -1,3 +1,5 @@
+const urlBase6 = "http://localhost:8082/";
+
 document.querySelectorAll(".search-bar input").forEach((input) => {
     input.addEventListener("input", function (event) {
         const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức kiểm tra ký tự đặc biệt
@@ -39,76 +41,27 @@ function copyLink() {
 }
 
 
-
+const URL = "http://localhost:8082/";
 // code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
 $(document).ready(function () {
-    // Khi trang được tải, gọi hàm getCart
-    getCart();
+    getCart(); // Tải giỏ hàng ngay khi trang ready
 });
-const urlBase6 = "http://localhost:8082/";
+
 function getCart() {
-    console.log("Refreshing cart...");
-    // Lấy userId từ localStorage
-    let userId = localStorage.getItem("userId");
-
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
-    }
-
-    // Gọi API giỏ hàng với userId lấy từ localStorage
     $.ajax({
-        url: urlBase6 + `api/carts/${userId}`,
+        url: URL + 'api/carts',
         type: 'GET',
+        xhrFields: { withCredentials: true },
         success: function (response) {
-            console.log("Cart fetched successfully:", response);
-            let cartItems = response.items;
-            let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty(); // Xóa nội dung cũ
+            console.log("API Response:", response);
 
-            let totalQuantity = 0;
-            let totalPrice = 0;
+            // Cập nhật số lượng
+            const totalQuantity = response.totalQuantity || 0;
+            $('#cart-counter').text(totalQuantity);
 
-            if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Your cart is empty.</p>');
-            } else {
-                cartItems.forEach(item => {
-                    let cartItemHTML = `
-                           <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <!-- Hiển thị ảnh sản phẩm -->
-            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-
-            <!-- Thông tin sản phẩm -->
-            <div style="flex-grow: 1;">
-                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Quantity: ${item.productQuantity}</p>
-                <p>Price: ${item.productPrice}.000 VND</p>
-            </div>
-
-            <!-- Tổng tiền cho sản phẩm -->
-            <div style="text-align: right;">
-                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Delete</button>
-            </div>
-        </div>`;
-                    cartItemsContainer.append(cartItemHTML);
-
-                    totalQuantity += item.productQuantity;
-                    totalPrice += item.productQuantity * item.productPrice;
-                });
-
-                // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Total number of product: ${totalQuantity}`);
-                $('#total-price').text(`Total Price: ${totalPrice}.000 VND`);
-                $('.cart-items-count').text(totalQuantity);
-            }
-
-            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Created Date: ${response.createdDate}`);
-            $('#modified-info').text(`Changed date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
-            console.error('Error fetching cart:', error);
+            console.error('Error:', error);
         }
     });
 }

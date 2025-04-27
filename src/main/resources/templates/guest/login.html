@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,43 +7,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../login/login.css">
 
-    <title>Document</title>
+    <title>Tài liệu</title>
 </head>
 <body>
 <div class="container">
     <div class="form-container">
         <div class="signin-signup">
             <form th:action="@{/perform_login}" method="POST" class="sign-in-form">
-                <h2 class="title">Login</h2>
+                <h2 class="title">Đăng nhập</h2>
                 <div class="input-field">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="username" id="loginUsername" placeholder="Username" >
+                    <input type="text" name="username" id="loginUsername" placeholder="Tên người dùng" >
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" id="loginPassword" placeholder="Password" >
+                    <input type="password" name="password" id="loginPassword" placeholder="Mật khẩu" >
                 </div>
-                <input type="submit" value="Login" class="btn solid">
+                <input type="submit" value="Đăng nhập" class="btn solid">
 
                 <div class="alert-danger" th:if="${param.error}">
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    Incorrect username or password. Please try again!
+                    Tên người dùng hoặc mật khẩu không chính xác. Vui lòng thử lại!
                 </div>
 
                 <div class="alert alert-success" th:if="${param.logout}">
                     <i class="fa-solid fa-check-circle"></i>
-                    You have successfully logged out.
+                    Bạn đã đăng xuất thành công.
                 </div>
                 <div class="alert alert-warning" th:if="${param.accessDenied}">
                     <i class="fa-solid fa-lock"></i>
-                    Access denied. You don't have permission to view this page.
+                    Truy cập bị từ chối. Bạn không có quyền xem trang này.
                 </div>
                 <div class="alert alert-info" th:if="${param.notAuthenticated}">
                     <i class="fa-solid fa-user"></i>
-                    Please log in to continue.
+                    Vui lòng đăng nhập để tiếp tục.
                 </div>
 
-                <p class="social-tex">Or use social platforms to log in </p>
+                <p class="social-tex">Hoặc sử dụng nền tảng mạng xã hội để đăng nhập</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fa-brands fa-facebook"></i>
@@ -56,10 +56,10 @@
             </form>
 
             <form class="sign-up-form" id="sign-up" method="post" onsubmit="registerUser(event)">
-                <h2 class="title">Register</h2>
+                <h2 class="title">Đăng ký</h2>
                 <div class="input-field">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="username" id="signUpUsername" placeholder="Username" required>
+                    <input type="text" name="username" id="signUpUsername" placeholder="Tên người dùng" required>
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-envelope"></i>
@@ -67,28 +67,28 @@
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" id="signUpPassword" placeholder="Password" required>
+                    <input type="password" name="password" id="signUpPassword" placeholder="Mật khẩu" required>
                     <small id="passwordHelp" style="color: red; display: none;margin-left: -83px;width: 600px;"></small>
                 </div>
 
                 <div class="input-field">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="firstName" id="firstName" placeholder="Last Name" required>
+                    <input type="text" name="firstName" id="firstName" placeholder="Họ" required>
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" name="lastName" id="lastName" placeholder="First Name" required>
+                    <input type="text" name="lastName" id="lastName" placeholder="Tên" required>
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-phone"></i>
-                    <input type="tel" name="phone" id="phone" placeholder="Phone Number" required>
+                    <input type="tel" name="phone" id="phone" placeholder="Số điện thoại" required>
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-map-marker-alt"></i>
-                    <input type="text" name="address" id="address" placeholder="Address" required>
+                    <input type="text" name="address" id="address" placeholder="Địa chỉ" required>
                 </div>
-                <input type="submit" value="Register" class="btn solid">
-                <p class="social-tex">Or use social platforms to register</p>
+                <input type="submit" value="Đăng ký" class="btn solid">
+                <p class="social-tex">Hoặc sử dụng nền tảng mạng xã hội để đăng ký</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fa-brands fa-facebook"></i>
@@ -104,21 +104,21 @@
     <div class="panels-container">
         <div class="panel left-panel">
             <div class="content">
-                <h3>New to the Shop?</h3>
+                <h3>Bạn mới đến với Cửa hàng?</h3>
                 <p>
-                    Register today to become a member and get the latest information about our products and services!
+                    Đăng ký ngay hôm nay để trở thành thành viên và nhận thông tin mới nhất về các sản phẩm và dịch vụ của chúng tôi!
                 </p>
-                <button class="btn transparent" id="sign-up-btn">Register</button>
+                <button class="btn transparent" id="sign-up-btn">Đăng ký</button>
             </div>
         </div>
 
         <div class="panel right-panel">
             <div class="content">
-                <h3>Already have an account?</h3>
+                <h3>Đã có tài khoản?</h3>
                 <p>
-                    By registering, you agree to the terms of service and privacy policy of Habibi Food Portal.
+                    Bằng việc đăng ký, bạn đồng ý với các điều khoản dịch vụ và chính sách bảo mật của Cổng thông tin Ẩm thực Habibi.
                 </p>
-                <button class="btn transparent" id="sign-in-btn">Login</button>
+                <button class="btn transparent" id="sign-in-btn">Đăng nhập</button>
             </div>
         </div>
     </div>

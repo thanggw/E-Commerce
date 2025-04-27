@@ -217,14 +217,14 @@
 
             <div class="wishlist">
                 <i class="fa fa-heart wishlist-icon" style="color: #ff6f61"></i>
-                <span style="color: #ff6f61">Wishlist</span>
-                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61">Yêu Thích</span>
+                <span style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
             </div>
 
             <div class="cart">
                 <a href="http://localhost:8082/guests/cart"><i class="fa fa-shopping-bag cart-icon" style="color: #ff6f61"></i></a>
-                <span style="color: #ff6f61" id="inCart">Cart</span>
-                <span class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Products</span>
+                <span style="color: #ff6f61" id="inCart">Giỏ Hàng</span>
+                <span id="cart-counter" class="cart-items-count" style="margin-top: 22px; margin-right: 3px; color: #e86868; font-size: 15px;" >0 </span> <span>Sản Phẩm</span>
             </div>
         </div>
     </div>
@@ -235,13 +235,14 @@
         <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
 
         <ul id="menu-list">
-            <li><a href="http://localhost:8082/guests/home-guest">Home</a></li>
-            <li><a href="http://localhost:8082/guests/allproducts">Products</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="http://localhost:8082/guests/news">News</a></li>
-            <li><a href="http://localhost:8082/guests/voucher">Promotions</a></li>
-            <li><a href="http://localhost:8082/guests/contact">Contact</a></li>
-            <li><a href="http://localhost:8082/guests/faq">FAQ</a></li>
+            <li><a href="http://localhost:8082/guests/home-guest">Trang Chủ</a></li>
+            <li><a href="http://localhost:8082/guests/allproducts">Thực Đơn</a></li>
+            <li><a href="http://localhost:8082/guests/aboutus">Về Chúng Tôi</a></li>
+            <li><a href="http://localhost:8082/guests/news">Tin Tức</a></li>
+            <li><a href="http://localhost:8082/guests/voucher">Khuyến Mãi</a></li>
+            <li><a href="http://localhost:8082/guests/contact">Liên Hệ</a></li>
+            <li><a href="http://localhost:8082/guests/faq">Các câu hỏi thường gặp</a></li>
+            <li><a href="http://localhost:8082/guests/location">Địa Điểm</a></li>
             <li><a href="tel:0814134634"><i class="fas fa-phone-volume ringing"></i> 1900 6750</a></li>
             <li><a href="tel:0814134634" title="Hotline" class="devvn_animation_zoom">
                 <img width="32" height="32" src="https://levantoan.com/wp-content/uploads/2017/10/phone-call.png" alt="" loading="lazy">
@@ -256,226 +257,220 @@
 </header>
 <div class="container">
     <div class="faq-container">
-        <!-- About account -->
         <div class="faq-section">
-            <h2 class="section-title">Account Questions</h2>
+            <h2 class="section-title">Câu hỏi về Tài khoản</h2>
 
             <div class="faq-item" id="question-1">
-                <div class="faq-question">1. How do I register an account?</div>
+                <div class="faq-question">1. Làm cách nào để đăng ký tài khoản?</div>
                 <div class="faq-answer">
-                    To register an account, you need to:
-                    - Click the "Register" button at the top right corner
-                    - Fill in all personal information
-                    - Confirm your registered email
-                    - Complete the registration process
+                    Để đăng ký tài khoản, bạn cần:
+                    - Nhấn vào nút "Đăng ký" ở góc trên bên phải
+                    - Điền đầy đủ thông tin cá nhân
+                    - Xác nhận email đã đăng ký của bạn
+                    - Hoàn tất quá trình đăng ký
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">2. How do I recover my password?</div>
+                <div class="faq-question">2. Làm cách nào để khôi phục mật khẩu của tôi?</div>
                 <div class="faq-answer">
-                    If you forget your password, you can:
-                    - Click on "Forgot Password?" on the login page
-                    - Enter your registered email
-                    - Follow the instructions in the recovery email
+                    Nếu bạn quên mật khẩu, bạn có thể:
+                    - Nhấn vào "Quên mật khẩu?" trên trang đăng nhập
+                    - Nhập email đã đăng ký của bạn
+                    - Làm theo hướng dẫn trong email khôi phục
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">3. How do I change my personal information?</div>
+                <div class="faq-question">3. Làm cách nào để thay đổi thông tin cá nhân của tôi?</div>
                 <div class="faq-answer">
-                    To update your personal information:
-                    - Log in to your account
-                    - Go to "Account Information"
-                    - Select "Edit Information"
-                    - Update and save changes
+                    Để cập nhật thông tin cá nhân của bạn:
+                    - Đăng nhập vào tài khoản của bạn
+                    - Đi đến "Thông tin tài khoản"
+                    - Chọn "Chỉnh sửa thông tin"
+                    - Cập nhật và lưu các thay đổi
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">4. How do I delete my account?</div>
+                <div class="faq-question">4. Làm cách nào để xóa tài khoản của tôi?</div>
                 <div class="faq-answer">
-                    To request account deletion:
-                    - Log in to your account
-                    - Go to "Account Settings"
-                    - Select "Request Account Deletion"
-                    - Confirm via email
-                    Note: This process cannot be undone and will delete all your order history.
-                </div>
-            </div>
-        </div>
-
-        <!-- About ordering -->
-        <div class="faq-section">
-            <h2 class="section-title">Ordering Questions</h2>
-
-            <div class="faq-item">
-                <div class="faq-question">1. How do I place an order on the website?</div>
-                <div class="faq-answer">
-                    The ordering process includes the following steps:
-                    - Select a product and add it to the cart
-                    - Check the cart and quantities
-                    - Fill in the shipping information
-                    - Choose the payment method
-                    - Confirm the order
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">2. How do I track my order?</div>
-                <div class="faq-answer">
-                    You can track your order by:
-                    - Logging into your account
-                    - Going to "My Orders"
-                    - Clicking on the order code to see details
-                    - Or entering the tracking code in the tracking tool
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">3. How do I cancel my order?</div>
-                <div class="faq-answer">
-                    To cancel an order:
-                    - Log in and go to "My Orders"
-                    - Select the order you want to cancel
-                    - Click "Cancel Order" and select a reason
-                    Note: Orders that are not processed or are preparing items can only be canceled.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">4. Is there a limit on order quantities?</div>
-                <div class="faq-answer">
-                    Regarding order limits:
-                    - There is no limit on the number of orders
-                    - Some products may have quantity limits per order
-                    - Bulk orders may receive special discounts
-                    - Contact customer service for advice on bulk orders
+                    Để yêu cầu xóa tài khoản:
+                    - Đăng nhập vào tài khoản của bạn
+                    - Đi đến "Cài đặt tài khoản"
+                    - Chọn "Yêu cầu xóa tài khoản"
+                    - Xác nhận qua email
+                    Lưu ý: Quá trình này không thể hoàn tác và sẽ xóa tất cả lịch sử đơn hàng của bạn.
                 </div>
             </div>
         </div>
 
-        <!-- About payment -->
         <div class="faq-section">
-            <h2 class="section-title">Payment Questions</h2>
+            <h2 class="section-title">Câu hỏi về Đặt hàng</h2>
 
             <div class="faq-item">
-                <div class="faq-question">1. What payment methods are accepted?</div>
+                <div class="faq-question">1. Làm cách nào để đặt hàng trên trang web?</div>
                 <div class="faq-answer">
-                    We accept the following payment methods:
-                    - Credit/Debit cards (Visa, Mastercard, JCB)
-                    - Bank transfers
-                    - E-wallets (Momo, ZaloPay, VNPay)
-                    - Cash on delivery (COD)
-                    - Installments through financial partners
+                    Quy trình đặt hàng bao gồm các bước sau:
+                    - Chọn một sản phẩm và thêm vào giỏ hàng
+                    - Kiểm tra giỏ hàng và số lượng
+                    - Điền thông tin giao hàng
+                    - Chọn phương thức thanh toán
+                    - Xác nhận đơn hàng
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">2. How do I receive a VAT invoice?</div>
+                <div class="faq-question">2. Làm cách nào để theo dõi đơn hàng của tôi?</div>
                 <div class="faq-answer">
-                    To receive a VAT invoice:
-                    - Select the "Issue VAT Invoice" option when placing an order
-                    - Fill in the company's information
-                    - The invoice will be sent via email after the order is completed
+                    Bạn có thể theo dõi đơn hàng của mình bằng cách:
+                    - Đăng nhập vào tài khoản của bạn
+                    - Đi đến "Đơn hàng của tôi"
+                    - Nhấn vào mã đơn hàng để xem chi tiết
+                    - Hoặc nhập mã theo dõi vào công cụ theo dõi
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">3. What is the refund policy?</div>
+                <div class="faq-question">3. Làm cách nào để hủy đơn hàng của tôi?</div>
                 <div class="faq-answer">
-                    The refund process:
-                    - Refund within 7-14 business days
-                    - Refund to the original payment method
-                    - For COD, refund via bank transfer
-                    - Provide account information through the refund form
+                    Để hủy đơn hàng:
+                    - Đăng nhập và đi đến "Đơn hàng của tôi"
+                    - Chọn đơn hàng bạn muốn hủy
+                    - Nhấn "Hủy đơn hàng" và chọn lý do
+                    Lưu ý: Chỉ những đơn hàng chưa được xử lý hoặc đang chuẩn bị hàng mới có thể bị hủy.
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">4. How do I apply a discount code?</div>
+                <div class="faq-question">4. Có giới hạn về số lượng đặt hàng không?</div>
                 <div class="faq-answer">
-                    How to use a discount code:
-                    - Enter the code in the "Discount Code" box on the cart page
-                    - One order can only apply one code
-                    - Check the conditions for each code
-                    - Discount codes do not apply to shipping fees
+                    Về giới hạn đặt hàng:
+                    - Không có giới hạn về số lượng đơn hàng
+                    - Một số sản phẩm có thể có giới hạn số lượng trên mỗi đơn hàng
+                    - Đơn hàng số lượng lớn có thể nhận được chiết khấu đặc biệt
+                    - Liên hệ bộ phận chăm sóc khách hàng để được tư vấn về đơn hàng số lượng lớn
                 </div>
             </div>
         </div>
 
-        <!-- About shipping -->
         <div class="faq-section">
-            <h2 class="section-title">Shipping Questions</h2>
+            <h2 class="section-title">Câu hỏi về Thanh toán</h2>
 
             <div class="faq-item">
-                <div class="faq-question">1. How long does shipping take?</div>
+                <div class="faq-question">1. Những phương thức thanh toán nào được chấp nhận?</div>
                 <div class="faq-answer">
-                    Estimated shipping times:
-                    - Within the city: 1-2 days
-                    - Nearby provinces: 2-3 days
-                    - Distant provinces: 3-5 days
-                    - Times may vary during peak seasons
+                    Chúng tôi chấp nhận các phương thức thanh toán sau:
+                    - Thẻ tín dụng/Thẻ ghi nợ (Visa, Mastercard, JCB)
+                    - Chuyển khoản ngân hàng
+                    - Ví điện tử (Momo, ZaloPay, VNPay)
+                    - Thanh toán khi nhận hàng (COD)
+                    - Trả góp qua các đối tác tài chính
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">2. How is the shipping fee calculated?</div>
+                <div class="faq-question">2. Làm cách nào để nhận hóa đơn VAT?</div>
                 <div class="faq-answer">
-                    Shipping fees are calculated based on:
-                    - Distance of delivery
-                    - Weight of the order
-                    - Free for orders over 500,000 VND
-                    - Extra charge for express delivery
+                    Để nhận hóa đơn VAT:
+                    - Chọn tùy chọn "Yêu cầu hóa đơn VAT" khi đặt hàng
+                    - Điền thông tin công ty
+                    - Hóa đơn sẽ được gửi qua email sau khi đơn hàng hoàn tất
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">3. Is delivery available on weekends?</div>
+                <div class="faq-question">3. Chính sách hoàn tiền là gì?</div>
                 <div class="faq-answer">
-                    About weekend delivery:
-                    - Delivery is available on Saturday and Sunday
-                    - Applies to urban areas
-                    - You can choose your preferred delivery time
-                    - Some areas may not support weekend delivery
+                    Quy trình hoàn tiền:
+                    - Hoàn tiền trong vòng 7-14 ngày làm việc
+                    - Hoàn tiền vào phương thức thanh toán ban đầu
+                    - Đối với COD, hoàn tiền qua chuyển khoản ngân hàng
+                    - Cung cấp thông tin tài khoản qua biểu mẫu hoàn tiền
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question">4. What is the return/exchange policy?</div>
+                <div class="faq-question">4. Làm cách nào để áp dụng mã giảm giá?</div>
                 <div class="faq-answer">
-                    Return/exchange policy:
-                    - Free returns/exchanges within 7 days
-                    - Products must be in original tags
-                    - Must have a purchase invoice
-                    - The company covers return shipping fees if the product is faulty
-                    - Customers bear return shipping fees if the return is based on personal choice
+                    Cách sử dụng mã giảm giá:
+                    - Nhập mã vào ô "Mã giảm giá" trên trang giỏ hàng
+                    - Mỗi đơn hàng chỉ được áp dụng một mã
+                    - Kiểm tra các điều kiện áp dụng cho từng mã
+                    - Mã giảm giá không áp dụng cho phí vận chuyển
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Câu hỏi về Vận chuyển</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">1. Thời gian giao hàng mất bao lâu?</div>
+                <div class="faq-answer">
+                    Thời gian giao hàng ước tính:
+                    - Nội thành: 1-2 ngày
+                    - Các tỉnh lân cận: 2-3 ngày
+                    - Các tỉnh xa: 3-5 ngày
+                    - Thời gian có thể thay đổi trong mùa cao điểm
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. Phí vận chuyển được tính như thế nào?</div>
+                <div class="faq-answer">
+                    Phí vận chuyển được tính dựa trên:
+                    - Khoảng cách giao hàng
+                    - Trọng lượng đơn hàng
+                    - Miễn phí cho đơn hàng trên 500.000 VNĐ
+                    - Phụ phí cho giao hàng nhanh
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. Có giao hàng vào cuối tuần không?</div>
+                <div class="faq-answer">
+                    Về giao hàng cuối tuần:
+                    - Có giao hàng vào Thứ Bảy và Chủ Nhật
+                    - Áp dụng cho các khu vực nội thành
+                    - Bạn có thể chọn thời gian giao hàng ưu tiên
+                    - Một số khu vực có thể không hỗ trợ giao hàng cuối tuần
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. Chính sách đổi/trả hàng là gì?</div>
+                <div class="faq-answer">
+                    Chính sách đổi/trả hàng:
+                    - Đổi/trả hàng miễn phí trong vòng 7 ngày
+                    - Sản phẩm phải còn nguyên tem mác
+                    - Phải có hóa đơn mua hàng
+                    - Công ty chịu phí vận chuyển trả hàng nếu sản phẩm bị lỗi
+                    - Khách hàng chịu phí vận chuyển trả hàng nếu trả hàng theo ý muốn cá nhân
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Keep the contact form section -->
     <div class="contact-form">
-        <h2>Send us your question</h2>
+        <h2>Gửi câu hỏi cho chúng tôi</h2>
         <form>
             <div class="form-group">
-                <input type="text" placeholder="Full name">
+                <input type="text" placeholder="Họ và tên">
             </div>
             <div class="form-group">
                 <input type="email" placeholder="Email">
             </div>
             <div class="form-group">
-                <input type="tel" placeholder="Phone">
+                <input type="tel" placeholder="Điện thoại">
             </div>
             <div class="form-group">
-                <textarea placeholder="Content" rows="4"></textarea>
+                <textarea placeholder="Nội dung" rows="4"></textarea>
             </div>
-            <button type="submit" class="submit-btn">Submit Information</button>
+            <button type="submit" class="submit-btn">Gửi thông tin</button>
         </form>
     </div>
 </div>
-
 <footer>
     <div class="footer-container">
         <div class="footer-top">

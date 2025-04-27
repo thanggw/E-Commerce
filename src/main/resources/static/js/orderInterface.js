@@ -282,6 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchAndDisplayOrders(userId);
 });
 
+const URL = "http://localhost:8082/";
 // Display the cart items and update the UI with the total count
 $(document).ready(function () {
     getCart(); // Tải giỏ hàng ngay khi trang ready

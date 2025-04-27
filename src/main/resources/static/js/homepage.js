@@ -6,20 +6,7 @@ const pageSize = 8;  // Số lượng sản phẩm hiển thị trên homepage
 $(document).ready(function () {
     getProduct();
 });
-const colorMap2 = {
-    "Red": "#FF0000",       // Đỏ
-    "Blue": "#0000FF",      // Xanh dương
-    "Yellow": "#FFFF00",    // Vàng
-    "Green": "#008000",     // Xanh lá cây
-    "Orange": "#FFA500",    // Cam
-    "Purple": "#800080",    // Tím
-    "Pink": "#FFC0CB",      // Hồng
-    "Brown": "#A52A2A",     // Nâu
-    "Black": "#000000",     // Đen
-    "White": "#FFFFFF",     // Trắng
-    "Gray": "#808080",      // Xám
-    "Violet": "#EE82EE"     // Tím violet
-};
+
 
 function getProduct() {
     $.ajax({

@@ -9,8 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddToWishlistRequest {
-    private Integer userId;
     private Integer productId;
-    private Integer colorId; // Thêm colorId
-    private Integer sizeId;  // Thêm sizeId
+    private Integer colorId;
+    private Integer sizeId;
 }
+

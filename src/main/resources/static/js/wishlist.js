@@ -205,6 +205,7 @@ function getUserProfile() {
 }
 
 
+const URL = "http://localhost:8082/";
 $(document).ready(function () {
     getCart(); // Tải giỏ hàng ngay khi trang ready
 });

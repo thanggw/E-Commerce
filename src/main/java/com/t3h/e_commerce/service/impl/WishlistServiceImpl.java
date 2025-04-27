@@ -39,8 +39,11 @@ public class WishlistServiceImpl implements IWishlistService {
 
     @Override
     public WishlistResponse addToWishlist(AddToWishlistRequest request) {
-        // Lấy thông tin người dùng
-        UserEntity user = userRepository.findById(request.getUserId())
+        // Lấy username từ SecurityContext
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Tìm user theo username
+        UserEntity user = userRepository.findByUsernameAndDeletedIsFalse(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // Lấy hoặc tạo Wishlist
@@ -60,7 +63,7 @@ public class WishlistServiceImpl implements IWishlistService {
         Size size = sizeRepository.findById(request.getSizeId())
                 .orElseThrow(() -> new IllegalArgumentException("Size not found"));
 
-        // Kiểm tra xem sản phẩm đã tồn tại trong wishlist chưa
+        // Kiểm tra sản phẩm đã tồn tại trong wishlist chưa
         boolean exists = wishlist.getWishlistItems().stream().anyMatch(item ->
                 item.getProduct().getId().equals(product.getId())
                         && item.getColor().getId().equals(color.getId())
@@ -79,11 +82,12 @@ public class WishlistServiceImpl implements IWishlistService {
 
         // Thêm vào danh sách và lưu
         wishlist.getWishlistItems().add(newWishlistItem);
-        wishlistItemRepository.save(newWishlistItem); // Lưu mới vào repository
-        wishlistRepository.save(wishlist); // Cập nhật wishlist
+        wishlistItemRepository.save(newWishlistItem);
+        wishlistRepository.save(wishlist);
 
         return wishlistMapper.toWishlistResponse(wishlist);
     }
+
 
 
     @Override

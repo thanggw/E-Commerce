@@ -17,120 +17,32 @@ document.querySelectorAll(".search-bar input").forEach((input) => {
     });
 });
 
-const URL = 'http://localhost:8082/';
-const pageSize = 8;  // Số lượng sản phẩm hiển thị trên homepage
 
+const URL = "http://localhost:8082/";
+// code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
 $(document).ready(function () {
-    getProduct();
+    getCart(); // Tải giỏ hàng ngay khi trang ready
 });
-const colorMap2 = {
-    "Red": "#FF0000",       // Đỏ
-    "Blue": "#0000FF",      // Xanh dương
-    "Yellow": "#FFFF00",    // Vàng
-    "Green": "#008000",     // Xanh lá cây
-    "Orange": "#FFA500",    // Cam
-    "Purple": "#800080",    // Tím
-    "Pink": "#FFC0CB",      // Hồng
-    "Brown": "#A52A2A",     // Nâu
-    "Black": "#000000",     // Đen
-    "White": "#FFFFFF",     // Trắng
-    "Gray": "#808080",      // Xám
-    "Violet": "#EE82EE"     // Tím violet
-};
 
-function getProduct() {
+function getCart() {
     $.ajax({
-        url: URL + `api/products/all-products?page=0&size=${pageSize}`,
+        url: URL + 'api/carts',
         type: 'GET',
+        xhrFields: { withCredentials: true },
         success: function (response) {
-            console.log('AJAX response:', response);
+            console.log("API Response:", response);
 
-            let productDtos = response.content;
+            // Cập nhật số lượng
+            const totalQuantity = response.totalQuantity || 0;
+            $('#cart-counter').text(totalQuantity);
 
-            if (!productDtos || productDtos.length === 0) {
-                console.log('No products found');
-                return;
-            }
-
-            let productContainer = $('#products-container');
-            productContainer.empty();
-
-            for (let product of productDtos) {
-                let productHTML = `
-                    <div class="product" data-product-id="${product.id}">
-     
-                        <div class="product-image">
-                            <img src="${product.imageUrls[0]}" alt="${product.name}" id="main-image-${product.id}">
-                        </div>
-                        <div class="wishlist-icon2" data-tooltip="Add to wishlist">
-                           <i class="fa fa-heart" id="add-to-wishlist2"></i>
-                         </div>
-                        <h3 id="product_name">${product.name}</h3>
-                        <p id="product_price">$${product.price}</p>
-                        <div class="product-colors">
-                            ${product.colors.map((color, index) => `
-                                <span 
-                                    class="color-dot" 
-                                    style="background-color: ${colorMap2[color.name] || 'gray'};"
-                                    data-image="${product.imageUrls[index] || product.imageUrls[0]}" 
-                                    onmouseover="changeImage(${product.id}, '${product.imageUrls[index] || product.imageUrls[0]}')"
-                                ></span>
-                            `).join('')}
-                        </div>
-                        <p class="product-description">${product.description}</p> 
-                        <div class="rating">
-                            ★★★★☆ <!-- Hiển thị đánh giá, có thể thay bằng logic động -->
-                        </div>
-                        <button class="add-to-cart-btn" data-product-id="${product.id}">Add to Cart</button>
-                    </div>
-                `;
-
-                // Thêm sản phẩm vào container
-                productContainer.append(productHTML);
-            }
-
-            // Thêm sự kiện click vào mỗi sản phẩm
-            $('.product').on('click', function () {
-                let productId = $(this).data('product-id');
-                // Chuyển hướng đến trang chi tiết sản phẩm
-                window.location.href = `/guests/detail?productId=${productId}`;
-            });
         },
         error: function (error) {
-            console.error('Error fetching products:', error);
+            console.error('Error:', error);
         }
     });
 }
 
-
-// Hàm thay đổi ảnh khi hover
-function changeImage(productId, newImageUrl) {
-    $(`#main-image-${productId}`).attr('src', newImageUrl);
-}
-
-$('#viewMoreBtn').on('click', function () {
-    window.location.href = 'http://localhost:8082/guests/allproducts';  // Chuyển hướng tới trang mới hiển thị toàn bộ sản phẩm
-});
-$('.view-all').on('click', function () {
-    window.location.href = 'http://localhost:8082/guests/allproducts';  // Chuyển hướng tới trang mới hiển thị toàn bộ sản phẩm
-});
-$('.scroll-to-products').on('click', function () {
-    window.location.href = 'http://localhost:8082/guests/allproducts';  // Chuyển hướng tới trang mới hiển thị toàn bộ sản phẩm
-});
-$(document).ready(function () {
-    // Thẻ <li> thứ 2
-    $('#menu-list li:nth-child(2)').on('click', function () {
-        window.location.href = "http://localhost:8082/guests/allproducts";
-    });
-
-    $('#menu-list li:nth-child(3)').on('click', function () {
-        window.location.href = "http://localhost:8082/guests/aboutus";
-    });
-    // Thẻ <li> thứ 5
-    $('#menu-list li:nth-child(5)').on('click', function () {
-        window.location.href = "http://localhost:8082/guests/voucher";
-    });
-});
 
 
 
@@ -140,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function getUserProfile() {
     $.ajax({
-        url: URL + 'api/users/profile',
+        url: urlBase6 + 'api/users/profile',
         type: 'GET',
         success: function(response) {
             if (response.code === 200 && response.data) {
@@ -150,7 +62,7 @@ function getUserProfile() {
                 dropdownMenu.innerHTML = `
                         <a href="http://localhost:8082/guests/profile">Thông tin</a>
                         <a href="http://localhost:8082/guests/order">Đơn hàng</a>
-                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>  
+                        <a href="http://localhost:8082/guests/login" id="logout">Đăng xuất</a>
                     `;
 
                 // Hiển thị thông tin người dùng (ưu tiên full name nếu có, không thì hiển thị username)
@@ -207,202 +119,80 @@ function getUserProfile() {
     });
 }
 
-
-
-
-
-
-
-
-// code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
+$(document).on('click', '.scroll-to-products', function () {
+    window.location.href = 'http://localhost:8082/guests/allproducts';
+});
 $(document).ready(function () {
-    // Khi trang được tải, gọi hàm getCart
-    getCart();
+    $('.cart').click(function () {
+        window.location.href = 'http://localhost:8082/guests/cart';
+    });
+});
+$(document).ready(function () {
+    $('.breadcrumb span:first-child').click(function () {
+        window.location.href = 'http://localhost:8082/guests/home-guest';
+    });
 });
 
-function getCart() {
-    console.log("Refreshing cart...");
-    // Lấy userId từ localStorage
-    let userId = localStorage.getItem("userId");
 
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
+
+
+
+const input8 = document.getElementById('animatedInput');
+const placeholders18 = [
+    'Bạn muốn tìm gì?',
+    'Bánh mì thịt nướng',
+    'Trà sữa trân châu đường đen',
+    'Mì cay hải sản',
+    'Phở bò tái lăn',
+    'Bún chả Hà Nội',
+    'Cơm tấm sườn bì chả',
+    'Gỏi cuốn tôm thịt'
+];
+
+let currentIndex18 = 0;
+let isDeleting18 = false;
+let currentText18 = '';
+let charIndex18 = 0;
+
+function typeEffect() {
+    const currentPlaceholder = placeholders18[currentIndex18];
+
+    if (isDeleting18) {
+        // Xóa từng ký tự
+        currentText18 = currentPlaceholder.substring(0, charIndex18 - 1);
+        charIndex18--;
+    } else {
+        // Thêm từng ký tự
+        currentText18 = currentPlaceholder.substring(0, charIndex18 + 1);
+        charIndex18++;
     }
 
-    // Gọi API giỏ hàng với userId lấy từ localStorage
-    $.ajax({
-        url: URL + `api/carts/${userId}`,
-        type: 'GET',
-        success: function (response) {
-            console.log("Cart fetched successfully:", response);
-            let cartItems = response.items;
-            let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty(); // Xóa nội dung cũ
+    input8.setAttribute('placeholder', currentText18);
 
-            let totalQuantity = 0;
-            let totalPrice = 0;
+    let typingSpeed = isDeleting18 ? 30 : 50; // Tốc độ gõ và xóa
 
-            if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Your cart is empty</p>');
-            } else {
-                cartItems.forEach(item => {
-                    let cartItemHTML = `
-                           <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <!-- Hiển thị ảnh sản phẩm -->
-            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
+    if (!isDeleting18 && charIndex18 === currentPlaceholder.length) {
+        // Khi gõ xong, đợi 1 giây rồi bắt đầu xóa
+        typingSpeed = 1000;
+        isDeleting18 = true;
+    } else if (isDeleting18 && charIndex18 === 0) {
+        // Khi xóa xong, chuyển sang placeholder tiếp theo
+        isDeleting18 = false;
+        currentIndex18 = (currentIndex18 + 1) % placeholders18.length;
+    }
 
-            <!-- Thông tin sản phẩm -->
-            <div style="flex-grow: 1;">
-                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Quantity: ${item.productQuantity}</p>
-                <p>Price: ${item.productPrice}.000 VND</p>
-            </div>
-
-            <!-- Tổng tiền cho sản phẩm -->
-            <div style="text-align: right;">
-                <p>Tổng: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Delete</button>
-            </div>
-        </div>`;
-                    cartItemsContainer.append(cartItemHTML);
-
-                    totalQuantity += item.productQuantity;
-                    totalPrice += item.productQuantity * item.productPrice;
-                });
-
-                // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Total product quantity: ${totalQuantity}`);
-                $('#total-price').text(`Total money: ${totalPrice}.000 VND`);
-                $('.cart-items-count').text(totalQuantity);
-            }
-
-            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Created Date: ${response.createdDate}`);
-            $('#modified-info').text(`Changed date: ${response.lastModifiedDate}`);
-        },
-        error: function (error) {
-            console.error('Error fetching cart:', error);
-        }
-    });
-}
-function removeItem(userId, productId) {
-    console.log("Removing product with ID:", productId, "from user ID:", userId);
-    $.ajax({
-        url: URL + `api/carts/${userId}/remove/${productId}`,
-        type: 'DELETE',
-        success: function (response) {
-            console.log(response);
-            getCart();
-        },
-        error: function (error) {
-            console.error('Error deleting cart item:', error);
-        }
-    });
+    setTimeout(typeEffect, typingSpeed);
 }
 
+// Bắt đầu hiệu ứng
+typeEffect();
 
 
-
-
-
-//featured products
-// URL của API sản phẩm
-const apiUrl = 'http://localhost:8082/api/products/all-products';
-
-// Hàm để hiển thị sản phẩm
-function displayProducts(products, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';  // Xóa nội dung cũ nếu có
-
-    products.forEach(product => {
-        const productElement = `
-                <div class="product-sales" data-product-id="${product.id}">
-                    ${product.status.code === 'AVAILABLE' ? '<div class="sale-badge">Sale</div>' : ''}
-                    <div class="product-image">
-                            <img src="${product.imageUrls[0]}" alt="${product.name}" id="main-image2-${product.id}">
-                    </div>
-                    <div class="wishlist-icon2" data-tooltip="Add to wishlist">
-                           <i class="fa fa-heart" id="add-to-wishlist2"></i>
-                         </div>
-                    <h3>${product.name}</h3>
-                    <p class="price">
-                        <span class="sale-price">${product.price}đ</span>
-                        <span class="original-price">550$</span>
-                    </p>
-                    <!-- Cart Icon -->
-                    <div class="cart-icon">
-                        <button class="add-to-cart-btn2"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                    </div>
-                    <!-- Size options -->
-                    <div class="size-options">
-                       <label>Size:</label>
-                            <div class="size-buttons">
-                                ${product.sizes.map(size => `
-                                <button 
-                                    class="size-button" 
-                                    data-size="${size}" 
-                                    onclick="selectSize(this)"
-                                   >
-                                    ${size.name}
-                                </button>
-                                `).join('')}
-                            </div>
-                    </div>
-
-                    <!-- Color options -->
-                    <div class="product-colors">
-                            ${product.colors.map((color, index) => `
-                                <span 
-                                    class="color-dot" 
-                                    style="background-color: ${colorMap2[color.name] || 'gray'};"
-                                    data-image="${product.imageUrls[index] || product.imageUrls[0]}" 
-                                    onmouseover="changeImage2(${product.id}, '${product.imageUrls[index] || product.imageUrls[0]}')"
-                                ></span>
-                            `).join('')}
-                    </div>
-                </div>
-            `;
-        container.innerHTML += productElement;
+$(document).ready(function () {
+    $('.wishlist').click(function () {
+        window.location.href = 'http://localhost:8082/guests/wishlist';
     });
-    // Thêm sự kiện click vào mỗi sản phẩm
-    $('.product-sales').on('click', function () {
-        let productId = $(this).data('product-id');
-        // Chuyển hướng đến trang chi tiết sản phẩm
-        window.location.href = `/guests/detail?productId=${productId}`;
-    });
-}
-function changeImage2(productId, newImageUrl) {
-    $(`#main-image2-${productId}`).attr('src', newImageUrl);
-}
-
-// Gọi API để lấy sản phẩm
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // Kiểm tra dữ liệu trả về từ API
-
-        // Truy cập vào mảng sản phẩm trong thuộc tính 'content'
-        const products = data.content;
-
-        if (Array.isArray(products)) {
-            // Lấy 2 sản phẩm đầu tiên
-            const topSellingProducts = products.slice(0, 2);
-            displayProducts(topSellingProducts, 'top-selling-products');
-
-            // Lấy các sản phẩm còn lại
-            const moreProducts = products.slice(2,6);
-            displayProducts(moreProducts, 'more-products');
-        } else {
-            console.error('Data in content is not an array:', products);
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching products:', error);
-    });
-
-
-
+});
 
 // code này để hiển thị số lượng wishlist
 document.addEventListener("DOMContentLoaded", function () {
@@ -438,8 +228,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error fetching wishlist:", error));
 });
-
-
 
 
 
@@ -488,38 +276,3 @@ async function searchProducts(query) {
         searchResultsDiv.style.display = "none";
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function () {
-    $('.view-all-voucher').click(function () {
-        window.location.href = 'http://localhost:8082/guests/voucher';
-    });
-});
-$(document).ready(function () {
-    $('.promotion li').click(function () {
-        window.location.href = 'http://localhost:8082/guests/voucher';
-    });
-});
-
-$(document).ready(function () {
-    $('.wishlist').click(function () {
-        window.location.href = 'http://localhost:8082/guests/wishlist';
-    });
-});
-
-$(document).ready(function () {
-    $('.banner').click(function () {
-        window.location.href = 'http://localhost:8082/guests/allproducts';
-    });
-});
