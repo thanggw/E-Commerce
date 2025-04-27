@@ -1,6 +1,7 @@
 package com.t3h.e_commerce.controller.resources;
 
 import com.t3h.e_commerce.dto.requests.OrderRequest;
+import com.t3h.e_commerce.dto.responses.CancelOrderResponse;
 import com.t3h.e_commerce.dto.responses.OrderDetailResponse;
 import com.t3h.e_commerce.dto.responses.OrderResponse;
 import com.t3h.e_commerce.service.IOrderService;
@@ -29,10 +30,23 @@ public class OrderResourceController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<OrderDetailResponse>> getOrdersByUserId(@PathVariable Integer userId) {
-        List<OrderDetailResponse> orders = orderServiceImpl.getOrdersByUserId(userId);
+    @GetMapping
+    public ResponseEntity<List<OrderDetailResponse>> getOrdersByAuthenticatedUser() {
+        List<OrderDetailResponse> orders = orderService.getOrdersByAuthenticatedUser();
         return ResponseEntity.ok(orders);
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    public ResponseEntity<?> cancelOrder(
+            @PathVariable Integer orderId,
+            @RequestParam String reason) {
+        boolean result = orderServiceImpl.cancelOrder(orderId, reason);
+        if (result) {
+            return ResponseEntity.ok(new CancelOrderResponse("Hủy đơn hàng thành công"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new CancelOrderResponse("Không thể hủy đơn hàng"));
+        }
     }
 
 }

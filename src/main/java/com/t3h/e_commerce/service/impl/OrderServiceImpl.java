@@ -15,6 +15,8 @@ import com.t3h.e_commerce.service.IOrderService;
 import com.t3h.e_commerce.service.admin.BusinessHourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,16 +53,17 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public OrderResponse placeOrder(OrderRequest orderRequest) {
-        // Kiểm tra nếu nhà hàng đóng cửa
-        if (!businessHourService.isRestaurantOpen()) {
-            throw new RuntimeException("Nhà hàng hiện đang đóng cửa. Vui lòng đặt hàng vào giờ mở cửa!");
-        }
-        System.out.println("Payment method received: " + orderRequest.getPaymentMethod());
-        // 1. Fetch user
-        UserEntity user = userRepository.findById(orderRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        // 1. Lấy user từ SecurityContext
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        // 2. Create recipient
+        // 2. Kiểm tra giờ mở cửa
+        if (!businessHourService.isRestaurantOpen()) {
+            throw new RuntimeException("Nhà hàng hiện đang đóng cửa");
+        }
+
+        // 3. Tạo recipient
         RecipientEntity recipient = new RecipientEntity();
         recipient.setRecipientName(orderRequest.getRecipientName());
         recipient.setPhoneNumber(orderRequest.getRecipientPhone());
@@ -165,12 +168,28 @@ public class OrderServiceImpl implements IOrderService {
 
 
 
-    public List<OrderDetailResponse> getOrdersByUserId(Integer userId) {
-        List<OrderEntity> orders = orderRepository.findByUserId(userId);
-        if (orders.isEmpty()) {
-            throw new NoSuchElementException("No orders found for user ID: " + userId);
+    @Override
+    public List<OrderDetailResponse> getOrdersByAuthenticatedUser() {
+        // Lấy username từ SecurityContextHolder
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (username == null || "anonymousUser".equals(username)) {
+            throw new IllegalStateException("User not authenticated");
         }
 
+        // Tìm UserEntity theo username
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        // Lấy userId từ UserEntity
+        Integer userId = user.getId();
+
+        // Lấy danh sách đơn hàng theo userId
+        List<OrderEntity> orders = orderRepository.findByUserId(userId);
+        if (orders.isEmpty()) {
+            throw new NoSuchElementException("No orders found for user: " + username);
+        }
+
+        // Chuyển đổi danh sách đơn hàng thành OrderDetailResponse
         return orders.stream()
                 .map(order -> OrderDetailResponse.builder()
                         .orderId(order.getId())
@@ -199,16 +218,25 @@ public class OrderServiceImpl implements IOrderService {
 
     @Transactional
     public boolean updateOrderStatus(Integer orderId, OrderStatusType status) {
-        Optional<OrderEntity> optionalOrder = orderRepository.findById(orderId);
-        if (optionalOrder.isPresent()) {
-            OrderEntity order = optionalOrder.get();
-            order.setOrderStatus(status);
-            order.setUpdateStatusDate(new Date()); // Cập nhật thời gian thay đổi trạng thái
-            orderRepository.save(order);
-            return true;
-        }
-        return false;
+        return orderRepository.findById(orderId)
+                .map(order -> {
+                    order.setOrderStatus(status);
+                    order.setUpdateStatusDate(new Date());
+
+                    if (isCanceledStatus(status)) {
+                        order.setCancelReason("Hủy bởi admin");
+                    }
+
+                    orderRepository.save(order);
+                    return true;
+                })
+                .orElse(false);
     }
+
+    private boolean isCanceledStatus(OrderStatusType status) {
+        return status == OrderStatusType.Canceled || status == OrderStatusType.CANCELLED;
+    }
+
 
     public List<OrderDetailResponse> getAllOrders() {
         List<OrderEntity> orders = orderRepository.findAll();
@@ -236,6 +264,24 @@ public class OrderServiceImpl implements IOrderService {
                                 .build())
                         .toList())
                 .build();
+    }
+
+    @Transactional
+    public boolean cancelOrder(Integer orderId, String reason) {
+        Optional<OrderEntity> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            OrderEntity order = optionalOrder.get();
+
+            // Kiểm tra chỉ cho phép hủy nếu đơn hàng chưa giao hoặc đang xử lý
+            if (order.getOrderStatus() == OrderStatusType.Pending || order.getOrderStatus() == OrderStatusType.Processing) {
+                order.setOrderStatus(OrderStatusType.CANCELLED); // bạn phải có thêm enum CANCELLED trong OrderStatusType
+                order.setCancelReason(reason);
+                order.setUpdateStatusDate(new Date());
+                orderRepository.save(order);
+                return true;
+            }
+        }
+        return false;
     }
 
 

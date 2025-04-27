@@ -23,15 +23,16 @@ public class CartResourceController {
         return ResponseEntity.ok(cartResponse);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<CartResponse> getCart(@PathVariable Integer userId) {
-        CartResponse cartResponse = cartService.getCartByUserId(userId);
+    @GetMapping
+    public ResponseEntity<CartResponse> getCart() {
+        // Lấy userId từ SecurityContext
+        CartResponse cartResponse = cartService.getCartByCurrentUser();
         return ResponseEntity.ok(cartResponse);
     }
 
-    @DeleteMapping("/{userId}/remove/{productId}")
-    public ResponseEntity<String> removeItemFromCart(@PathVariable Integer userId, @PathVariable Integer productId) {
-        boolean isRemoved = cartService.removeItemFromCart(userId, productId);
+    @DeleteMapping("/remove/{productId}")
+    public ResponseEntity<String> removeItemFromCart(@PathVariable Integer productId) {
+        boolean isRemoved = cartService.removeItemFromCart(productId);
 
         if (isRemoved) {
             return ResponseEntity.ok("Sản phẩm đã được xóa khỏi giỏ hàng.");

@@ -14,21 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckoutRequest {
-    private Integer userId;
+    // Đã bỏ userId
     private BigDecimal shippingCost;
-    private Date expectedDeliveryDate;
-    private String trackingId;
     private String recipientName;
     private String recipientPhone;
     private String recipientAddress;
-    private String paymentMethod; // CREDIT_CARD, PAYPAL, COD
+    private String paymentMethod;
     private String voucherCode;
     private List<ItemRequest> items;
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
+    @Getter @Setter
     public static class ItemRequest {
         private Integer productId;
         private Integer colorId;

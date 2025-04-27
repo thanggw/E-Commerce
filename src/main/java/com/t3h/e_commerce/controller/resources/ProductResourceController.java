@@ -8,9 +8,11 @@ import com.t3h.e_commerce.dto.requests.ReviewDTO;
 import com.t3h.e_commerce.dto.responses.ProductResponse;
 import com.t3h.e_commerce.entity.ProductEntity;
 import com.t3h.e_commerce.entity.ReviewEntity;
+import com.t3h.e_commerce.repository.OrderItemRepository;
 import com.t3h.e_commerce.service.IProductService;
 import com.t3h.e_commerce.service.impl.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ import java.util.List;
 public class ProductResourceController {
     private final IProductService iProductService;
     private final ReviewService reviewService;
+
+    @Autowired
+    private final OrderItemRepository orderItemRepository;
 
     @PostMapping("/create")
     public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductRequest request) {
@@ -81,6 +86,11 @@ public class ProductResourceController {
     public List<ReviewDTO> getReviewsByProduct(@PathVariable Integer productId) {
         return reviewService.getReviewsByProduct(productId);
     }
+    @GetMapping("/can-review")
+    public boolean canUserReview(@RequestParam Integer userId, @RequestParam Integer productId) {
+        return orderItemRepository.existsByOrder_User_IdAndProduct_Id(userId, productId);
+    }
+
 
     @PostMapping(consumes = "application/json")
     public ReviewDTO addReview(@RequestBody ReviewDTO reviewDTO) {

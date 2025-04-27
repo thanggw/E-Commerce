@@ -5,20 +5,21 @@ import com.t3h.e_commerce.dto.responses.CheckoutResponse;
 import com.t3h.e_commerce.entity.*;
 import com.t3h.e_commerce.enums.OrderStatusType;
 import com.t3h.e_commerce.enums.PaymentType;
+import com.t3h.e_commerce.exception.BadRequestException;
 import com.t3h.e_commerce.repository.*;
+import com.t3h.e_commerce.service.admin.BusinessHourService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,31 +32,40 @@ public class CheckoutService {
     private final UserRepository userRepository;
     private final RecipientRepository recipientRepository;
     private final PaymentRepository paymentRepository;
+    private final VoucherRepository voucherRepository;
+    private final VoucherServiceImpl voucherService;
+    private final BusinessHourService businessHourService;
 
+    @Transactional
     public List<CheckoutResponse> processCheckout(CheckoutRequest request) {
-        List<CheckoutResponse> responses = new ArrayList<>();
-        System.out.println("Payment method received: " + request.getPaymentMethod());
-        // Tìm User
-        UserEntity user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found for ID: " + request.getUserId()));
+        // 1. Kiểm tra giờ mở cửa
+        if (!businessHourService.isRestaurantOpen()) {
+            throw new RuntimeException("Nhà hàng hiện đang đóng cửa");
+        }
 
-        // Tạo đối tượng OrderEntity
+        List<CheckoutResponse> responses = new ArrayList<>();
+        // 2. Lấy user từ SecurityContext
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // 3. Tạo order
         OrderEntity order = new OrderEntity();
         order.setUser(user);
         order.setOrderStatus(OrderStatusType.Pending);
         order.setUpdateStatusDate(new Date());
-        String trackingId = UUID.randomUUID().toString();
+        String trackingId = generateTrackingId();
         order.setTrackingId(trackingId);
-        order.setExpectedDeliveryDate(Date.from(Instant.now().plus(5, ChronoUnit.DAYS)));
+        order.setExpectedDeliveryDate(calculateExpectedDeliveryDate());
 
-        // Lưu thông tin người nhận hàng
+        // 4. Lưu thông tin người nhận hàng
         RecipientEntity recipient = new RecipientEntity();
         recipient.setRecipientName(request.getRecipientName());
         recipient.setPhoneNumber(request.getRecipientPhone());
         recipient.setUser(user);
         recipientRepository.save(recipient);
 
-        // 3. Create payment entity
+        // 5. Tạo payment entity
         PaymentEntity payment = new PaymentEntity();
         PaymentType paymentType = PaymentType.valueOf(request.getPaymentMethod());
         payment.setPaymentMethod(paymentType);
@@ -71,10 +81,19 @@ public class CheckoutService {
         payment.setPayee(recipient);
         paymentRepository.save(payment);
 
-        // Liên kết Payment và Recipient vào Order
-        order.setPayment(payment);
-        order.setRecipient(recipient);
+        // 6. Xử lý voucher nếu có
+        VoucherEntity voucher = null;
+        if (request.getVoucherCode() != null && !request.getVoucherCode().isEmpty()) {
+            voucher = voucherService.findByCode(request.getVoucherCode())
+                    .orElseThrow(() -> new BadRequestException("Voucher không tồn tại"));
 
+            // Kiểm tra nếu user đã từng dùng voucher này
+            if (voucherService.hasUserUsedVoucher(user.getId(), request.getVoucherCode())) {
+                throw new BadRequestException("Bạn đã sử dụng voucher này rồi!");
+            }
+        }
+
+        // 7. Tính toán giá trị đơn hàng
         BigDecimal totalPrice = BigDecimal.ZERO;
         List<OrderItemEntity> orderItems = new ArrayList<>();
 
@@ -109,36 +128,46 @@ public class CheckoutService {
             response.setSize(size.getName());
             response.setQuantity(item.getQuantity());
             response.setTotalPrice(productTotalPrice);
-            response.setShippingCost(request.getShippingCost());
-            response.setFinalPrice(productTotalPrice.add(request.getShippingCost()));
+            response.setShippingCost(calculateShippingCost());
+            response.setFinalPrice(productTotalPrice.add(calculateShippingCost()));
             response.setTrackingId(trackingId);
-            response.setExpectedDeliveryDate(LocalDateTime.now().plusDays(5));
+            response.setExpectedDeliveryDate(LocalDateTime.now().plusDays(1));
             responses.add(response);
         }
 
-        // Áp dụng mã giảm giá (nếu có)
-        if (request.getVoucherCode() != null && !request.getVoucherCode().isEmpty()) {
-            totalPrice = applyVoucherDiscount(totalPrice, request.getVoucherCode());
-        }
+        // 8. Áp dụng voucher nếu có
+        BigDecimal discountAmount = voucher != null ? voucher.getDiscountAmount() : BigDecimal.ZERO;
+        BigDecimal finalPrice = totalPrice.subtract(discountAmount).max(BigDecimal.ZERO).add(calculateShippingCost());
 
+        // 9. Cập nhật thông tin đơn hàng
         order.setOrderItems(orderItems);
         order.setTotalPrice(totalPrice);
-        order.setShippingCost(request.getShippingCost());
-        order.setFinalPrice(totalPrice.add(request.getShippingCost()));
+        order.setShippingCost(calculateShippingCost());
+        order.setFinalPrice(finalPrice);
+        order.setPayment(payment);
+        order.setRecipient(recipient);
+        order.setVoucher(voucher);
+        order.setDiscount(discountAmount);
 
-        // Lưu OrderEntity vào database
+        // 10. Lưu OrderEntity vào database
         orderRepository.save(order);
 
         return responses;
     }
 
+    // Các phương thức helper giống như trong OrderServiceImpl
+    private BigDecimal calculateShippingCost() {
+        return new BigDecimal("10"); // Giá vận chuyển mặc định
+    }
 
-    private BigDecimal applyVoucherDiscount(BigDecimal totalPrice, String voucherCode) {
-        // Giả lập giảm giá 10% cho mã hợp lệ
-        if ("DISCOUNT10".equalsIgnoreCase(voucherCode)) {
-            return totalPrice.multiply(BigDecimal.valueOf(0.90));
-        }
-        return totalPrice;
+    private Date calculateExpectedDeliveryDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 1); // Giao hàng sau 1 ngày
+        return calendar.getTime();
+    }
+
+    private String generateTrackingId() {
+        return UUID.randomUUID().toString(); // Sinh mã vận đơn ngẫu nhiên
     }
 }
 

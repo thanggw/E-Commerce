@@ -57,4 +57,8 @@ public class OrderEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "voucher_id")
     private VoucherEntity voucher;
+
+    @Column(name = "cancel_reason")
+    private String cancelReason;
+
 }

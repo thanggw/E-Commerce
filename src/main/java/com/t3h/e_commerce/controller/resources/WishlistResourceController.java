@@ -35,9 +35,9 @@ public class WishlistResourceController {
      * @param userId ID của người dùng
      * @return ResponseEntity chứa danh sách wishlist
      */
-    @GetMapping("/{userId}")
-    public ResponseEntity<WishlistResponse> getWishlistByUserId(@PathVariable Integer userId) {
-        WishlistResponse wishlistResponse = wishlistService.getWishlistByUserId(userId);
+    @GetMapping
+    public ResponseEntity<WishlistResponse> getWishlist() {
+        WishlistResponse wishlistResponse = wishlistService.getWishlistForCurrentUser();
         return ResponseEntity.ok(wishlistResponse);
     }
 }

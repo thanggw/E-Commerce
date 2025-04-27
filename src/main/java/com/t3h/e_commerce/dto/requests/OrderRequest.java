@@ -10,14 +10,11 @@ import java.util.List;
 @Data
 @Builder
 public class OrderRequest {
-    private Integer userId;
     private BigDecimal shippingCost;
-    private Date expectedDeliveryDate;
-    private String trackingId;
     private String recipientName;
     private String recipientPhone;
     private String recipientAddress;
-    private String paymentMethod; // CREDIT_CARD, PAYPAL, COD
+    private String paymentMethod;
     private String voucherCode;
     private List<OrderItemRequest> items;
 }

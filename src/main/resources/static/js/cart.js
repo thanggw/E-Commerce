@@ -93,122 +93,160 @@ function getUserProfile() {
 
 // code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
 $(document).ready(function () {
-    // Khi trang được tải, gọi hàm getCart
-    getCart();
+    getCart(); // Tải giỏ hàng khi trang ready
 });
 
-const colorMap = {
-    "Red": "#FF0000",       // Đỏ
-    "Blue": "#0000FF",      // Xanh dương
-    "Yellow": "#FFFF00",    // Vàng
-    "Green": "#008000",     // Xanh lá cây
-    "Orange": "#FFA500",    // Cam
-    "Purple": "#800080",    // Tím
-    "Pink": "#FFC0CB",      // Hồng
-    "Brown": "#A52A2A",     // Nâu
-    "Black": "#000000",     // Đen
-    "White": "#FFFFFF",     // Trắng
-    "Gray": "#808080",      // Xám
-    "Violet": "#EE82EE"     // Tím violet
-};
-// Thêm hàm format tiền tệ
+// Hàm format tiền tệ (giữ nguyên)
 function formatCurrency(amount) {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ".000 VND";
 }
 
 function getCart() {
-    console.log("Refreshing cart...");
-    // Lấy userId từ localStorage
-    let userId = localStorage.getItem("userId");
+    console.log("Loading cart...");
 
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
-    }
-
-    // Gọi API giỏ hàng với userId lấy từ localStorage
     $.ajax({
-        url: urlBase2 + `api/carts/${userId}`,
+        url: urlBase2 + 'api/carts', // Endpoint mới không cần userId
         type: 'GET',
+        xhrFields: {
+            withCredentials: true // Gửi cookie session
+        },
         success: function (response) {
-            console.log("Cart fetched successfully:", response);
-            let cartItems = response.items;
-            let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty(); // Xóa nội dung cũ
-
-            let totalQuantity = 0;
-            let totalPrice = 0;
-
-            if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Giỏ hàng của bạn trống.</p>');
-            } else {
-                cartItems.forEach(item => {
-                    let itemTotal = item.productQuantity * item.productPrice;
-                    let cartItemHTML = `
-        <div class="cart-item" data-product-id="${item.productId}" 
-         style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <!-- Hiển thị ảnh sản phẩm -->
-            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-
-            <!-- Thông tin sản phẩm -->
-            <div style="flex-grow: 1;">
-                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Số lượng: ${item.productQuantity}</p>
-                <p>Giá: ${formatCurrency(item.productPrice)}</p>
-                 <p>Topping: ${item.color}</p>
-                <p>Kích cỡ: <span style="font-weight: bold;">${item.size}</span></p>
-            </div>
-
-            <!-- Tổng tiền cho sản phẩm -->
-            <div style="text-align: right;">
-                <p>Tổng tiền: ${formatCurrency(itemTotal)}</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Xóa</button>
-            </div>
-        </div>`;
-                    cartItemsContainer.append(cartItemHTML);
-                    $('.cart-item').on('click', function () {
-                        // Nếu click vào button thì ngăn chặn sự lan truyền
-                        if ($(event.target).is('button')) {
-                            event.stopPropagation();
-                        } else {
-                            // Nếu click vào nơi khác trong cart-item thì chuyển hướng
-                            let productId = $(this).data('product-id');
-                            window.location.href = `/guests/detail?productId=${productId}`;
-                        }
-                    });
-
-                    totalQuantity += item.productQuantity;
-                    totalPrice += itemTotal;
-                });
-
-                // Cập nhật thông tin tổng quan giỏ hàng
-                $('#total-quantity').text(`Tổng số lượng sản phẩm: ${totalQuantity}`);
-                $('#total-price').text(`Tổng tiền: ${formatCurrency(totalPrice)}`);
-                $('.cart-items-count').text(totalQuantity);
-            }
-
-            // Cập nhật thông tin về ngày tạo và ngày chỉnh sửa
-            $('#created-info').text(`Ngày tạo: ${response.createdDate}`);
-            $('#modified-info').text(`Ngày chỉnh sửa: ${response.lastModifiedDate}`);
+            console.log("Cart data:", response);
+            renderCartItems(response);
+            const totalQuantity = response.totalQuantity || 0;
+            $('#cart-counter').text(totalQuantity);
         },
         error: function (error) {
-            console.error('Error fetching cart:', error);
+            console.error('Error:', error);
+            if (error.status === 401) {
+                window.location.href = '/guests/login'; // Redirect nếu chưa đăng nhập
+            } else {
+                $('#cart-items').html('<p>Có lỗi xảy ra khi tải giỏ hàng</p>');
+            }
         }
     });
 }
-function removeItem(userId, productId) {
-    console.log("Removing product with ID:", productId, "from user ID:", userId);
-    $.ajax({
-        url: urlBase2 + `api/carts/${userId}/remove/${productId}`,
-        type: 'DELETE',
-        success: function (response) {
-            console.log(response);
+
+function renderCartItems(cartData) {
+    const cartItemsContainer = $('#cart-items');
+    cartItemsContainer.empty();
+
+    // Kiểm tra dữ liệu
+    const items = cartData.items || cartData.cartItems || [];
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    if (items.length === 0) {
+        cartItemsContainer.html('<p class="empty-cart">Giỏ hàng của bạn trống.</p>');
+    } else {
+        items.forEach(item => {
+            const itemTotal = item.productQuantity * item.productPrice;
+            totalQuantity += item.productQuantity;
+            totalPrice += itemTotal;
+
+            const itemHTML = `
+                <div class="cart-item" data-product-id="${item.productId}"style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
+                    <div class="cart-item-details" style="flex-grow: 1;">
+                        <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
+                        <p>Số lượng: ${item.productQuantity}</p>
+                        <p>Giá: ${formatCurrency(item.productPrice)}</p>
+                        ${item.color ? `<p>Topping: ${item.color}</p>` : ''}
+                        ${item.size ? `<p>Kích cỡ: <strong>${item.size}</strong></p>` : ''}
+                    </div>
+                    <div class="cart-item-actions">
+                        <p class="item-total">${formatCurrency(itemTotal)}</p>
+                        <button class="btn-remove" data-product-id="${item.productId}">Xóa</button>
+                    </div>
+                </div>`;
+            cartItemsContainer.append(itemHTML);
+        });
+
+        // Gắn sự kiện click cho nút xóa
+        $('.btn-remove').click(function() {
+            const productId = $(this).data('product-id');
+            removeItem(productId);
             getCart();
-        },
-        error: function (error) {
-            console.error('Error deleting cart item:', error);
+        });
+
+        // Gắn sự kiện click cho cart item (trừ nút xóa)
+        $('.cart-item').click(function(e) {
+            if (!$(e.target).closest('.btn-remove').length) {
+                const productId = $(this).data('product-id');
+                window.location.href = `/guests/detail?productId=${productId}`;
+            }
+        });
+    }
+
+    // Cập nhật tổng quan
+    $('#total-quantity').text(`Tổng số lượng: ${totalQuantity}`);
+    $('#total-price').text(`Tổng tiền: ${formatCurrency(totalPrice)}`);
+
+
+    // Cập nhật ngày tháng
+    if (cartData.createdDate) {
+        $('#created-info').text(`Ngày tạo: ${formatDate(cartData.createdDate)}`);
+    }
+    if (cartData.lastModifiedDate) {
+        $('#modified-info').text(`Cập nhật: ${formatDate(cartData.lastModifiedDate)}`);
+    }
+}
+
+// Hàm xóa item (sửa lại để không cần userId)
+function removeItem(productId) {
+    Swal.fire({
+        title: 'Xác nhận xóa',
+        text: 'Bạn chắc chắn muốn xóa sản phẩm này?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Vâng, xóa nó!',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: urlBase2 + `api/carts/remove/${productId}`,
+                type: 'DELETE',
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(response) {
+                    if (response === true) {
+                        getCart(); // Refresh giỏ hàng
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đã xóa!',
+                            text: 'Sản phẩm đã được xóa khỏi giỏ hàng.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Xóa sản phẩm thất bại.',
+                    });
+                }
+            });
         }
     });
+}
+
+// Hàm phụ: Format ngày tháng
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
+}
+
+// Hàm hiển thị thông báo
+function showToast(message, type = 'success') {
+    // Thêm code hiển thị toast tùy bạn (có thể dùng thư viện hoặc tự code)
+    console.log(`${type}: ${message}`);
 }
 
 
@@ -285,96 +323,38 @@ $(document).ready(function () {
 
 // code này để hiển thị số lượng wishlist
 document.addEventListener("DOMContentLoaded", function () {
-    // User ID (giả sử lấy từ hệ thống)
-    const userId = localStorage.getItem("userId");
-
-    // API URL để lấy wishlist
-    const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
+    // API URL mới, không cần userId nữa
+    const apiUrl = `http://localhost:8082/api/wishlist`;
 
     // Fetch wishlist từ API
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(apiUrl, {
+        method: "GET",
+        credentials: "include" // RẤT QUAN TRỌNG: để gửi cookie/session JWT kèm theo request
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch wishlist");
+            }
+            return response.json();
+        })
         .then(data => {
             const wishlistItemsContainer = document.getElementById("wishlist-items");
             const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
-            // Kiểm tra nếu không có sản phẩm
+
+            // Nếu không có sản phẩm
             if (!data.items || data.items.length === 0) {
                 wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+                wishlistCountElement.textContent = "0"; // cập nhật số lượng = 0
                 return;
             }
-            // Lấy số lượng sản phẩm từ mảng items
+            // Cập nhật số lượng wishlist
             const count = data.items.length;
-            // Cập nhật số lượng lên giao diện
             wishlistCountElement.textContent = count;
 
-            // Render danh sách sản phẩm
-            data.items.forEach(item => {
-                const itemCard = document.createElement("div");
-                itemCard.classList.add("wishlist-item");
 
-                itemCard.innerHTML = `
-                    <div class="wishlist-item">
-    <img src="${item.productImage}" alt="${item.productName}">
-    <div class="item-details">
-        <h3>${item.productName}</h3>
-        <p>Topping: 
-            <span class="color-name">${item.color}</span>
-        </p>
-        <p>Kích cỡ: ${item.size}</p>
-        <p>${item.available ? "In Stock" : "Out of Stock"}</p>
-        <button class="remove-btn" data-item-id="${item.itemId}">Remove</button>
-    </div>
-</div>
-
-                `;
-
-                // Append card vào container
-                wishlistItemsContainer.appendChild(itemCard);
-            });
-
-            // Gắn sự kiện click vào nút "Remove"
-            document.querySelectorAll(".remove-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    const itemId = this.getAttribute("data-item-id");
-                    removeFromWishlist(itemId);
-                });
-            });
         })
         .catch(error => console.error("Error fetching wishlist:", error));
 });
-
-// Hàm xóa sản phẩm khỏi wishlist
-function removeFromWishlist(itemId) {
-    const apiUrl = `http://localhost:8082/api/wishlist/remove/${itemId}`;
-
-    fetch(apiUrl, { method: "DELETE" })
-        .then(response => {
-            if (response.ok) {
-                alert("Item removed from wishlist.");
-                location.reload(); // Reload lại trang
-            } else {
-                alert("Failed to remove item.");
-            }
-        })
-        .catch(error => console.error("Error removing item:", error));
-}
-function getColorCode(colorName) {
-    const colorMap9 = {
-        "Red": "#FF0000",       // Đỏ
-        "Blue": "#0000FF",      // Xanh dương
-        "Yellow": "#FFFF00",    // Vàng
-        "Green": "#008000",     // Xanh lá cây
-        "Orange": "#FFA500",    // Cam
-        "Purple": "#800080",    // Tím
-        "Pink": "#FFC0CB",      // Hồng
-        "Brown": "#A52A2A",     // Nâu
-        "Black": "#000000",     // Đen
-        "White": "#FFFFFF",     // Trắng
-        "Gray": "#808080",      // Xám
-        "Violet": "#EE82EE"     // Tím violet
-    };
-    return colorMap9[colorName] || "#CCCCCC"; // Mặc định màu xám nếu không tìm thấy
-}
 
 
 

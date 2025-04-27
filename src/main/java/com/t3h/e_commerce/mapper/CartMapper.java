@@ -35,11 +35,23 @@ public class CartMapper {
     }
 
     public CartResponse toCartResponse(CartEntity cart) {
+        List<CartItemEntity> activeItems = cart.getCartItems().stream()
+                .filter(item -> !item.getDeleted())
+                .collect(Collectors.toList());
+
+        int totalQuantity = activeItems.stream()
+                .mapToInt(CartItemEntity::getQuantity)
+                .sum();
+
+        BigDecimal totalPrice = activeItems.stream()
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         return CartResponse.builder()
                 .cartId(cart.getId())
-                .totalQuantity(cart.getTotalQuantity())
-                .totalPrice(cart.getTotalPrice()) // Sử dụng totalPrice từ CartEntity
-                .items(cart.getCartItems().stream().map(this::toCartItemResponse).collect(Collectors.toList()))
+                .totalQuantity(totalQuantity)
+                .totalPrice(totalPrice)
+                .items(activeItems.stream().map(this::toCartItemResponse).collect(Collectors.toList()))
                 .createdDate(cart.getCreatedDate())
                 .createdBy(cart.getCreatedBy())
                 .lastModifiedDate(cart.getLastModifiedDate())

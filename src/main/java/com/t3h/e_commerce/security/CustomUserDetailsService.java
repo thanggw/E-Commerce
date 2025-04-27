@@ -37,10 +37,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (StringUtils.isEmpty(username)){
             throw new UsernameNotFoundException("Username is empty");
         }
-        UserEntity userEntity = userRepository.findByUsernameAndDeletedIsFalse(username);
-        if (userEntity == null){
-            throw new UsernameNotFoundException("User not found");
-        }
+        UserEntity userEntity = userRepository.findByUsernameAndDeletedIsFalse(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         //Tạo ra danh sách quyền của spring security
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         //Lấy ra danh sách quyền của user

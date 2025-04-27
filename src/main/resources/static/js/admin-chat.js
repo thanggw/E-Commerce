@@ -164,12 +164,23 @@ function saveBusinessHours() {
             }
         })
         .then(data => {
-            alert("Business hours updated successfully!");
-            closeBusinessHoursModal();
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Giờ làm việc đã được cập nhật thành công!',
+                confirmButtonText: 'Tuyệt vời!'
+            }).then(() => {
+                closeBusinessHoursModal();
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-            alert("Failed to update business hours.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Đã xảy ra lỗi khi cập nhật giờ làm việc.',
+                confirmButtonText: 'Đã hiểu'
+            });
         });
 }
 

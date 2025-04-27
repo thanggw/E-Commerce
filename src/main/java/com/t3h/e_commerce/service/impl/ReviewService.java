@@ -4,6 +4,7 @@ import com.t3h.e_commerce.dto.requests.ReviewDTO;
 import com.t3h.e_commerce.entity.ProductEntity;
 import com.t3h.e_commerce.entity.ReviewEntity;
 import com.t3h.e_commerce.entity.UserEntity;
+import com.t3h.e_commerce.repository.OrderItemRepository;
 import com.t3h.e_commerce.repository.ProductRepository;
 import com.t3h.e_commerce.repository.ReviewRepository;
 import com.t3h.e_commerce.repository.UserRepository;
@@ -20,6 +21,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
     public List<ReviewDTO> getReviewsByProduct(Integer productId) {
         List<ReviewEntity> reviews = reviewRepository.findByProductId(productId);
@@ -39,6 +41,12 @@ public class ReviewService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         ProductEntity product = productRepository.findById(reviewDTO.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        boolean hasBought = orderItemRepository.existsByOrder_User_IdAndProduct_Id(
+                reviewDTO.getUserId(), reviewDTO.getProductId());
+        if (!hasBought) {
+            throw new RuntimeException("User chưa mua sản phẩm này nên không thể đánh giá.");
+        }
 
         ReviewEntity review = new ReviewEntity();
         review.setUser(user);

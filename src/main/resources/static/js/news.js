@@ -272,97 +272,38 @@ $(document).ready(function () {
 
 // code này để hiển thị số lượng wishlist
 document.addEventListener("DOMContentLoaded", function () {
-    // User ID (giả sử lấy từ hệ thống)
-    const userId = localStorage.getItem("userId");
-
-    // API URL để lấy wishlist
-    const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
+    // API URL mới, không cần userId nữa
+    const apiUrl = `http://localhost:8082/api/wishlist`;
 
     // Fetch wishlist từ API
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(apiUrl, {
+        method: "GET",
+        credentials: "include" // RẤT QUAN TRỌNG: để gửi cookie/session JWT kèm theo request
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch wishlist");
+            }
+            return response.json();
+        })
         .then(data => {
             const wishlistItemsContainer = document.getElementById("wishlist-items");
             const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
-            // Kiểm tra nếu không có sản phẩm
+
+            // Nếu không có sản phẩm
             if (!data.items || data.items.length === 0) {
                 wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+                wishlistCountElement.textContent = "0"; // cập nhật số lượng = 0
                 return;
             }
-            // Lấy số lượng sản phẩm từ mảng items
+            // Cập nhật số lượng wishlist
             const count = data.items.length;
-            // Cập nhật số lượng lên giao diện
             wishlistCountElement.textContent = count;
 
-            // Render danh sách sản phẩm
-            data.items.forEach(item => {
-                const itemCard = document.createElement("div");
-                itemCard.classList.add("wishlist-item");
 
-                itemCard.innerHTML = `
-                    <div class="wishlist-item">
-    <img src="${item.productImage}" alt="${item.productName}">
-    <div class="item-details">
-        <h3>${item.productName}</h3>
-        <p>Color: 
-            <span class="color-name">${item.color}</span>
-            <span class="color-box" style="background-color: ${getColorCode(item.color)};"></span>
-        </p>
-        <p>Size: ${item.size}</p>
-        <p>${item.available ? "In Stock" : "Out of Stock"}</p>
-        <button class="remove-btn" data-item-id="${item.itemId}">Remove</button>
-    </div>
-</div>
-
-                `;
-
-                // Append card vào container
-                wishlistItemsContainer.appendChild(itemCard);
-            });
-
-            // Gắn sự kiện click vào nút "Remove"
-            document.querySelectorAll(".remove-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    const itemId = this.getAttribute("data-item-id");
-                    removeFromWishlist(itemId);
-                });
-            });
         })
         .catch(error => console.error("Error fetching wishlist:", error));
 });
-
-// Hàm xóa sản phẩm khỏi wishlist
-function removeFromWishlist(itemId) {
-    const apiUrl = `http://localhost:8082/api/wishlist/remove/${itemId}`;
-
-    fetch(apiUrl, { method: "DELETE" })
-        .then(response => {
-            if (response.ok) {
-                alert("Item removed from wishlist.");
-                location.reload(); // Reload lại trang
-            } else {
-                alert("Failed to remove item.");
-            }
-        })
-        .catch(error => console.error("Error removing item:", error));
-}
-function getColorCode(colorName) {
-    const colorMap19 = {
-        "Red": "#FF0000",       // Đỏ
-        "Blue": "#0000FF",      // Xanh dương
-        "Yellow": "#FFFF00",    // Vàng
-        "Green": "#008000",     // Xanh lá cây
-        "Orange": "#FFA500",    // Cam
-        "Purple": "#800080",    // Tím
-        "Pink": "#FFC0CB",      // Hồng
-        "Brown": "#A52A2A",     // Nâu
-        "Black": "#000000",     // Đen
-        "White": "#FFFFFF",     // Trắng
-        "Gray": "#808080",      // Xám
-        "Violet": "#EE82EE"     // Tím violet
-    };
-    return colorMap19[colorName] || "#CCCCCC"; // Mặc định màu xám nếu không tìm thấy
-}
 
 
 

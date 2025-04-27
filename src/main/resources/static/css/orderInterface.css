@@ -1,3 +1,18 @@
+.cancel-order-btn {
+    margin-top: 10px;
+    padding: 6px 12px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-order-btn:hover {
+    background-color: #d9363e;
+}
+
+
 .hidden {
     display: none;
 }
@@ -226,7 +241,7 @@ html {
 }
 
 .suggestions {
-    margin-left: -20px;
+    margin-left: -140px;
     margin-top: 5px;
     color: #b0b0b0;
 }

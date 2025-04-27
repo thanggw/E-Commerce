@@ -15,12 +15,13 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findUserByUsername(String username);
-    UserEntity findByUsernameAndDeletedIsFalse(String username);
+    Optional<UserEntity> findByUsernameAndDeletedIsFalse(String username);
     Optional<UserEntity> findById(Integer id);
     Optional<UserEntity> findByUsername(String username);
     Optional<UserEntity> findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+
 
     @Query(value = "select u from UserEntity u " +
             " where (:#{#filter.username} is null or u.username LIKE CONCAT('%', :#{#filter.username}, '%')) and" +

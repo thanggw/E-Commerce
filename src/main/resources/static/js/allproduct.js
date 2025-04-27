@@ -41,20 +41,7 @@ $(document).ready(function () {
     });
 });
 
-const colorMap4 = {
-    "Red": "#FF0000",       // Red
-    "Blue": "#0000FF",      // Blue
-    "Yellow": "#FFFF00",    // Yellow
-    "Green": "#008000",     // Green
-    "Orange": "#FFA500",    // Orange
-    "Purple": "#800080",    // Purple
-    "Pink": "#FFC0CB",      // Pink
-    "Brown": "#A52A2A",     // Brown
-    "Black": "#000000",     // Black
-    "White": "#FFFFFF",     // White
-    "Gray": "#808080",      // Gray
-    "Violet": "#EE82EE"     // Violet
-};
+
 
 function getAllProducts(page) {
     $.ajax({
@@ -183,75 +170,62 @@ function getUserProfile() {
     });
 }
 
+// code này giống hệt bên cart.js hiển thị sản phẩm trong cart lên giao diện nhưng paste vào để hiển thij số lượng cart-items-count
 $(document).ready(function () {
-    // When the page loads, call getCart
-    getCart();
+    getCart(); // Tải giỏ hàng ngay khi trang ready
 });
 
 function getCart() {
-    console.log("Refreshing cart...");
-    let userId = localStorage.getItem("userId");
-
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
-    }
-
     $.ajax({
-        url: URL + `api/carts/${userId}`,
+        url: URL + 'api/carts',
         type: 'GET',
+        xhrFields: { withCredentials: true },
         success: function (response) {
-            console.log("Cart fetched successfully:", response);
-            let cartItems = response.items;
-            let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty();
+            console.log("API Response:", response);
 
-            let totalQuantity = 0;
-            let totalPrice = 0;
+            // Cập nhật số lượng
+            const totalQuantity = response.totalQuantity || 0;
+            $('#cart-counter').text(totalQuantity);
 
-            if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Your cart is empty.</p>');
-            } else {
-                cartItems.forEach(item => {
-                    let cartItemHTML = `
-                        <div class="cart-item">
-                            <img src="${item.productImage}" alt="${item.productName}">
-                            <div>
-                                <h4>${item.productName}</h4>
-                                <p>Quantity: ${item.productQuantity}</p>
-                                <p>Price: ${item.productPrice}.000 VND</p>
-                            </div>
-                            <div>
-                                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
-                                <button onclick="removeItem(${userId}, ${item.productId})">Remove</button>
-                            </div>
-                        </div>`;
-                    cartItemsContainer.append(cartItemHTML);
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
-                    totalQuantity += item.productQuantity;
-                    totalPrice += item.productQuantity * item.productPrice;
-                });
 
-                $('#total-quantity').text(`Total quantity: ${totalQuantity}`);
-                $('#total-price').text(`Total price: ${totalPrice}.000 VND`);
+// code này để hiển thị số lượng wishlist
+document.addEventListener("DOMContentLoaded", function () {
+    // API URL mới, không cần userId nữa
+    const apiUrl = `http://localhost:8082/api/wishlist`;
+
+    // Fetch wishlist từ API
+    fetch(apiUrl, {
+        method: "GET",
+        credentials: "include" // RẤT QUAN TRỌNG: để gửi cookie/session JWT kèm theo request
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch wishlist");
             }
-        },
-        error: function (error) {
-            console.error('Error fetching cart:', error);
-        }
-    });
-}
+            return response.json();
+        })
+        .then(data => {
+            const wishlistItemsContainer = document.getElementById("wishlist-items");
+            const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
 
-function removeItem(userId, productId) {
-    console.log("Removing product:", productId, "from user:", userId);
-    $.ajax({
-        url: URL + `api/carts/${userId}/remove/${productId}`,
-        type: 'DELETE',
-        success: function () {
-            getCart();
-        },
-        error: function (error) {
-            console.error('Error deleting item:', error);
-        }
-    });
-}
+            // Nếu không có sản phẩm
+            if (!data.items || data.items.length === 0) {
+                wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+                wishlistCountElement.textContent = "0"; // cập nhật số lượng = 0
+                return;
+            }
+            // Cập nhật số lượng wishlist
+            const count = data.items.length;
+            wishlistCountElement.textContent = count;
+
+
+        })
+        .catch(error => console.error("Error fetching wishlist:", error));
+});

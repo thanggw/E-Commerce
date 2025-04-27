@@ -5,5 +5,5 @@ import com.t3h.e_commerce.dto.responses.WishlistResponse;
 
 public interface IWishlistService {
     WishlistResponse addToWishlist(AddToWishlistRequest request);
-    WishlistResponse getWishlistByUserId(Integer id);
+    WishlistResponse getWishlistForCurrentUser();
 }

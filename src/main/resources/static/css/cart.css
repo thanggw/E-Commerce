@@ -1,4 +1,4 @@
-.remove-btn {
+.btn-remove {
     background-color: #ff4d4d;
     color: white;
     border: none;
@@ -11,12 +11,12 @@
     margin-left: 10px;
 }
 
-.remove-btn:hover {
+.btn-remove:hover {
     background-color: #cc0000;
     transform: translateY(-2px);
 }
 
-.remove-btn:active {
+.btn-remove:active {
     background-color: #990000;
     transform: translateY(0);
 }

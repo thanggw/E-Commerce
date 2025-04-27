@@ -8,6 +8,7 @@ import com.t3h.e_commerce.repository.*;
 import com.t3h.e_commerce.service.IWishlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -86,18 +87,22 @@ public class WishlistServiceImpl implements IWishlistService {
 
 
     @Override
-    public WishlistResponse getWishlistByUserId(Integer userId) {
-        // Lấy thông tin người dùng
-        UserEntity user = userRepository.findById(userId)
+    public WishlistResponse getWishlistForCurrentUser() {
+        // Lấy username từ SecurityContext
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // Tìm UserEntity theo username
+        UserEntity user = userRepository.findByUsernameAndDeletedIsFalse(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Lấy thông tin wishlist của người dùng
+        // Lấy WishlistEntity
         WishlistEntity wishlist = wishlistRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Wishlist not found for user"));
 
-        // Chuyển đổi entity sang response
+        // Trả về WishlistResponse
         return wishlistMapper.toWishlistResponse(wishlist);
     }
+
 }
 
 

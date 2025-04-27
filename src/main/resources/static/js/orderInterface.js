@@ -16,7 +16,6 @@ document.querySelectorAll(".search-bar input").forEach((input) => {
         }
     });
 });
-
 document.addEventListener("DOMContentLoaded", function() {
     getUserProfile(); // Fetch user profile from backend
 });
@@ -93,22 +92,25 @@ function getUserProfile() {
 }
 
 // Function to fetch and display all orders
-async function fetchAndDisplayOrders(userId) {
-    const apiUrl = `/api/orders/${userId}`; // API endpoint
+async function fetchAndDisplayOrders() {
+    const apiUrl = '/api/orders';
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Nếu dùng JWT
+            }
+        });
         if (!response.ok) {
-            throw new Error("Unable to fetch order information");
+            throw new Error('Unable to fetch order information');
         }
         const orders = await response.json();
 
         // Sắp xếp orders theo thứ tự mới nhất lên đầu
-        // Giả sử orderId lớn hơn là đơn hàng mới hơn
         orders.sort((a, b) => b.orderId - a.orderId);
 
         const orderList = document.getElementById('order-list');
-        orderList.innerHTML = ''; // Clear old content
+        orderList.innerHTML = '';
 
         if (orders.length === 0) {
             orderList.innerHTML = '<p>No orders found.</p>';
@@ -120,87 +122,150 @@ async function fetchAndDisplayOrders(userId) {
             orderCard.classList.add('order-card');
 
             orderCard.innerHTML = `
-    <div class="order-header">
-        <div class="order-id"><i class="fas fa-receipt"></i> Order ID: ${order.orderId}</div>
-        <div class="order-status ${order.orderStatus.toLowerCase()}">
-             <i class="fas fa-info-circle"></i> Status: ${order.orderStatus}
-    </div>
-    </div>
-    <div class="info-section">
-        <div class="section-title"><i class="fas fa-shipping-fast"></i> Thông tin giao hàng</div>
-        <div class="info-row">
-            <div class="info-label"><i class="fas fa-user"></i> Người nhận:</div>
-            <div class="info-content">${order.recipientName}</div>
-        </div>
-        <div class="info-row">
-            <div class="info-label"><i class="fas fa-phone"></i> Số điện thoại:</div>
-            <div class="info-content">${order.recipientPhone}</div>
-        </div>
-        <div class="info-row">
-            <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa chỉ:</div>
-            <div class="info-content">${order.recipientAddress}</div>
-        </div>
-        <div class="info-row">
-            <div class="info-label"><i class="fas fa-calendar-alt"></i> Ngày giao hàng ước tính:</div>
-            <div class="info-content">${order.expectedDeliveryDate}</div>
-        </div>
-        <div class="tracking-info">
-            <div class="tracking-number"><i class="fas fa-barcode"></i> Tracking ID: ${order.trackingId}</div>
-        </div>
-    </div>
-    <div class="info-section">
-        <div class="section-title"><i class="fas fa-credit-card"></i> Thông tin thanh toán</div>
-        <div class="info-row">
-            <div class="info-label"><i class="fas fa-money-bill"></i> Tổng tiền:</div>
-            <div class="info-content">${order.totalPrice}.000 VND</div>
-        </div>
-        <div class="info-row">
-        <div class="info-label"><i class="fas fa-wallet"></i> Phương thức thanh toán:</div>
-        <div class="info-content">
-            <span>${getPaymentMethodDisplayName(order.paymentMethod)}</span>
-            <span class="status-badge ${order.paymentStatus ? 'paid' : 'unpaid'}">
-                ${order.paymentStatus ? "Đã thanh toán" : "Chưa thanh toán"}
-            </span>
-        </div>
-    </div>
-    <button class="toggle-items-btn">Xem sản phẩm</button>
+                <div class="order-header">
+                    <div class="order-id"><i class="fas fa-receipt"></i> Order ID: ${order.orderId}</div>
+                    <div class="order-status ${order.orderStatus.toLowerCase()}">
+                        <i class="fas fa-info-circle"></i> Status: ${order.orderStatus}
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-shipping-fast"></i> Thông tin giao hàng</div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-user"></i> Người nhận:</div>
+                        <div class="info-content">${order.recipientName}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-phone"></i> Số điện thoại:</div>
+                        <div class="info-content">${order.recipientPhone}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa chỉ:</div>
+                        <div class="info-content">${order.recipientAddress}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-calendar-alt"></i> Ngày giao hàng ước tính:</div>
+                        <div class="info-content">${order.expectedDeliveryDate}</div>
+                    </div>
+                    <div class="tracking-info">
+                        <div class="tracking-number"><i class="fas fa-barcode"></i> Tracking ID: ${order.trackingId}</div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-credit-card"></i> Thông tin thanh toán</div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-money-bill"></i> Tổng tiền:</div>
+                        <div class="info-content">${order.totalPrice}.000 VND</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label"><i class="fas fa-wallet"></i> Phương thức thanh toán:</div>
+                        <div class="info-content">
+                            <span>${getPaymentMethodDisplayName(order.paymentMethod)}</span>
+                            <span class="status-badge ${order.paymentStatus ? 'paid' : 'unpaid'}">
+                                ${order.paymentStatus ? "Đã thanh toán" : "Chưa thanh toán"}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button class="toggle-items-btn">Xem sản phẩm</button>
                 <div class="order-items hidden">
                     ${order.orderItems.map(item => `
                         <div class="order-item">
                             <p><strong>${item.productName}</strong></p>
                             <p>Số lượng: ${item.quantity}</p>
                             <p>Giá tiền mỗi sản phẩm: ${item.pricePerUnit}.000 VND</p>
-                            <p>Tiền ship: 5.000 VND</p>
-                            <p>Total: (${item.totalPrice} +5).000 VND</p>
+                            <p>Total: ${item.totalPrice}.000 VND</p>
                         </div>
                     `).join('')}
-    </div>
-`;
-            // Thêm sự kiện ẩn/hiện danh sách orderItems
-            const toggleBtn = orderCard.querySelector(".toggle-items-btn");
-            const orderItemsDiv = orderCard.querySelector(".order-items");
+                </div>
+            `;
 
-            toggleBtn.addEventListener("click", () => {
-                orderItemsDiv.classList.toggle("hidden");
-                toggleBtn.textContent = orderItemsDiv.classList.contains("hidden") ? "View Items" : "Hide Items";
+            const toggleBtn = orderCard.querySelector('.toggle-items-btn');
+            const orderItemsDiv = orderCard.querySelector('.order-items');
+
+            toggleBtn.addEventListener('click', () => {
+                orderItemsDiv.classList.toggle('hidden');
+                toggleBtn.textContent = orderItemsDiv.classList.contains('hidden') ? 'Xem sản phẩm' : 'Ẩn sản phẩm';
             });
 
+            // === BẮT ĐẦU: Thêm nút Hủy Đơn Hàng ===
+            const cancelButton = document.createElement('button');
+            cancelButton.classList.add('cancel-order-btn');
+            cancelButton.textContent = 'Hủy đơn hàng';
+
+            // Nếu đơn đã hủy thì disable
+            if (order.orderStatus === 'Canceled' || order.orderStatus === 'CANCELLED') {
+                cancelButton.disabled = true;
+                cancelButton.textContent = 'Đã hủy';
+            }
+
+            cancelButton.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Bạn chắc chắn muốn hủy đơn này?',
+                    text: "Hành động này sẽ không thể hoàn tác!",
+                    icon: 'warning',
+                    input: 'text', // <--- thêm input
+                    inputPlaceholder: 'Nhập lý do hủy đơn hàng...',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Đồng ý hủy',
+                    cancelButtonText: 'Thoát',
+                    preConfirm: (reason) => {
+                        if (!reason) {
+                            Swal.showValidationMessage('Bạn phải nhập lý do hủy đơn!');
+                        }
+                        return reason;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const reason = result.value; // lấy lý do từ input
+                        cancelOrder(order.orderId, reason);
+                    }
+                });
+            });
+
+            orderCard.appendChild(cancelButton);
+            // === KẾT THÚC: Thêm nút Hủy Đơn Hàng ===
 
             orderList.appendChild(orderCard);
         });
     } catch (error) {
-        console.error("Error fetching orders:", error);
-        alert("An error occurred while loading order data.");
+        console.error('Error fetching orders:', error);
+        alert('An error occurred while loading order data.');
     }
 }
+
+// Hàm call API hủy đơn
+async function cancelOrder(orderId, reason) {
+    try {
+        const response = await fetch(`/api/orders/${orderId}/cancel?reason=${encodeURIComponent(reason)}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            Swal.fire('Đã hủy!', 'Đơn hàng đã được hủy thành công.', 'success');
+            fetchAndDisplayOrders(); // Load lại danh sách sau khi hủy
+        } else {
+            Swal.fire('Lỗi!', 'Không thể hủy đơn hàng.', 'error');
+        }
+    } catch (error) {
+        console.error('Error cancelling order:', error);
+        Swal.fire('Lỗi!', 'Đã xảy ra lỗi trong quá trình hủy đơn.', 'error');
+    }
+}
+
 function getPaymentMethodDisplayName(paymentMethod) {
     const paymentMethodMap = {
-        "COD": "COD (CASH_ON_DELIVERY)",
-        "BANKING": "Bank Transfer",
-        "E_WALLET": "E-Wallet",
-        "CREDIT_CARD": "Credit Card",
-        "PAYPAL": "PayPal",
-        "CASH_ON_DELIVERY": "Cash on Delivery"
+        COD: 'COD (Thanh toán khi nhận hàng)',
+        BANKING: 'Chuyển khoản ngân hàng',
+        E_WALLET: 'Ví điện tử',
+        CREDIT_CARD: 'Thẻ tín dụng',
+        PAYPAL: 'PayPal',
+        CASH_ON_DELIVERY: 'Thanh toán khi nhận hàng'
     };
 
     return paymentMethodMap[paymentMethod] || paymentMethod;
@@ -219,63 +284,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Display the cart items and update the UI with the total count
 $(document).ready(function () {
-    getCart();
+    getCart(); // Tải giỏ hàng ngay khi trang ready
 });
 
 function getCart() {
-    console.log("Refreshing cart...");
-    let userId = localStorage.getItem("userId");
-
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
-    }
-
     $.ajax({
-        url: urlBase4 + `api/carts/${userId}`,
+        url: URL + 'api/carts',
         type: 'GET',
+        xhrFields: { withCredentials: true },
         success: function (response) {
-            console.log("Cart fetched successfully:", response);
-            let cartItems = response.items;
-            let cartItemsContainer = $('#cart-items');
-            cartItemsContainer.empty(); // Clear old content
+            console.log("API Response:", response);
 
-            let totalQuantity = 0;
-            let totalPrice = 0;
+            // Cập nhật số lượng
+            const totalQuantity = response.totalQuantity || 0;
+            $('#cart-counter').text(totalQuantity);
 
-            if (!cartItems || cartItems.length === 0) {
-                cartItemsContainer.html('<p>Your cart is empty.</p>');
-            } else {
-                cartItems.forEach(item => {
-                    let cartItemHTML = `
-                           <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-            <img src="${item.productImage}" alt="${item.productName}" style="width: 100px; height: 100px; object-fit: cover; margin-right: 20px;">
-            <div style="flex-grow: 1;">
-                <h4 style="margin: 0 0 10px 0;">${item.productName}</h4>
-                <p>Quantity: ${item.productQuantity}</p>
-                <p>Price: ${item.productPrice}.000 VND</p>
-            </div>
-            <div style="text-align: right;">
-                <p>Total: ${item.productQuantity * item.productPrice}.000 VND</p>
-                <button class="remove-btn" onclick="removeItem(${userId}, ${item.productId})">Remove</button>
-            </div>
-        </div>`;
-                    cartItemsContainer.append(cartItemHTML);
-
-                    totalQuantity += item.productQuantity;
-                    totalPrice += item.productQuantity * item.productPrice;
-                });
-
-                $('#total-quantity').text(`Total Quantity: ${totalQuantity}`);
-                $('#total-price').text(`Total Price: ${totalPrice}.000 VND`);
-                $('.cart-items-count').text(totalQuantity);
-            }
-
-            $('#created-info').text(`Created Date: ${response.createdDate}`);
-            $('#modified-info').text(`Last Modified Date: ${response.lastModifiedDate}`);
         },
         error: function (error) {
-            console.error('Error fetching cart:', error);
+            console.error('Error:', error);
         }
     });
 }
@@ -343,27 +369,37 @@ function typeEffect() {
 typeEffect();
 
 
+// code này để hiển thị số lượng wishlist
 document.addEventListener("DOMContentLoaded", function () {
-    // User ID (giả sử lấy từ hệ thống)
-    const userId = localStorage.getItem("userId");
-
-    // API URL để lấy wishlist
-    const apiUrl = `http://localhost:8082/api/wishlist/${userId}`;
+    // API URL mới, không cần userId nữa
+    const apiUrl = `http://localhost:8082/api/wishlist`;
 
     // Fetch wishlist từ API
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(apiUrl, {
+        method: "GET",
+        credentials: "include" // RẤT QUAN TRỌNG: để gửi cookie/session JWT kèm theo request
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch wishlist");
+            }
+            return response.json();
+        })
         .then(data => {
             const wishlistItemsContainer = document.getElementById("wishlist-items");
             const wishlistCountElement = document.querySelector('.wishlist span:nth-child(3)');
-            // Kiểm tra nếu không có sản phẩm
+
+            // Nếu không có sản phẩm
             if (!data.items || data.items.length === 0) {
                 wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty!</p>";
+                wishlistCountElement.textContent = "0"; // cập nhật số lượng = 0
                 return;
             }
-            // Lấy số lượng sản phẩm từ mảng items
+            // Cập nhật số lượng wishlist
             const count = data.items.length;
-            // Cập nhật số lượng lên giao diện
             wishlistCountElement.textContent = count;
+
+
         })
+        .catch(error => console.error("Error fetching wishlist:", error));
 });
