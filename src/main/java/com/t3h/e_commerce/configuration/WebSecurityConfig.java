@@ -2,18 +2,13 @@ package com.t3h.e_commerce.configuration;
 
 import com.t3h.e_commerce.exception.CustomAccessDeniedHandler;
 import com.t3h.e_commerce.exception.CustomAuthenticationEntryPoint;
-import com.t3h.e_commerce.security.SecurityUtils;
-import com.t3h.e_commerce.utils.Endpoints;
+import com.t3h.e_commerce.service.impl.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,15 +39,16 @@ public class WebSecurityConfig {
             }
         };
     }
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                // Cho phép các endpoint API nhất định không cần CSRF (nếu cần)
                 .ignoringRequestMatchers(
                         "/api/**",
-                        "/ws/**" // WebSocket thường không cần CSRF
+                        "/ws/**"
                 )
         );
 
@@ -60,8 +56,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/home-guest/**", "/").permitAll()
                         .requestMatchers("/css/**", "/image/**", "/js/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll() // Cho phép OAuth2 URL
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/ws/**").permitAll() // Cho phép truy cập WebSocket
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/orders/order", "/carts/add").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
@@ -72,13 +69,20 @@ public class WebSecurityConfig {
                         .failureUrl("/guests/login?error=true")
                         .permitAll()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/guests/login")
+                        .defaultSuccessUrl("/guests/process-after-login", true)
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService) // Gán custom service vào đây
+                        )
+                )
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/guests/login?logout=true")
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())); // Cách mới để vô hiệu hóa frameOptions
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         http.exceptionHandling(exception -> {
             exception.accessDeniedHandler(new CustomAccessDeniedHandler());
@@ -87,6 +91,7 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
 
 
 

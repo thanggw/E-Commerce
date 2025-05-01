@@ -195,12 +195,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Lắng nghe sự kiện click vào icon wishlist
     wishlistIcon.addEventListener("click", function () {
-        // Lấy userId, productId, colorId, sizeId
-        const userId = localStorage.getItem("userId"); // Thay bằng logic lấy userId thực tế
+        // Lấy productId, colorId và sizeId
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get("productId");
 
-        // Lấy colorId và sizeId từ các lựa chọn của người dùng
         const selectedColor = document.querySelector("#color-options .selected");
         const selectedSize = document.querySelector("#size-options .selected");
 
@@ -216,9 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const colorId = selectedColor.dataset.id;
         const sizeId = selectedSize.dataset.id;
 
-        // Tạo payload
+        // Tạo payload (không còn userId nữa)
         const payload = {
-            userId: userId,
             productId: parseInt(productId),
             colorId: parseInt(colorId),
             sizeId: parseInt(sizeId),
@@ -229,6 +226,8 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                // Nếu cần Authorization thì thêm ở đây
+                // "Authorization": "Bearer " + localStorage.getItem("token")
             },
             body: JSON.stringify(payload),
         })
@@ -241,30 +240,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 } else {
                     Swal.fire({
-                        title: "Can not add to wishlist because of the system error:((",
-                        showClass: {
-                            popup: `
-      animate__animated
-      animate__fadeInUp
-      animate__faster
-    `
-                        },
-                        hideClass: {
-                            popup: `
-      animate__animated
-      animate__fadeOutDown
-      animate__faster
-    `
-                        }
+                        title: "Không thể thêm vào danh sách yêu thích!",
+                        text: "Lỗi hệ thống hoặc sản phẩm đã có trong wishlist.",
+                        icon: "error"
                     });
                 }
             })
             .catch((error) => {
                 console.error("Error:", error);
-                alert("Không thể thêm sản phẩm vào danh sách yêu thích. Vui lòng thử lại!");
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: "Không thể thêm sản phẩm vào danh sách yêu thích. Vui lòng thử lại!",
+                    icon: "error"
+                });
             });
     });
 });
+
 
 
 
@@ -730,4 +722,7 @@ async function submitReview() {
 }
 loadReviews();
 
+$('.logo').on('click', function() {
+    window.location.href = 'http://localhost:8082/guests/home-guest';
+});
 

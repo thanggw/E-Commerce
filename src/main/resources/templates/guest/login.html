@@ -45,10 +45,10 @@
 
                 <p class="social-tex">Hoặc sử dụng nền tảng mạng xã hội để đăng nhập</p>
                 <div class="social-media">
-                    <a href="#" class="social-icon">
+                    <a href="/oauth2/authorization/facebook" class="social-icon">
                         <i class="fa-brands fa-facebook"></i>
                     </a>
-                    <a href="#" class="social-icon">
+                    <a href="/oauth2/authorization/google" class="social-icon">
                         <i class="fa-brands fa-google"></i>
                     </a>
                 </div>
@@ -63,12 +63,17 @@
                 </div>
                 <div class="input-field">
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" name="email" id="signUpEmail" placeholder="Email" required>
+                    <input  name="email" id="signUpEmail" placeholder="Email" required>
                 </div>
-                <div class="input-field">
+                <div class="input-field" style="position: relative;">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" name="password" id="signUpPassword" placeholder="Mật khẩu" required>
-                    <small id="passwordHelp" style="color: red; display: none;margin-left: -83px;width: 600px;"></small>
+
+                    <!-- Mắt nhắm mặc định -->
+                    <i class="fa-regular fa-eye-slash" id="togglePassword"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+
+                    <small id="passwordHelp" style="color: red; display: none; margin-left: -83px; width: 600px;"></small>
                 </div>
 
                 <div class="input-field">

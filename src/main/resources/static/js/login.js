@@ -13,19 +13,53 @@ if (sign_up_btn && sign_up_btn && container) {
     });
 } else console.error("One or more elements not found");
 
+
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('signUpPassword');
+
+togglePassword.addEventListener('click', function () {
+    const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
+    passwordInput.setAttribute('type', isPasswordHidden ? 'text' : 'password');
+
+    // Đổi icon: nếu đang là mắt nhắm thì đổi sang mắt mở, ngược lại
+    this.classList.toggle('fa-eye-slash');
+    this.classList.toggle('fa-eye');
+});
+
 async function registerUser(event) {
     event.preventDefault(); // Ngăn chặn reload trang mặc định khi submit form
 
     // Lấy dữ liệu từ form
-    const username = document.getElementById('signUpUsername').value;
-    const email = document.getElementById('signUpEmail').value;
-    const password = document.getElementById('signUpPassword').value;
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
+    const username = document.getElementById('signUpUsername').value.trim();
+    const email = document.getElementById('signUpEmail').value.trim();
+    const password = document.getElementById('signUpPassword').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
 
-    // Định nghĩa payload (dữ liệu gửi đến API)
+    // Kiểm tra ô nào bị thiếu
+    const missingFields = [];
+    if (!username) missingFields.push("Tên người dùng");
+    if (!email) missingFields.push("Email");
+    if (!password) missingFields.push("Mật khẩu");
+    if (!firstName) missingFields.push("Họ");
+    if (!lastName) missingFields.push("Tên");
+    if (!phone) missingFields.push("Số điện thoại");
+    if (!address) missingFields.push("Địa chỉ");
+
+    if (missingFields.length > 0) {
+        // Nếu thiếu, hiện cảnh báo và dừng lại
+        Swal.fire({
+            title: "Thiếu thông tin!",
+            text: `Bạn chưa nhập: ${missingFields.join(", ")}`,
+            icon: "warning",
+            confirmButtonText: "Đã hiểu"
+        });
+        return; // Không gửi API nữa
+    }
+
+    // Nếu không thiếu ô nào, tiếp tục gửi API
     const payload = {
         username: username,
         password: password,
@@ -37,7 +71,6 @@ async function registerUser(event) {
     };
 
     try {
-        // Gửi dữ liệu đến API
         const response = await fetch('http://localhost:8082/api/auth/register', {
             method: 'POST',
             headers: {
@@ -52,16 +85,12 @@ async function registerUser(event) {
                 title: "Chúc mừng!",
                 text: "Bạn đã đăng ký thành công!",
                 icon: "success",
-                confirmButtonText: "Đăng nhập ngay!" // Thêm nút để chuyển hướng
+                confirmButtonText: "Đăng nhập ngay!"
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied and isDismissed below */
                 if (result.isConfirmed) {
-                    window.location.href = 'http://localhost:8082/guests/login'; // Chuyển hướng khi người dùng nhấn nút
+                    window.location.href = 'http://localhost:8082/guests/login';
                 }
             });
-            console.log(response);
-            // Loại bỏ dòng chuyển hướng cũ
-            // window.location.href = 'http://localhost:8082/guests/login';
         } else {
             const errorData = await response.json();
             Swal.fire({
@@ -81,6 +110,7 @@ async function registerUser(event) {
         });
     }
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -103,27 +133,27 @@ document.getElementById("signUpPassword").addEventListener("input", function () 
     const number = /[0-9]/; // At least one number
     const specialChar = /[!@#$%^&*(),.?":{}|<>]/; // At least one special character
 
-    let message = "Password should include: ";
+    let message = "Mật khẩu nên bao gồm: ";
     let isValid = true;
 
     if (!minLength.test(password)) {
-        message += "at least 8 characters, ";
+        message += "ít nhất 8 ký tự, ";
         isValid = false;
     }
     if (!upperCase.test(password)) {
-        message += "at least one uppercase letter, ";
+        message += "ít nhất 1 chữ cái hoa, ";
         isValid = false;
     }
     if (!lowerCase.test(password)) {
-        message += "at least one lowercase letter, ";
+        message += "ít nhất 1 chữ cái thường, ";
         isValid = false;
     }
     if (!number.test(password)) {
-        message += "at least one number, ";
+        message += "ít nhất 1 số, ";
         isValid = false;
     }
     if (!specialChar.test(password)) {
-        message += "at least one special character.";
+        message += "ít nhất 1 ký tự đặc biệt.";
         isValid = false;
     }
 
@@ -135,3 +165,70 @@ document.getElementById("signUpPassword").addEventListener("input", function () 
         passwordHelp.style.display = "none";
     }
 });
+
+
+function registerUser(event) {
+    event.preventDefault(); // Ngăn submit form ngay
+
+    // Lấy giá trị từ các ô input
+    const email = document.getElementById('signUpEmail').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const emailField = document.getElementById('signUpEmail');
+    const phoneField = document.getElementById('phone');
+
+    // Xóa lỗi cũ nếu có
+    removeError('emailError');
+    removeError('phoneError');
+
+    let isValid = true;
+
+    // Validate email
+    if (!validateEmail(email)) {
+        showError(emailField, 'Email không hợp lệ. Email bắt buộc phải có @', 'emailError');
+        isValid = false;
+    }
+
+    // Validate số điện thoại (10 số và chỉ chứa chữ số)
+    if (!validatePhone(phone)) {
+        showError(phoneField, 'Số điện thoại không hợp lệ (phải có 10 chữ số)', 'phoneError');
+        isValid = false;
+    }
+
+    if (isValid) {
+        // Nếu hợp lệ thì bạn có thể gửi form hoặc gọi API
+        console.log("Form hợp lệ, tiến hành gửi đăng ký...");
+        document.getElementById('sign-up').submit(); // Hoặc thay bằng code call API tùy bạn
+    }
+}
+
+function validateEmail(email) {
+    // Regex đơn giản để kiểm tra email
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validatePhone(phone) {
+    // Kiểm tra đúng 10 chữ số
+    const re = /^\d{10}$/;
+    return re.test(phone);
+}
+
+function showError(inputElement, message, errorId) {
+    // Tạo 1 thẻ small để hiện lỗi
+    const errorElement = document.createElement('small');
+    errorElement.style.color = 'red';
+    errorElement.style.display = 'block';
+    errorElement.style.width="500px";
+    errorElement.id = errorId;
+    errorElement.innerText = message;
+
+    // Chèn vào ngay dưới ô input
+    inputElement.parentNode.appendChild(errorElement);
+}
+
+function removeError(errorId) {
+    const errorElement = document.getElementById(errorId);
+    if (errorElement) {
+        errorElement.remove();
+    }
+}

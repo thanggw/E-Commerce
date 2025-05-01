@@ -3,6 +3,7 @@ package com.t3h.e_commerce.service.impl;
 import com.t3h.e_commerce.dto.requests.AddToWishlistRequest;
 import com.t3h.e_commerce.dto.responses.WishlistResponse;
 import com.t3h.e_commerce.entity.*;
+import com.t3h.e_commerce.exception.ConflictException;
 import com.t3h.e_commerce.mapper.WishlistMapper;
 import com.t3h.e_commerce.repository.*;
 import com.t3h.e_commerce.service.IWishlistService;
@@ -70,8 +71,7 @@ public class WishlistServiceImpl implements IWishlistService {
                         && item.getSize().getId().equals(size.getId()));
 
         if (exists) {
-            throw new IllegalArgumentException("Item already exists in wishlist");
-        }
+            throw new ConflictException("Sản phẩm này đã tồn tại trong danh sách yêu thích!");        }
 
         // Tạo mới WishlistItemEntity
         WishlistItemEntity newWishlistItem = new WishlistItemEntity();

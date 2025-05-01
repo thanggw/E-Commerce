@@ -113,6 +113,10 @@ $('.products-sale .product-sale:nth-child(3)').on('click', function () {
 $('.products-sale .product-sale:nth-child(4)').on('click', function () {
     window.location.href = `/guests/detail?productId=11`;
 });
+$('.logo').on('click', function() {
+    window.location.href = 'http://localhost:8082/guests/home-guest';
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     getUserProfile(); // Lấy thông tin người dùng từ backend
 });

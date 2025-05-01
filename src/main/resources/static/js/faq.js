@@ -277,3 +277,6 @@ async function searchProducts(query) {
         searchResultsDiv.style.display = "none";
     }
 }
+$('.logo').on('click', function() {
+    window.location.href = 'http://localhost:8082/guests/home-guest';
+});

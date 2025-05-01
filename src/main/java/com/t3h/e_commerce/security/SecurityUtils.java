@@ -4,6 +4,7 @@ import com.t3h.e_commerce.utils.Constants;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,13 +15,22 @@ public class SecurityUtils {
 
     public static String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // kiem tra xem da dang nhap chua
         if (authentication != null && authentication.isAuthenticated() && !Constants.ANONYMOUS_USER.equals(authentication.getName())) {
-            // neu dang nhap roi => return username
-            return authentication.getName();
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+                return ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
+            } else if (principal instanceof org.springframework.security.oauth2.core.user.OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                // Tùy thuộc vào provider, ở Google thì thường là "email"
+                return oAuth2User.getAttribute("email");
+            } else {
+                // fallback
+                return authentication.getName();
+            }
         }
         return "";
     }
+
 
     public static final String PREFIX_ROLE = "ROLE_";
     public static enum Role {

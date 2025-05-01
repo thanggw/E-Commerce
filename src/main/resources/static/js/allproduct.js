@@ -229,3 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error fetching wishlist:", error));
 });
+
+$('.logo').on('click', function() {
+    window.location.href = 'http://localhost:8082/guests/home-guest';
+});

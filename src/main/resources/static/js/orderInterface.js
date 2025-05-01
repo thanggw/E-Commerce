@@ -193,9 +193,11 @@ async function fetchAndDisplayOrders() {
             cancelButton.textContent = 'Hủy đơn hàng';
 
             // Nếu đơn đã hủy thì disable
-            if (order.orderStatus === 'Canceled' || order.orderStatus === 'CANCELLED') {
+            if (order.orderStatus === 'Canceled' || order.orderStatus === 'CANCELLED'
+                || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered') {
                 cancelButton.disabled = true;
                 cancelButton.textContent = 'Đã hủy';
+                cancelButton.style.backgroundColor = 'gray'; // Sửa lỗi cú pháp
             }
 
             cancelButton.addEventListener('click', () => {
@@ -403,4 +405,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         })
         .catch(error => console.error("Error fetching wishlist:", error));
+});
+
+$('.logo').on('click', function() {
+    window.location.href = 'http://localhost:8082/guests/home-guest';
 });

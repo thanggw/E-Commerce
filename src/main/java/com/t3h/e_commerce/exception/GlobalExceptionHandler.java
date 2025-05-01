@@ -10,10 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -44,8 +41,22 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleBadRequest(BadRequestException ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("error", ex.getMessage()); // <-- Chính là key mà frontend cần
+        errorMap.put("error", ex.getMessage());
         return errorMap;
     }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, String> handleConflict(ConflictException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        return errorMap;
+    }
+
+    @ModelAttribute("currentPath")
+    public String getCurrentRequestPath(HttpServletRequest request) {
+        return request.getRequestURI();
+    }
 }
+
 

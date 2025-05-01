@@ -19,6 +19,34 @@ spring:
     mode: HTML5
 
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+
+            scope:
+              - email
+              - profile
+          facebook:
+
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - public_profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+          facebook:
+            authorization-uri: https://www.facebook.com/dialog/oauth
+            token-uri: https://graph.facebook.com/oauth/access_token
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture
+            user-name-attribute: email
+
+
+
 admin:
   username: admin
   password: admin

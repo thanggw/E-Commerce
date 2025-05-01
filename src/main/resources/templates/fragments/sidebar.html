@@ -6,37 +6,42 @@
             <h3>Vũ Hoàng Phương Anh</h3>
         </div>
         <ul>
-            <li id="dashboard" >
+            <li th:classappend="${currentPath.startsWith('/guests/sellerchannel')} ? 'active'" id="dashboard">
                 <i class="fas fa-tachometer-alt"></i>
-                <a href="http://localhost:8082/guests/sellerchannel">Trang chủ</a>
+                <a th:href="@{/guests/sellerchannel}">Trang chủ</a>
             </li>
-            <li id="customers">
+            <li th:classappend="${currentPath.startsWith('/adminScreen/activate')} ? 'active'" id="customers">
                 <i class="fas fa-users"></i>
-                <a href="http://localhost:8082/adminScreen/activate">Quản lý người dùng</a>
+                <a th:href="@{/adminScreen/activate}">Quản lý người dùng</a>
             </li>
-            <li id="statistics">
+            <li id="statistics" th:classappend="${currentPath.startsWith('/statistics')} ? 'active'">
                 <i class="fas fa-chart-bar"></i>
-                <a href="/statistics">Thống kê</a>
+                <a th:href="@{/statistics}">Thống kê</a>
             </li>
-            <li class="has-submenu">
+
+            <li class="has-submenu" th:classappend="${currentPath.startsWith('/adminScreen/productManagement')} ? 'active'">
                 <i class="fas fa-box"></i>
-                <a href="http://localhost:8082/adminScreen/productManagement">Quản lý sản phẩm</a>
+                <a th:href="@{/adminScreen/productManagement}">Quản lý sản phẩm</a>
                 <ul class="submenu">
                     <li><a href="#">Add Product</a></li>
                     <li><a href="#">Edit Product</a></li>
                 </ul>
             </li>
-            <li id="orders">
+
+            <li id="orders" th:classappend="${currentPath.startsWith('/adminScreen/all_order')} ? 'active'">
                 <i class="fas fa-shopping-cart"></i>
-                <a href="http://localhost:8082/adminScreen/all_order">Đơn hàng</a>
+                <a th:href="@{/adminScreen/all_order}">Đơn hàng</a>
             </li>
+
             <li id="business-hours">
                 <i class="fas fa-clock"></i>
                 <a href="#" onclick="openBusinessHoursModal()">Giờ hoạt động</a>
             </li>
-            <li id="voucher">
+
+            <li id="voucher" th:classappend="${currentPath.startsWith('/adminScreen/voucher')} ? 'active'">
                 <i class="fa-solid fa-receipt"></i>
-                <a href="http://localhost:8082/adminScreen/voucher">Voucher</a>
+                <a th:href="@{/adminScreen/voucher}">Voucher</a>
+            </li>
             <li id="logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <a href="#">Đăng xuất</a>
@@ -58,13 +63,12 @@
         </ul>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Thêm đoạn script để lưu trạng thái active -->
+<!--
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let sidebarLinks = document.querySelectorAll(".sidebar ul li");
-
-        // Lấy id của mục đã chọn từ localStorage
+        let sidebarLinks = document.querySelectorAll(".sidebar ul li a");
         let activeId = localStorage.getItem("activeSidebarItem");
 
         if (activeId) {
@@ -72,16 +76,27 @@
         }
 
         sidebarLinks.forEach(link => {
-            link.addEventListener("click", function () {
-                // Xóa class 'active' khỏi tất cả các mục
-                sidebarLinks.forEach(item => item.classList.remove("active"));
+            link.addEventListener("click", function (e) {
+                let li = this.closest("li");
+                if (!li || !li.id) return;
 
-                // Thêm class 'active' vào mục được click
-                this.classList.add("active");
+                // Ngăn điều hướng ngay lập tức
+                e.preventDefault();
 
-                // Lưu id của mục đã click vào LocalStorage
-                localStorage.setItem("activeSidebarItem", this.id);
+                // Xóa class 'active' khỏi tất cả
+                document.querySelectorAll(".sidebar ul li").forEach(item => item.classList.remove("active"));
+
+                // Thêm class active vào thẻ li chứa link
+                li.classList.add("active");
+
+                // Lưu id vào localStorage
+                localStorage.setItem("activeSidebarItem", li.id);
+
+                // Sau đó mới điều hướng
+                window.location.href = this.href;
             });
         });
     });
+
 </script>
+-->
