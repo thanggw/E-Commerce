@@ -1,14 +1,4 @@
-# E-Commerce
-# 🍕 Website Bán Đồ Ăn Trực Tuyến
 
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.x-brightgreen.svg)](https://spring.io/)
-[![HTML5](https://img.shields.io/badge/HTML5-5-orange.svg)](https://www.w3.org/html/)
-[![CSS3](https://img.shields.io/badge/CSS3-3-blue.svg)](https://www.w3.org/Style/CSS/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![jQuery](https://img.shields.io/badge/jQuery-3.x-lightgrey.svg)](https://jquery.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-blueviolet.svg)](https://www.mysql.com/)
-[![VNPay](https://img.shields.io/badge/VNPay-Integration-brightgreen.svg)](https://vnpay.vn/)
-[![WebSocket](https://img.shields.io/badge/WebSocket-Enabled-success.svg)](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket_API)
 
 **Mô tả:**
 
